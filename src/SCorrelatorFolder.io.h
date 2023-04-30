@@ -72,6 +72,26 @@ void SCorrelatorFolder::SetConstituentParameters(const double minMom, const doub
 
 
 
+void SCorrelatorJetTree::SetJetMatchQtRange(const pair<double, double> qtRange) {
+
+  m_jetMatchQtRange[0] = qtRange.first;
+  m_jetMatchQtRange[1] = qtRange.second;
+  return;
+
+}  // end 'SetJetMatchQtRange(pair<double, double>)'
+
+
+
+void SCorrelatorJetTree::SetJetMatchDrRange(const pair<double, double> drRange) {
+
+  m_jetMatchDrRange[0] = drRange.first;
+  m_jetMatchDrRange[1] = drRange.second;
+  return;
+
+}  // end 'SetJetMatchDrRange(pair<double, double>)'
+
+
+
 void SCorrelatorJetTree::SetCstMatchQtRange(const pair<double, double> qtRange) {
 
   m_cstMatchQtRange[0] = qtRange.first;
