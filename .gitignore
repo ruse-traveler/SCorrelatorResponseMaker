@@ -1,0 +1,14 @@
+reference/
+output/
+backup/
+input/
+src/*
+!src/SCorrelatorFolder.h
+!src/SCorrelatorFolder.cc
+!src/SCorrelatorFolder.io.h
+!src/SCorrelatorFolder.sys.h
+!src/SCorrelatorFolder.ana.h
+!src/SCorrelatorFolderLinkDef.h
+!src/autogen.sh
+!src/configure.ac
+!src/Makefile.am
