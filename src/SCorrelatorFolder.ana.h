@@ -19,10 +19,9 @@ using namespace std;
 void SCorrelatorFolder::DoMatching() {
 
   // print debug statement
-  if (m_doDebug) {
-    cout << "SCorrelatorJetTree::DoMatching() Matching jets..." << endl;
-  }
+  if (m_inDebugMode) PrintDebug();
 
+/* TODO fill in skeleton
   // for matching
   vector<fastjet::PseudoJet> trueCsts;
   vector<fastjet::PseudoJet> recoCsts;
@@ -67,7 +66,7 @@ void SCorrelatorFolder::DoMatching() {
 
         const bool isGoodCstMatch = IsCstGoodMatch(qtCst, drCst);
         if (isGoodCstMatch) {
-          /* fill output vectors here */
+          // fill output vectors here //
           break;
         }
 
@@ -75,6 +74,7 @@ void SCorrelatorFolder::DoMatching() {
 
     }  // end true cst loop
   }  // end true jet loop
+*/
   return;
 
 }  // end 'DoMatching()'
@@ -84,7 +84,7 @@ void SCorrelatorFolder::DoMatching() {
 bool SCorrelatorFolder::IsJetGoodMatch(const double qtJet, const double drJet) {
 
   // print debug statement
-  if (m_doDebug && (Verbosity() > 2)) {
+  if (m_inDebugMode && (Verbosity() > 2)) {
     cout << "SCorrelatorJetTree::IsJetGoodMatch(double, double) Checking if jet match is good..." << endl;
   }
 
@@ -94,21 +94,5 @@ bool SCorrelatorFolder::IsJetGoodMatch(const double qtJet, const double drJet) {
   return isGoodMatch;
 
 }  // end 'IsJetGoodMatch(double, double)'
-
-
-
-bool SCorrelatorFolder::IsCstGoodMatch(const double qtCst, const double drCst) {
-
-  // print debug statement
-  if (m_doDebug && (Verbosity() > 2)) {
-    cout << "SCorrelatorJetTree::IsCstGoodMatch(double, double) Checking if constituent match is good..." << endl;
-  }
-
-  const bool isInQtRange = ((qtCst > m_cstMatchQtRange[0]) && (qtCst < m_cstMatchQtRange[1]));
-  const bool isInDrRange = ((drCst > m_cstMatchDrRange[0]) && (drCst < m_cstMatchDrRange[1]));
-  const bool isGoodMatch = (isInQtRange && isInDrRange);
-  return isGoodMatch;
-
-}  // end 'IsCstGoodMatch(double, double)'
 
 // end ------------------------------------------------------------------------

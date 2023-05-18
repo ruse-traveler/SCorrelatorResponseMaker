@@ -11,7 +11,6 @@
 #pragma once
 
 using namespace std;
-using namespace fastjet;
 
 
 
@@ -22,165 +21,218 @@ void SCorrelatorFolder::InitializeMembers() {
   // print debug statement
   if (m_inDebugMode) PrintDebug(0);
 
-  m_inFile            = 0x0;
-  m_inTree            = 0x0;
-  m_outFile           = 0x0;
-  m_fCurrent          = 0;
-  m_verbosity         = 0;
-  m_inDebugMode       = false;
-  m_inBatchMode       = false;
-  m_inComplexMode     = false;
-  m_inStandaloneMode  = false;
-  m_isInputTreeTruth  = false;
-  m_moduleName        = "";
-  m_inFileName        = "";
-  m_inNodeName        = "";
-  m_inTreeName        = "";
-  m_outFileName       = "";
-  m_nPointCorr        = 0;
-  m_nBinsDr           = 0;
-  m_nBinsJetPt        = 0;
-  m_drBinRange[0]     = 0.;
-  m_drBinRange[1]     = 0.;
-  m_ptJetRange[0]     = 0.;
-  m_ptJetRange[1]     = 0.;
-  m_etaJetRange[0]    = 0.;
-  m_etaJetRange[1]    = 0.;
-  m_momCstRange[0]    = 0.;
-  m_momCstRange[1]    = 0.;
-  m_drCstRange[0]     = 0.;
-  m_drCstRange[1]     = 0.;
-  m_jetMatchQtRange[0]   = 0.5;
-  m_jetMatchQtRange[1]   = 1.3;
-  m_jetMatchDrRange[0]   = 0.;
-  m_jetMatchDrRange[1]   = 0.4;
-  m_cstMatchQtRange[0]   = 0.15;
-  m_cstMatchQtRange[1]   = 1.5;
-  m_cstMatchDrRange[0]   = 0.;
-  m_cstMatchDrRange[1]   = 0.8;
-  m_truParton3_ID     = 0;
-  m_truParton4_ID     = 0;
-  m_truParton3_MomX   = 0.;
-  m_truParton3_MomY   = 0.;
-  m_truParton3_MomZ   = 0.;
-  m_truParton4_MomX   = 0.;
-  m_truParton4_MomY   = 0.;
-  m_truParton4_MomZ   = 0.;
-  m_recParton3_ID     = 0;
-  m_recParton4_ID     = 0;
-  m_recParton3_MomX   = 0.;
-  m_recParton3_MomY   = 0.;
-  m_recParton3_MomZ   = 0.;
-  m_recParton4_MomX   = 0.;
-  m_recParton4_MomY   = 0.;
-  m_recParton4_MomZ   = 0.;
-  m_evtNumJets        = 0;
-  m_jetNumCst         = 0x0;
-  m_jetID             = 0x0;
-  m_jetTruthID        = 0x0;
-  m_jetEnergy         = 0x0;
-  m_jetPt             = 0x0;
-  m_jetEta            = 0x0;
-  m_jetPhi            = 0x0;
-  m_jetArea           = 0x0;
-  m_cstZ              = 0x0;
-  m_cstDr             = 0x0;
-  m_cstEnergy         = 0x0;
-  m_cstJt             = 0x0;
-  m_cstEta            = 0x0;
-  m_cstPhi            = 0x0;
-  m_brTruParton3_ID   = 0x0;
-  m_brTruParton4_ID   = 0x0;
-  m_brTruParton3_MomX = 0x0;
-  m_brTruParton3_MomY = 0x0;
-  m_brTruParton3_MomZ = 0x0;
-  m_brTruParton4_MomX = 0x0;
-  m_brTruParton4_MomY = 0x0;
-  m_brTruParton4_MomZ = 0x0;
-  m_brRecParton3_ID   = 0x0;
-  m_brRecParton4_ID   = 0x0;
-  m_brRecParton3_MomX = 0x0;
-  m_brRecParton3_MomY = 0x0;
-  m_brRecParton3_MomZ = 0x0;
-  m_brRecParton4_MomX = 0x0;
-  m_brRecParton4_MomY = 0x0;
-  m_brRecParton4_MomZ = 0x0;
-  m_brEvtNumJets      = 0x0;
-  m_brJetNumCst       = 0x0;
-  m_brJetID           = 0x0;
-  m_brJetTruthID      = 0x0;
-  m_brJetEnergy       = 0x0;
-  m_brJetPt           = 0x0;
-  m_brJetEta          = 0x0;
-  m_brJetPhi          = 0x0;
-  m_brJetArea         = 0x0;
-  m_brCstZ            = 0x0;
-  m_brCstDr           = 0x0;
-  m_brCstEnergy       = 0x0;
-  m_brCstJt           = 0x0;
-  m_brCstEta          = 0x0;
-  m_brCstPhi          = 0x0;
-  m_ptJetBins.clear();
-  m_eecLongSide.clear();
-  m_jetCstVector.clear();
-  m_outHistDrAxis.clear();
-  m_outHistLnDrAxis.clear();
+  // initialize io members
+  m_outFile    = 0x0;
+  m_inTrueFile = 0x0;
+  m_inRecoFile = 0x0;
+  m_inTrueTree = 0x0;
+  m_inRecoTree = 0x0;
+
+  // initialize system members
+  m_fTrueCurrent     = 0;
+  m_fRecoCurrent     = 0;
+  m_verbosity        = 0;
+  m_inDebugMode      = false;
+  m_inBatchMode      = false;
+  m_inComplexMode    = false;
+  m_inStandaloneMode = true;
+  m_moduleName       = "";
+  m_inTrueFileName   = "";
+  m_inRecoFileName   = "";
+  m_inTrueNodeName   = "";
+  m_inRecoNodeName   = "";
+  m_inTrueTreeName   = "";
+  m_inRecoTreeName   = "";
+  m_outFileName      = "";
+
+  // initialize input truth tree address members
+  m_trueNumJets       = 0;
+  m_trueNumChrgPars   = 0;
+  m_truePartonID[0]   = 0;
+  m_truePartonID[1]   = 0;
+  m_truePartonMomX[0] = 0.;
+  m_truePartonMomX[1] = 0.;
+  m_truePartonMomY[0] = 0.;
+  m_truePartonMomY[1] = 0.;
+  m_truePartonMomZ[0] = 0.;
+  m_truePartonMomZ[1] = 0.;
+  m_trueVtxX          = 0.;
+  m_trueVtxY          = 0.;
+  m_trueVtxZ          = 0.;
+  m_trueSumPar        = 0.;
+  m_trueJetID         = 0x0;
+  m_trueJetNumCst     = 0x0;
+  m_trueJetEne        = 0x0;
+  m_trueJetPt         = 0x0;
+  m_trueJetEta        = 0x0;
+  m_trueJetPhi        = 0x0;
+  m_trueJetArea       = 0x0;
+  m_trueCstID         = 0x0;
+  m_trueCstZ          = 0x0;
+  m_trueCstDr         = 0x0;
+  m_trueCstEne        = 0x0;
+  m_trueCstJt         = 0x0;
+  m_trueCstEta        = 0x0;
+  m_trueCstPhi        = 0x0;
+
+  // input reco. tree address members
+  m_recoNumJets    = 0;
+  m_recoNumTrks    = 0;
+  m_recoVtxX       = 0.;
+  m_recoVtxY       = 0.;
+  m_recoVtxZ       = 0.;
+  m_recoSumECal    = 0.;
+  m_recoSumHCal    = 0.;
+  m_recoJetID      = 0x0;
+  m_recoJetNumCst  = 0x0;
+  m_recoJetEne     = 0x0;
+  m_recoJetPt      = 0x0;
+  m_recoJetEta     = 0x0;
+  m_recoJetPhi     = 0x0;
+  m_recoJetArea    = 0x0;
+  m_recoCstMatchID = 0x0;
+  m_recoCstZ       = 0x0;
+  m_recoCstDr      = 0x0;
+  m_recoCstEne     = 0x0;
+  m_recoCstJt      = 0x0;
+  m_recoCstEta     = 0x0;
+  m_recoCstPhi     = 0x0;
+
+  // initialize matching parameters
+  m_minPercentMatchCsts = 0;
+  m_jetMatchQtRange[0]  = 0.;
+  m_jetMatchQtRange[1]  = 0.;
+  m_jetMatchDrRange[0]  = 0.;
+  m_jetMatchDrRange[1]  = 0.;
+
+  // initialize input truth tree branch members
+  m_brTrueNumJets       = 0x0;
+  m_brTrueNumChrgPars   = 0x0;
+  m_brTruePartonID[0]   = 0x0;
+  m_brTruePartonID[1]   = 0x0;
+  m_brTruePartonMomX[0] = 0x0;
+  m_brTruePartonMomX[1] = 0x0;
+  m_brTruePartonMomY[0] = 0x0;
+  m_brTruePartonMomY[1] = 0x0;
+  m_brTruePartonMomZ[0] = 0x0;
+  m_brTruePartonMomZ[1] = 0x0;
+  m_brTrueVtxX          = 0x0;
+  m_brTrueVtxY          = 0x0;
+  m_brTrueVtxZ          = 0x0;
+  m_brTrueSumPar        = 0x0;
+  m_brTrueJetID         = 0x0;
+  m_brTrueJetNumCst     = 0x0;
+  m_brTrueJetEne        = 0x0;
+  m_brTrueJetPt         = 0x0;
+  m_brTrueJetEta        = 0x0;
+  m_brTrueJetPhi        = 0x0;
+  m_brTrueJetArea       = 0x0;
+  m_brTrueCstID         = 0x0;
+  m_brTrueCstZ          = 0x0;
+  m_brTrueCstDr         = 0x0;
+  m_brTrueCstEne        = 0x0;
+  m_brTrueCstJt         = 0x0;
+  m_brTrueCstEta        = 0x0;
+  m_brTrueCstPhi        = 0x0;
+
+  // initialize input reco. tree branch members
+  m_brRecoNumJets    = 0x0;
+  m_brRecoNumTrks    = 0x0;
+  m_brRecoVtxX       = 0x0;
+  m_brRecoVtxY       = 0x0;
+  m_brRecoVtxZ       = 0x0;
+  m_brRecoSumECal    = 0x0;
+  m_brRecoSumHCal    = 0x0;
+  m_brRecoJetID      = 0x0;
+  m_brRecoJetNumCst  = 0x0;
+  m_brRecoJetEne     = 0x0;
+  m_brRecoJetPt      = 0x0;
+  m_brRecoJetEta     = 0x0;
+  m_brRecoJetPhi     = 0x0;
+  m_brRecoJetArea    = 0x0;
+  m_brRecoCstMatchID = 0x0;
+  m_brRecoCstZ       = 0x0;
+  m_brRecoCstDr      = 0x0;
+  m_brRecoCstEne     = 0x0;
+  m_brRecoCstJt      = 0x0;
+  m_brRecoCstEta     = 0x0;
+  m_brRecoCstPhi     = 0x0;
   return;
 
 }  // end 'InitializeMembers()'
 
 
 
-void SCorrelatorFolder::InitializeTree() {
+void SCorrelatorFolder::InitializeTrees() {
 
   // print debug statement
   if (m_inDebugMode) PrintDebug(4);
 
-  // check for tree
-  if (!m_inTree) {
+  // check for trees
+  if (!m_inTrueTree) {
     PrintError(10);
-    assert(m_inTree);
+    assert(m_inTrueTree);
   }
-  m_fCurrent = -1;
-  m_inTree   -> SetMakeClass(1);
-
-  // set truth vs. reco branch addresses
-  if (m_isInputTreeTruth) {
-    m_inTree -> SetBranchAddress("Parton3_ID",   &m_truParton3_ID,   &m_brTruParton3_ID);
-    m_inTree -> SetBranchAddress("Parton4_ID",   &m_truParton4_ID,   &m_brTruParton4_ID);
-    m_inTree -> SetBranchAddress("Parton3_MomX", &m_truParton3_MomX, &m_brTruParton3_MomX);
-    m_inTree -> SetBranchAddress("Parton3_MomY", &m_truParton3_MomY, &m_brTruParton3_MomY);
-    m_inTree -> SetBranchAddress("Parton3_MomZ", &m_truParton3_MomZ, &m_brTruParton3_MomZ);
-    m_inTree -> SetBranchAddress("Parton4_MomX", &m_truParton4_MomX, &m_brTruParton4_MomX);
-    m_inTree -> SetBranchAddress("Parton4_MomY", &m_truParton4_MomY, &m_brTruParton4_MomY);
-    m_inTree -> SetBranchAddress("Parton4_MomZ", &m_truParton4_MomZ, &m_brTruParton4_MomZ);
-  } else {
-    m_inTree -> SetBranchAddress("Parton3_ID",   &m_recParton3_ID,   &m_brRecParton3_ID);
-    m_inTree -> SetBranchAddress("Parton4_ID",   &m_recParton4_ID,   &m_brRecParton4_ID);
-    m_inTree -> SetBranchAddress("Parton3_MomX", &m_recParton3_MomX, &m_brRecParton3_MomX);
-    m_inTree -> SetBranchAddress("Parton3_MomY", &m_recParton3_MomY, &m_brRecParton3_MomY);
-    m_inTree -> SetBranchAddress("Parton3_MomZ", &m_recParton3_MomZ, &m_brRecParton3_MomZ);
-    m_inTree -> SetBranchAddress("Parton4_MomX", &m_recParton4_MomX, &m_brRecParton4_MomX);
-    m_inTree -> SetBranchAddress("Parton4_MomY", &m_recParton4_MomY, &m_brRecParton4_MomY);
-    m_inTree -> SetBranchAddress("Parton4_MomZ", &m_recParton4_MomZ, &m_brRecParton4_MomZ);
+  if (!m_inRecoTree) {
+    PrintError(10);
+    assert(m_inRecoTree);
   }
+  m_fTrueCurrent = -1;
+  m_fRecoCurrent = -1;
+  m_inTrueTree   -> SetMakeClass(1);
+  m_inRecoTree   -> SetMakeClass(1);
 
-  // set generic branch addresses
-  m_inTree -> SetBranchAddress("EvtNumJets", &m_evtNumJets, &m_brEvtNumJets);
-  m_inTree -> SetBranchAddress("JetNumCst",  &m_jetNumCst,  &m_brJetNumCst);
-  m_inTree -> SetBranchAddress("JetID",      &m_jetID,      &m_brJetID);
-  m_inTree -> SetBranchAddress("JetTruthID", &m_jetTruthID, &m_brJetTruthID);
-  m_inTree -> SetBranchAddress("JetEnergy",  &m_jetEnergy,  &m_brJetEnergy);
-  m_inTree -> SetBranchAddress("JetPt",      &m_jetPt,      &m_brJetPt);
-  m_inTree -> SetBranchAddress("JetEta",     &m_jetEta,     &m_brJetEta);
-  m_inTree -> SetBranchAddress("JetPhi",     &m_jetPhi,     &m_brJetPhi);
-  m_inTree -> SetBranchAddress("JetArea",    &m_jetArea,    &m_brJetArea);
-  m_inTree -> SetBranchAddress("CstZ",       &m_cstZ,       &m_brCstZ);
-  m_inTree -> SetBranchAddress("CstDr",      &m_cstDr,      &m_brCstDr);
-  m_inTree -> SetBranchAddress("CstEnergy",  &m_cstEnergy,  &m_brCstEnergy);
-  m_inTree -> SetBranchAddress("CstJt",      &m_cstJt,      &m_brCstJt);
-  m_inTree -> SetBranchAddress("CstEta",     &m_cstEta,     &m_brCstEta);
-  m_inTree -> SetBranchAddress("CstPhi",     &m_cstPhi,     &m_brCstPhi);
+  // set truth tree branch addresses
+  m_inTrueTree -> SetBranchAddress("EvtNumJets",     &m_trueNumJets,       &m_brTrueNumJets);
+  m_inTrueTree -> SetBranchAddress("EvtNumChrgPars", &m_trueNumChrgPars,   &m_brTrueNumChrgPars);
+  m_inTrueTree -> SetBranchAddress("Parton3_ID",     &m_truePartonID[0],   &m_brTruePartonID[0]);
+  m_inTrueTree -> SetBranchAddress("Parton4_ID",     &m_truePartonID[1],   &m_brTruePartonID[1]);
+  m_inTrueTree -> SetBranchAddress("Parton3_MomX",   &m_truePartonMomX[0], &m_brTruePartonMomX[0]);
+  m_inTrueTree -> SetBranchAddress("Parton3_MomY",   &m_truePartonMomY[0], &m_brTruePartonMomY[0]);
+  m_inTrueTree -> SetBranchAddress("Parton3_MomZ",   &m_truePartonMomZ[0], &m_brTruePartonMomZ[0]);
+  m_inTrueTree -> SetBranchAddress("Parton4_MomX",   &m_truePartonMomX[1], &m_brTruePartonMomX[1]);
+  m_inTrueTree -> SetBranchAddress("Parton4_MomY",   &m_truePartonMomY[1], &m_brTruePartonMomY[1]);
+  m_inTrueTree -> SetBranchAddress("Parton4_MomZ",   &m_truePartonMomZ[1], &m_brTruePartonMomZ[1]);
+  m_inTrueTree -> SetBranchAddress("EvtVtxX",        &m_trueVtxX,          &m_brTrueVtxX);
+  m_inTrueTree -> SetBranchAddress("EvtVtxY",        &m_trueVtxY,          &m_brTrueVtxY);
+  m_inTrueTree -> SetBranchAddress("EvtVtxZ",        &m_trueVtxZ,          &m_brTrueVtxZ);
+  m_inTrueTree -> SetBranchAddress("JetID",           m_trueJetID,         &m_brTrueJetID);
+  m_inTrueTree -> SetBranchAddress("JetNumCst",       m_trueJetNumCst,     &m_brTrueJetNumCst);
+  m_inTrueTree -> SetBranchAddress("JetEnergy",       m_trueJetEne,        &m_brTrueJetEne);
+  m_inTrueTree -> SetBranchAddress("JetPt",           m_trueJetPt,         &m_brTrueJetPt);
+  m_inTrueTree -> SetBranchAddress("JetEta",          m_trueJetEta,        &m_brTrueJetEta);
+  m_inTrueTree -> SetBranchAddress("JetPhi",          m_trueJetPhi,        &m_brTrueJetPhi);
+  m_inTrueTree -> SetBranchAddress("JetArea",         m_trueJetArea,       &m_brTrueJetArea);
+  m_inTrueTree -> SetBranchAddress("CstID",           m_trueCstID,         &m_brTrueCstID);
+  m_inTrueTree -> SetBranchAddress("CstZ",            m_trueCstZ,          &m_brTrueCstZ);
+  m_inTrueTree -> SetBranchAddress("CstDr",           m_trueCstDr,         &m_brTrueCstDr);
+  m_inTrueTree -> SetBranchAddress("CstEnergy",       m_trueCstEne,        &m_brTrueCstEne);
+  m_inTrueTree -> SetBranchAddress("CstJt",           m_trueCstJt,         &m_brTrueCstJt);
+  m_inTrueTree -> SetBranchAddress("CstEta",          m_trueCstEta,        &m_brTrueCstEta);
+  m_inTrueTree -> SetBranchAddress("CstPhi",          m_trueCstPhi,        &m_brTrueCstPhi);
+
+  // set reco tree branch addresses
+  m_inRecoTree -> SetBranchAddress("EvtNumJets",    &m_recoNumJets,    &m_brRecoNumJets);
+  m_inRecoTree -> SetBranchAddress("EvtNumTrks",    &m_recoNumTrks,    &m_brRecoNumTrks);
+  m_inRecoTree -> SetBranchAddress("EvtVtxX",       &m_recoVtxX,       &m_brRecoVtxX);
+  m_inRecoTree -> SetBranchAddress("EvtVtxY",       &m_recoVtxY,       &m_brRecoVtxY);
+  m_inRecoTree -> SetBranchAddress("EvtVtxZ",       &m_recoVtxZ,       &m_brRecoVtxZ);
+  m_inRecoTree -> SetBranchAddress("EvtSumECalEne", &m_recoSumECal,    &m_brRecoSumECal);
+  m_inRecoTree -> SetBranchAddress("EvtSumHCalEne", &m_recoSumHCal,    &m_brRecoSumHCal);
+  m_inRecoTree -> SetBranchAddress("JetID",          m_recoJetID,      &m_brRecoJetID);
+  m_inRecoTree -> SetBranchAddress("JetNumCst",      m_recoJetNumCst,  &m_brRecoJetNumCst);
+  m_inRecoTree -> SetBranchAddress("JetEnergy",      m_recoJetEne,     &m_brRecoJetEne);
+  m_inRecoTree -> SetBranchAddress("JetPt",          m_recoJetPt,      &m_brRecoJetPt);
+  m_inRecoTree -> SetBranchAddress("JetEta",         m_recoJetEta,     &m_brRecoJetEta);
+  m_inRecoTree -> SetBranchAddress("JetPhi",         m_recoJetPhi,     &m_brRecoJetPhi);
+  m_inRecoTree -> SetBranchAddress("JetArea",        m_recoJetArea,    &m_brRecoJetArea);
+  m_inRecoTree -> SetBranchAddress("CstMatchID",     m_recoCstMatchID, &m_brRecoCstMatchID);
+  m_inRecoTree -> SetBranchAddress("CstZ",           m_recoCstZ,       &m_brRecoCstZ);
+  m_inRecoTree -> SetBranchAddress("CstDr",          m_recoCstDr,      &m_brRecoCstDr);
+  m_inRecoTree -> SetBranchAddress("CstEnergy",      m_recoCstEne,     &m_brRecoCstEne);
+  m_inRecoTree -> SetBranchAddress("CstJt",          m_recoCstJt,      &m_brRecoCstJt);
+  m_inRecoTree -> SetBranchAddress("CstEta",         m_recoCstEta,     &m_brRecoCstEta);
+  m_inRecoTree -> SetBranchAddress("CstPhi",         m_recoCstPhi,     &m_brRecoCstPhi);
 
   // announce tree setting
   if (m_inStandaloneMode) PrintMessage(2);
@@ -196,80 +248,8 @@ void SCorrelatorFolder::PrintMessage(const uint32_t code, const uint64_t nEvts, 
   if (m_inDebugMode && (m_verbosity > 5)) PrintDebug(22);
 
   switch (code) {
-    case 0:
-      cout << "\n  Running standalone correlator calculation...\n"
-           << "    Set name & modes:\n"
-           << "      module name      = " << m_moduleName.data() << "\n"
-           << "      complex mode?    = " << m_inComplexMode     << "\n"
-           << "      standalone mode? = " << m_inStandaloneMode  << "\n"
-           << "      debug mode?      = " << m_inDebugMode       << "\n"
-           << "      batch mode?      = " << m_inBatchMode
-           << endl;
-      break;
-    case 1:
-      cout << "    Opened files:\n"
-           << "      input  = " << m_inFileName.data() << "\n"
-           << "      output = " << m_outFileName.data()
-           << endl;
-      break;
-    case 2:
-      cout << "    Initialized input tree:\n"
-           << "      tree name = " << m_inTreeName.data()
-           << endl;
-      break;
-    case 3:
-      cout << "    Initialized output histograms." << endl;
-      break;
-    case 4:
-      cout << "    Initialized correlators." << endl;
-      break;
-    case 5:
-      cout << "    Set correlator parameters:\n"
-           << "      n-point = "       << m_nPointCorr    << ", number of dR bins = " << m_nBinsDr       << "\n"
-           << "      dR bin range = (" << m_drBinRange[0] << ", "                     << m_drBinRange[1] << ")"
-           << endl;
-      break;
-    case 6:
-      cout << "    Set jet parameters:\n"
-           << "      eta range = (" << m_etaJetRange[0] << ", " << m_etaJetRange[1] << ")\n"
-           << "      pt range  = (" << m_ptJetRange[0]  << ", " << m_ptJetRange[1]  << ")\n"
-           << "    Set pTjet bins:"
-           << endl;
-      for (uint32_t iPtBin = 0; iPtBin < m_nBinsJetPt; iPtBin++) {
-        cout << "      bin[" << iPtBin << "] = (" << m_ptJetBins.at(iPtBin).first << ", " << m_ptJetBins.at(iPtBin).second << ")" << endl;
-      }
-      break;
-    case 7:
-      cout << "    Beginning event loop: " << nEvts << " events to process..." << endl;
-      break;
-    case 8:
-      if (m_inBatchMode) {
-        cout << "      processing event " << (event + 1) << "/" << nEvts << "..." << endl;
-      } else {
-        cout << "      processing event " << (event + 1) << "/" << nEvts << "...\r" << flush;
-        if ((event + 1) == nEvts) cout << endl;
-      }
-      break; 
-    case 9:
-      cout << "    Analysis finished!" << endl;
-      break;
-    case 10:
-      cout << "    Saved output histograms." << endl;
-      break;
-    case 11:
-      cout << "  Finished correlator calculation!\n" << endl;
-      break;
-    case 12:
-      cout << "    Set constituent parameters:\n"
-           << "      momentum range = (" << m_momCstRange[0] << ", " << m_momCstRange[1] << ")\n"
-           << "      dr range       = (" << m_drCstRange[0]  << ", " << m_drCstRange[1]  << ")"
-           << endl;
-      break;
-    case 13:
-      cout << "    Finished event loop!" << endl;
-      break;
-    case 14:
-      cout << "    Extracted output histograms from correlators." << endl;
+    default:
+      cerr << "WARNING: unknown status code!" << endl;
       break;
   }
   return;
@@ -285,92 +265,8 @@ void SCorrelatorFolder::PrintDebug(const uint32_t code) {
   }
 
   switch (code) {
-    case 0:
-      cout << "SCorrelatorFolder::InitializeMembers() initializing internal variables..." << endl;
-      break;
-    case 1:
-      cout << "SCorrelatorFolder::SCorrelatorFolder(string, bool, bool) calling ctor..." << endl;
-      break;
-    case 2:
-      cout << "SCorrelatorFolder::Init(PHCompositeNode*) initializing..." << endl;
-      break;
-    case 3:
-      cout << "SCorrelatorFolder::GrabInputNode() grabbing input node..." << endl;
-      break;
-    case 4:
-      cout << "SCorrelatorFolder::InitializeTree() initializing input tree..." << endl;
-      break;
-    case 5:
-      cout << "SCorrelatorFolder::InitializeHists() initializing histograms..." << endl;
-      break;
-    case 6:
-      cout << "SCorrelatorFolder::InitializeCorrs() initializing correlators" << endl;
-      break;
-    case 7:
-      cout << "SCorrelatorFolder::process_event(PHCompositeNode*) processing event..." << endl;
-      break;
-    case 8:
-      cout << "SCorrelatorFolder::End(PHCompositeNode*) this is the end..." << endl;
-      break;
-    case 9:
-      cout << "SCorrelatorFolder::SaveOutput() saving output..." << endl;
-      break;
-    case 10:
-      cout << "SCorrelatorFolder::Init() initializing..." << endl;
-      break;
-    case 11:
-      cout << "SenergyCorrelator::OpenInputFile() opening input file..." << endl;
-      break;
-    case 12:
-      cout << "SCorrelatorFolder::Analyze() analyzing input..." << endl;
-      break;
-    case 13:
-      cout << "SCorrelatorFolder::End() this is the end..." << endl;
-      break;
-    case 14:
-      cout << "SCorrelatorFolder::~SCorrelatorFolder() calling dtor..." << endl;
-      break;
-    case 15:
-      cout << "SCorrelatorFolder::OpenOutputFile() opening output file..." << endl;
-      break;
-    case 16:
-      cout << "SCorrelatorFolder::GetEntry(uint64_t) getting tree entry..." << endl;
-      break;
-    case 17:
-      cout << "SCorrelatorFolder::LoadTree(uint64_t) loading tree..." << endl;
-      break;
-    case 18:
-      cout << "SCorrelatorFolder::SetInputTree(string, bool) setting input tree name..." << endl;
-      break;
-    case 19:
-      cout << "SCorrelatorFolder::SetCorrelatorParameters(uint32_t, uint64_t, double, double) setting correlator parameters..." << endl;
-      break;
-    case 20:
-      cout << "SCorrelatorFolder::SetJetParameters(vector<pair<double, double>>, double, double) setting jet parameters..." << endl;
-      break;
-    case 21:
-      cout << "SCorrelatorFolders:CheckCriticalParameters() checking critical parameters..." << endl;
-      break;
-    case 22:
-      cout << "SCorrelatorFolder::PrintMessage(uint32_t, uint64_t, uint64_t) printing a message..." << endl;
-      break;
-    case 23:
-      cout << "SCorrelatorFolder::PrintError(uint32_t) printing an error..." << endl;
-      break;
-    case 24:
-      cout << "SCorrelatorFolder::SetConstituentParameters(double, double, double, double) setting constituent parameters..." << endl;
-      break;
-    case 25:
-      cout << "SCorrelatorFolder::ExtractHistsFromCorr() extracting output histograms..." << endl;
-      break;
-    case 26:
-      cout << "SCorrelatorFolder::ApplyJetCuts(double, double) applying jet cuts..." << endl;
-      break;
-    case 27:
-      cout << "SCorrelatorFolder::ApplyCstCuts(double, double) applying constituent cuts..." << endl;
-      break;
-    case 28:
-      cout << "SCorrelatorFolder::GetJetPtBin(double) getting jet pT bin..." << endl;
+    default:
+      cerr << "WARNING: unknown status code!" << endl;
       break;
   }
   return;
@@ -385,103 +281,8 @@ void SCorrelatorFolder::PrintError(const uint32_t code, const size_t nDrBinEdges
   if (m_inDebugMode && (m_verbosity > 5)) PrintDebug(23);
 
   switch (code) {
-    case 0:
-      if (m_inComplexMode) {
-        cerr << "SCorrelatorFolder::Init(PHCompositeNode*) PANIC: calling complex method in standalone mode! Aborting!" << endl;
-      } else {
-        cerr << "PANIC: calling complex method in standalone mode! Aborting!" << endl;
-      }
-      break;
-    case 1:
-      if (m_inComplexMode) {
-        cerr << "SCorrelatorFolder::GrabInputNode() PANIC: couldn't grab node \"" << m_inNodeName << "\"! Aborting!" << endl;
-      } else {
-        cerr << "PANIC: couldn't grab node \"" << m_inNodeName << "\"! Aborting!" << endl;
-      }
-      break;
-    case 2:
-      if (m_inComplexMode) {
-        cerr << "SCorrelatorFolder::GrabInputNode() PANIC: couldn't grab tree \"" << m_inTreeName << "\" from node \"" << m_inNodeName << "\"! Aborting!" << endl;
-      } else {
-        cerr << "PANIC: couldn't grab tree \"" << m_inTreeName << "\" from node \"" << m_inNodeName << "\"! Aborting!" << endl;
-      }
-      break;
-    case 3:
-      if (m_inComplexMode) {
-        cerr << "SCorrelatorFolder::process_event(PHCompositeNode*) PANIC: calling complex method in standalone mode! Aborting!" << endl;
-      } else {
-        cerr << "PANIC: calling complex method in standalone mode! Aborting!" << endl;
-      }
-      break;
-    case 4:
-      if (m_inComplexMode) {
-        cerr << "SCorrelatorFolder::End(PHCompositeNode*) PANIC: calling complex method in standalone mode! Aborting!" << endl;
-      } else {
-        cerr << "PANIC: calling complex method in standalone mode! Aborting!" << endl;
-      }
-      break;
-    case 5:
-      if (m_inComplexMode) {
-        cerr << "SCorrelatorFolder::Init() PANIC: calling standalone method in complex mode! Aborting!" << endl;
-      } else {
-        cerr << "PANIC: calling standalone method in complex mode! Aborting!" << endl;
-      }
-      break;
-    case 6:
-      if (m_inComplexMode) {
-        cerr << "SCorrelatorFolder::OpenInputFile() PANIC: couldn't open file \"" << m_inFileName << "\"! Aborting!" << endl;
-      } else {
-        cerr << "PANIC: couldn't open file \"" << m_inFileName << "\"! Aborting!" << endl;
-      }
-      break;
-    case 7:
-      if (m_inComplexMode) {
-        cerr << "SCorrelatorFolder::OpenInputFile() PANIC: couldn't grab tree \"" << m_inTreeName << "\" from file \"" << m_inFileName << "\"! Aborting!" << endl;
-      } else {
-        cerr << "PANIC: couldn't grab tree \"" << m_inTreeName << "\" from file \"" << m_inFileName << "\"! Aborting!" << endl;
-      }
-      break;
-    case 8:
-      if (m_inComplexMode) {
-        cerr << "SCorrelatorFolder::Analyze() PANIC: calling standalone method in complex mode! Aborting!" << endl;
-      } else {
-        cerr << "PANIC: calling standalone method in complex mode! Aborting!" << endl;
-      }
-      break;
-    case 9:
-      if (m_inComplexMode) {
-        cerr << "SCorrelatorFolder::End() PANIC: calling standalone method in complex mode! Aborting!" << endl;
-      } else {
-        cerr << "PANIC: calling standalone method in complex mode! Aborting!" << endl;
-      }
-      break;
-    case 10:
-      if (m_inComplexMode) {
-        cerr << "SCorrelatorFolder::InitializeTree() PANIC: no TTree! Aborting!" << endl;
-      } else {
-        cerr << "PANIC: no TTree! Aborting!" << endl;
-      }
-      break;
-    case 11:
-      if (m_inComplexMode) {
-        cerr << "SCorrelatorFolder::OpenOutputFile() PANIC: couldn't open output file! Aborting!" << endl;
-      } else {
-        cerr << "PANIC: couldn't open output file! Aborting!" << endl;
-      }
-      break;
-    case 12:
-      if (m_inComplexMode) {
-        cerr << "SCorrelatorFolder::ExtraHistsFromCorr() PANIC: number of dR bin edges is no good! Aborting!" << endl;
-      } else {
-        cerr << "PANIC: number of dR bin edges is no good! Aborting!\n"
-             << "       nDrBinEdges = " << nDrBinEdges << ", nDrBins = " << m_nBinsDr
-             << endl;
-      }
-      break;
-    case 13:
-      if (m_inStandaloneMode) {
-        cerr << "WARNING: dR bin #" << iDrBin << " has a NAN as content or error..." << endl;
-      }
+    default:
+      cout << "WARNING: unknown status code!" << endl;
       break;
   }
   return;
@@ -502,24 +303,24 @@ bool SCorrelatorFolder::CheckCriticalParameters() {
 
 
 
-int64_t SCorrelatorFolder::GetEntry(const uint64_t entry) {
+int64_t SCorrelatorFolder::GetEntry(const uint64_t entry, TTree *tree) {
 
   // print debugging statemet
   if (m_inDebugMode && (m_verbosity > 5)) PrintDebug(16);
 
   int64_t entryStatus(-1);
-  if (!m_inTree) {
+  if (!tree) {
     entryStatus = 0;
   } else {
-    entryStatus = m_inTree -> GetEntry(entry);
+    entryStatus = tree -> GetEntry(entry);
   }
   return entryStatus;
 
-}  // end 'GetEntry(uint64_t)'
+}  // end 'GetEntry(uint64_t, TTree*)'
 
 
 
-int64_t SCorrelatorFolder::LoadTree(const uint64_t entry) {
+int64_t SCorrelatorFolder::LoadTree(const uint64_t entry, TTree *tree, int &fCurrent) {
 
   // print debugging statemet
   if (m_inDebugMode && (m_verbosity > 5)) PrintDebug(17);
@@ -527,21 +328,21 @@ int64_t SCorrelatorFolder::LoadTree(const uint64_t entry) {
   // check for tree & load
   int     treeNumber(-1);
   int64_t treeStatus(-1);
-  if (!m_inTree) {
+  if (!tree) {
     treeStatus = -5;
   } else {
-    treeNumber = m_inTree -> GetTreeNumber();
-    treeStatus = m_inTree -> LoadTree(entry);
+    treeNumber = tree -> GetTreeNumber();
+    treeStatus = tree -> LoadTree(entry);
   }
 
   // update current tree number if need be
   const bool isTreeStatusGood = (treeStatus >= 0);
-  const bool isNotCurrentTree = (treeNumber != m_fCurrent);
+  const bool isNotCurrentTree = (treeNumber != fCurrent);
   if (isTreeStatusGood && isNotCurrentTree) {
-    m_fCurrent = m_inTree -> GetTreeNumber();
+    fCurrent = tree -> GetTreeNumber();
   }
   return treeStatus;
 
-}  // end 'LoadTree(uint64_t)'
+}  // end 'LoadTree(uint64_t, TTree*)'
 
 // end ------------------------------------------------------------------------

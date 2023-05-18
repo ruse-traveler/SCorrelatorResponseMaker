@@ -14,65 +14,51 @@ using namespace std;
 
 
 
-// i/o methods ----------------------------------------------------------------
+// public i/o methods ---------------------------------------------------------
 
-void SCorrelatorFolder::SetInputTree(const string &iTreeName, const bool isTruthTree) {
+void SCorrelatorFolder::SetInputNodes(const string &iTrueNodeName, const string &iRecoNodeName) {
 
   // print debug statemet
-  if (m_inDebugMode) PrintDebug(18);
+  if (m_inDebugMode) PrintDebug();
+
+  m_inTrueNodeName = iTrueNodeName;
+  m_inRecoNodeName = iRecoNodeName;
+  return;
+
+}  // end 'SetInputNodes(string&, string&)'
+
+
+
+void SCorrelatorFolder::SetInputFiles(const string &iTrueFileName, const string &iRecoFileName) {
+
+  // print debug statemet
+  if (m_inDebugMode) PrintDebug();
+
+  m_inTrueFileName = iTrueFileName;
+  m_inRecoFileName = iRecoFileName;
+  return;
+
+}  // end 'SetInputFiles(string&, string&)'
+
+
+
+void SCorrelatorFolder::SetInputTrees(const string &iTrueTreeName, const string &iRecoTreeName) {
+
+  // print debug statemet
+  if (m_inDebugMode) PrintDebug();
   
-  m_inTreeName       = iTreeName;
-  m_isInputTreeTruth = isTruthTree; 
+  m_inTrueTreeName = iTrueTreeName;
+  m_inRecoTreeName = iRecoTreeName;
   return;
 
-}  // end 'SetInputTree(string&, bool)'
+}  // end 'SetInputTrees(string&, string&)'
 
 
 
-void SCorrelatorFolder::SetJetParameters(const vector<pair<double, double>> &pTjetBins, const double minEta, const double maxEta) {
+void SCorrelatorFolder::SetJetMatchQtRange(const pair<double, double> qtRange) {
 
-  // print debug statement
-  if (m_inDebugMode) PrintDebug(20);
-
-  m_etaJetRange[0] = minEta;
-  m_etaJetRange[1] = maxEta;
-  m_nBinsJetPt     = pTjetBins.size();
-  for (uint32_t iPtBin = 0; iPtBin < m_nBinsJetPt; iPtBin++) {
-    const double               minPt = pTjetBins.at(iPtBin).first;
-    const double               maxPt = pTjetBins.at(iPtBin).second;
-    const pair<double, double> ptBin = {minPt, maxPt};
-    m_ptJetBins.push_back(ptBin);
-  }
-  m_ptJetRange[0] = m_ptJetBins[0].first;
-  m_ptJetRange[1] = m_ptJetBins[m_nBinsJetPt - 1].second;
-
-  // announce jet parameters
-  if (m_inStandaloneMode) PrintMessage(6);
-  return;
-
-}  // end 'SetJetParameters(vector<pair<double, double>>&, double, double)'
-
-
-
-void SCorrelatorFolder::SetConstituentParameters(const double minMom, const double maxMom, const double minDr, const double maxDr) {
-
-  // print debug statement
-  if (m_inDebugMode) PrintDebug(24);
-
-  m_momCstRange[0] = minMom;
-  m_momCstRange[1] = maxMom;
-  m_drCstRange[0]  = minDr;
-  m_drCstRange[1]  = maxDr;
-
-  // announce cst parameters
-  if (m_inStandaloneMode) PrintMessage(12);
-  return;
-
-}  // end 'SetConstituentParameters(double, double, double, double)'
-
-
-
-void SCorrelatorJetTree::SetJetMatchQtRange(const pair<double, double> qtRange) {
+  // print debug statemet
+  if (m_inDebugMode) PrintDebug();
 
   m_jetMatchQtRange[0] = qtRange.first;
   m_jetMatchQtRange[1] = qtRange.second;
@@ -82,7 +68,10 @@ void SCorrelatorJetTree::SetJetMatchQtRange(const pair<double, double> qtRange) 
 
 
 
-void SCorrelatorJetTree::SetJetMatchDrRange(const pair<double, double> drRange) {
+void SCorrelatorFolder::SetJetMatchDrRange(const pair<double, double> drRange) {
+
+  // print debug statemet
+  if (m_inDebugMode) PrintDebug();
 
   m_jetMatchDrRange[0] = drRange.first;
   m_jetMatchDrRange[1] = drRange.second;
@@ -92,27 +81,33 @@ void SCorrelatorJetTree::SetJetMatchDrRange(const pair<double, double> drRange) 
 
 
 
-void SCorrelatorJetTree::SetCstMatchQtRange(const pair<double, double> qtRange) {
+pair<double, double> SCorrelatorFolder::GetJetMatchQtRange() {
 
-  m_cstMatchQtRange[0] = qtRange.first;
-  m_cstMatchQtRange[1] = qtRange.second;
-  return;
+  // print debug statemet
+  if (m_inDebugMode) PrintDebug();
 
-}  // end 'SetJetMatchQtRange(pair<double, double>)'
+  const pair<double, double> qtRange(m_jetMatchQtRange[0], m_jetMatchQtRange[1]);
+  return qtRange;  
 
-
-
-void SCorrelatorJetTree::SetCstMatchDrRange(const pair<double, double> drRange) {
-
-  m_cstMatchDrRange[0] = drRange.first;
-  m_cstMatchDrRange[1] = drRange.second;
-  return;
-
-}  // end 'SetJetMatchDrRange(pair<double, double>)'
+}  // end 'GetJetMatchQtRange()'
 
 
 
-void SCorrelatorFolder::GrabInputNode() {
+pair<double, double> SCorrelatorFolder::GetJetMatchDrRange() {
+
+  // print debug statemet
+  if (m_inDebugMode) PrintDebug();
+
+  const pair<double, double> drRange(m_jetMatchDrRange[0], m_jetMatchDrRange[1]);
+  return drRange;  
+
+}  // end 'GetJetMatchDrRange()'
+
+
+
+// private i/o methods --------------------------------------------------------
+
+void SCorrelatorFolder::GrabInputNodes() {
 
   // print debug statement
   if (m_inDebugMode) PrintDebug(3);
@@ -120,39 +115,35 @@ void SCorrelatorFolder::GrabInputNode() {
   /* TODO method goes here */
   return;
 
-}  // end 'GrabInputNode()'
+}  // end 'GrabInputNodes()'
 
 
 
-void SCorrelatorFolder::OpenInputFile() {
+void SCorrelatorFolder::OpenInputFiles() {
 
   // print debug statement
   if (m_inDebugMode) PrintDebug(11);
 
-  // open file
-  const bool isTreeNotLoaded = (m_inTree == 0);
-  if (isTreeNotLoaded) {
+  // open files
+  const bool isTrueTreeNotLoaded = (m_inTrueTree == 0);
+  const bool isRecoTreeNotLoaded = (m_inRecoTree == 0);
+  if (isTrueTreeNotLoaded) OpenFile(m_inTrueFileName, m_inTrueFile);
+  if (isRecoTreeNotLoaded) OpenFile(m_inRecoFileName, m_inRecoFile);
 
-    // check list of files & open if needed
-    m_inFile = (TFile*) gROOT -> GetListOfFiles() -> FindObject(m_inFileName.data());
-    if (!m_inFile || !(m_inFile -> IsOpen())) {
-      m_inFile = new TFile(m_inFileName.data(), "read");
-      if (!m_inFile) {
-        PrintError(6);
-        assert(m_inFile);
-      }
-    }
-  }
-
-  // grab tree
-  m_inFile -> GetObject(m_inTreeName.data(), m_inTree);
-  if (!m_inTree) {
+  // grab trees
+  m_inTrueFile -> GetObject(m_inTrueTreeName.data(), m_inTrueTree);
+  m_inRecoFile -> GetObject(m_inRecoTreeName.data(), m_inRecoTree);
+  if (!m_inTrueTree) {
     PrintError(7);
-    assert(m_inTree);
+    assert(m_inTrueTree);
+  }
+  if (!m_inRecoTree) {
+    PrintError(7);
+    assert(m_inRecoTree);
   }
   return;
 
-}  // end 'OpenInputFile()'
+}  // end 'OpenInputFiles()'
 
 
 
@@ -170,6 +161,25 @@ void SCorrelatorFolder::OpenOutputFile() {
   return;
 
 }  // end 'OpenOutputFile()'
+
+
+
+void SCorrelatorFolder::OpenFile(const string &fileName, TFile *file) {
+
+  // print debug statement
+  if (m_inDebugMode) PrintDebug();
+
+  file = (TFile*) gROOT -> GetListOfFiles() -> FindObject(fileName.data());
+  if (!file || !(file -> IsOpen())) {
+    file = new TFile(fileName.data(), "read");
+    if (!file) {
+      PrintError(6);
+      assert(file);
+    }
+  }  // end if (file dne or isn't open)
+  return;
+
+}  // end 'OpenFile(string&, TFile*)'
 
 
 

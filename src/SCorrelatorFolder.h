@@ -65,156 +65,187 @@ class SCorrelatorFolder : public SubsysReco {
 
     // setters (inline)
     void SetVerbosity(const int verb)           {m_verbosity   = verb;}
-    void SetInputNode(const string &iNodeName)  {m_inNodeName  = iNodeName;}
-    void SetInputFile(const string &iFileName)  {m_inFileName  = iFileName;}
     void SetOutputFile(const string &oFileName) {m_outFileName = oFileName;}
-    void SetJetMatchQtRange(const pair<double, double> qtRange);
-    void SetJetMatchDrRange(const pair<double, double> drRange);
-    void SetCstMatchQtRange(const pair<double, double> qtRange);
-    void SetCstMatchDrRange(const pair<double, double> drRange);
 
     // setters (*.io.h)
-    void SetInputTree(const string &iTreeName, const bool isTruthTree = false);
-
-    // matching getters
-    double GetJetMatchMinQt() {return m_jetMatchQtRange[0];}
-    double GetJetMatchMaxQt() {return m_jetMatchQtRange[1];}
-    double GetJetMatchMinDr() {return m_jetMatchDrRange[0];}
-    double GetJetMatchMaxDr() {return m_jetMatchDrRange[1];}
-    double GetCstMatchMinQt() {return m_cstMatchQtRange[0];}
-    double GetCstMatchMaxQt() {return m_cstMatchQtRange[1];}
-    double GetCstMatchMinDr() {return m_cstMatchDrRange[0];}
-    double GetCstMatchMaxDr() {return m_cstMatchDrRange[1];}
+    void SetInputNodes(const string &iTrueNodeName, const string &iRecoNodeName);
+    void SetInputFiles(const string &iTrueFileName, const string &iRecoFileName);
+    void SetInputTrees(const string &iTrueTreeName, const string &iRecoTreeName);
+    void SetJetMatchQtRange(const pair<double, double>);
+    void SetJetMatchDrRange(const pair<double, double>);
 
     // system getters
-    int      GetVerbosity()        {return m_verbosity;}
-    bool     GetInDebugMode()      {return m_inDebugMode;}
-    bool     GetInComplexMode()    {return m_inComplexMode;}
-    bool     GetInStandaloneMode() {return m_inStandaloneMode;}
-    string   GetInputFileName()    {return m_inFileName;}
-    string   GetInputNodeName()    {return m_inNodeName;}
-    string   GetInputTreeName()    {return m_inTreeName;}
-    string   GetOutputFileName()   {return m_outFileName;} 
+    int    GetVerbosity()         {return m_verbosity;}
+    bool   GetInDebugMode()       {return m_inDebugMode;}
+    bool   GetInComplexMode()     {return m_inComplexMode;}
+    bool   GetInStandaloneMode()  {return m_inStandaloneMode;}
+    string GetInputTrueFileName() {return m_inTrueFileName;}
+    string GetInputRecoFileName() {return m_inRecoFileName;}
+    string GetInputTrueNodeName() {return m_inTrueNodeName;}
+    string GetInputRecoNodeName() {return m_inRecoNodeName;}
+    string GetInputTrueTreeName() {return m_inTrueTreeName;}
+    string GetInputRecoTreeName() {return m_inRecoTreeName;}
+    string GetOutputFileName()    {return m_outFileName;} 
+
+    // matching getters (*.io.h)
+    pair<double, double> GetJetMatchQtRange();
+    pair<double, double> GetJetMatchDrRange();
 
   private:
 
+    // constants
+    enum CONSTANTS {
+      NRANGE   = 2,
+      NPARTONS = 2
+    };
+
     // io methods (*.io.h)
-    void GrabInputNode();
-    void OpenInputFile();
+    void GrabInputNodes();
+    void OpenInputFiles();
     void OpenOutputFile();
+    void OpenFile(const string &fileName, TFile *file);
     void SaveOutput();
 
     // analysis methods (*.ana.h)
     void DoMatching();
     bool IsJetGoodMatch(const double qtJet, const double drJet);
-    bool IsCstGoodMatch(const double qtCst, const double drCst);
 
     // system methods (*.sys.h)
     void    InitializeMembers();
-    void    InitializeTree();
-    void    PrintMessage(const uint32_t code, const uint64_t nEvts = 0, const uint64_t event = 0);
-    void    PrintDebug(const uint32_t code);
-    void    PrintError(const uint32_t code, const size_t nDrBinEdges = 0, const size_t iDrBin = 0);
+    void    InitializeTrees();
+    void    PrintMessage(const uint32_t code = 0, const uint64_t nEvts = 0, const uint64_t event = 0);
+    void    PrintDebug(const uint32_t code = 0);
+    void    PrintError(const uint32_t code = 0, const size_t nDrBinEdges = 0, const size_t iDrBin = 0);
     bool    CheckCriticalParameters();
-    int64_t LoadTree(const uint64_t entry);
-    int64_t GetEntry(const uint64_t entry);
+    int64_t GetEntry(const uint64_t entry, TTree *tree);
+    int64_t LoadTree(const uint64_t entry, TTree *tree, int &fCurrent);
 
     // io members
     TFile *m_outFile;
-    TFile *m_inFile;
-    TTree *m_inTree;
+    TFile *m_inTrueFile;
+    TFile *m_inRecoFile;
+    TTree *m_inTrueTree;
+    TTree *m_inRecoTree;
 
     // system members
-    int    m_fCurrent;
+    int    m_fTrueCurrent;
+    int    m_fRecoCurrent;
     int    m_verbosity;
     bool   m_inDebugMode;
     bool   m_inBatchMode;
     bool   m_inComplexMode;
     bool   m_inStandaloneMode;
-    bool   m_isInputTreeTruth;
     string m_moduleName;
-    string m_inFileName;
-    string m_inNodeName;
-    string m_inTreeName;
+    string m_inTrueFileName;
+    string m_inRecoFileName;
+    string m_inTrueNodeName;
+    string m_inRecoNodeName;
+    string m_inTrueTreeName;
+    string m_inRecoTreeName;
     string m_outFileName;
 
     // matching parameters
-    double m_jetMatchQtRange[NRange];
-    double m_jetMatchDrRange[NRange];
-    double m_cstMatchQtRange[NRange];
-    double m_cstMatchDrRange[NRange];
+    double m_minPercentMatchCsts;
+    double m_jetMatchQtRange[CONSTANTS::NRANGE];
+    double m_jetMatchDrRange[CONSTANTS::NRANGE];
 
     // input truth tree address members
-    int    m_truParton3_ID;
-    int    m_truParton4_ID;
-    double m_truParton3_MomX;
-    double m_truParton3_MomY;
-    double m_truParton3_MomZ;
-    double m_truParton4_MomX;
-    double m_truParton4_MomY;
-    double m_truParton4_MomZ;
-    // input reco. tree address members
-    int    m_recParton3_ID;
-    int    m_recParton4_ID;
-    double m_recParton3_MomX;
-    double m_recParton3_MomY;
-    double m_recParton3_MomZ;
-    double m_recParton4_MomX;
-    double m_recParton4_MomY;
-    double m_recParton4_MomZ;
+    int                     m_trueNumJets;
+    int                     m_trueNumChrgPars;
+    int                     m_truePartonID[CONSTANTS::NPARTONS];
+    double                  m_truePartonMomX[CONSTANTS::NPARTONS];
+    double                  m_truePartonMomY[CONSTANTS::NPARTONS];
+    double                  m_truePartonMomZ[CONSTANTS::NPARTONS];
+    double                  m_trueVtxX;
+    double                  m_trueVtxY;
+    double                  m_trueVtxZ;
+    double                  m_trueSumPar;
+    vector<unsigned int>   *m_trueJetID;
+    vector<unsigned long>  *m_trueJetNumCst;
+    vector<double>         *m_trueJetEne;
+    vector<double>         *m_trueJetPt;
+    vector<double>         *m_trueJetEta;
+    vector<double>         *m_trueJetPhi;
+    vector<double>         *m_trueJetArea;
+    vector<vector<int>>    *m_trueCstID;
+    vector<vector<double>> *m_trueCstZ;
+    vector<vector<double>> *m_trueCstDr;
+    vector<vector<double>> *m_trueCstEne;
+    vector<vector<double>> *m_trueCstJt;
+    vector<vector<double>> *m_trueCstEta;
+    vector<vector<double>> *m_trueCstPhi;
 
-    // generic input tree address members
-    int                     m_evtNumJets;
-    vector<unsigned long>  *m_jetNumCst;
-    vector<unsigned int>   *m_jetID;
-    vector<unsigned int>   *m_jetTruthID;
-    vector<double>         *m_jetEnergy;
-    vector<double>         *m_jetPt;
-    vector<double>         *m_jetEta;
-    vector<double>         *m_jetPhi;
-    vector<double>         *m_jetArea;
-    vector<vector<double>> *m_cstZ;
-    vector<vector<double>> *m_cstDr;
-    vector<vector<double>> *m_cstEnergy;
-    vector<vector<double>> *m_cstJt;
-    vector<vector<double>> *m_cstEta;
-    vector<vector<double>> *m_cstPhi;
+    // input reco. tree address members
+    int                     m_recoNumJets;
+    int                     m_recoNumTrks;
+    double                  m_recoVtxX;
+    double                  m_recoVtxY;
+    double                  m_recoVtxZ;
+    double                  m_recoSumECal;
+    double                  m_recoSumHCal;
+    vector<unsigned int>   *m_recoJetID;
+    vector<unsigned long>  *m_recoJetNumCst;
+    vector<double>         *m_recoJetEne;
+    vector<double>         *m_recoJetPt;
+    vector<double>         *m_recoJetEta;
+    vector<double>         *m_recoJetPhi;
+    vector<double>         *m_recoJetArea;
+    vector<vector<int>>    *m_recoCstMatchID;
+    vector<vector<double>> *m_recoCstZ;
+    vector<vector<double>> *m_recoCstDr;
+    vector<vector<double>> *m_recoCstEne;
+    vector<vector<double>> *m_recoCstJt;
+    vector<vector<double>> *m_recoCstEta;
+    vector<vector<double>> *m_recoCstPhi;
 
     // input truth tree branch members
-    TBranch *m_brTruParton3_ID;
-    TBranch *m_brTruParton4_ID;
-    TBranch *m_brTruParton3_MomX;
-    TBranch *m_brTruParton3_MomY;
-    TBranch *m_brTruParton3_MomZ;
-    TBranch *m_brTruParton4_MomX;
-    TBranch *m_brTruParton4_MomY;
-    TBranch *m_brTruParton4_MomZ;
-    // input reco. tree branch members
-    TBranch *m_brRecParton3_ID;
-    TBranch *m_brRecParton4_ID;
-    TBranch *m_brRecParton3_MomX;
-    TBranch *m_brRecParton3_MomY;
-    TBranch *m_brRecParton3_MomZ;
-    TBranch *m_brRecParton4_MomX;
-    TBranch *m_brRecParton4_MomY;
-    TBranch *m_brRecParton4_MomZ;
+    TBranch *m_brTrueNumJets;
+    TBranch *m_brTrueNumChrgPars;
+    TBranch *m_brTruePartonID[CONSTANTS::NPARTONS];
+    TBranch *m_brTruePartonMomX[CONSTANTS::NPARTONS];
+    TBranch *m_brTruePartonMomY[CONSTANTS::NPARTONS];
+    TBranch *m_brTruePartonMomZ[CONSTANTS::NPARTONS];
+    TBranch *m_brTrueVtxX;
+    TBranch *m_brTrueVtxY;
+    TBranch *m_brTrueVtxZ;
+    TBranch *m_brTrueSumPar;
+    TBranch *m_brTrueJetID;
+    TBranch *m_brTrueJetNumCst;
+    TBranch *m_brTrueJetEne;
+    TBranch *m_brTrueJetPt;
+    TBranch *m_brTrueJetEta;
+    TBranch *m_brTrueJetPhi;
+    TBranch *m_brTrueJetArea;
+    TBranch *m_brTrueCstID;
+    TBranch *m_brTrueCstZ;
+    TBranch *m_brTrueCstDr;
+    TBranch *m_brTrueCstEne;
+    TBranch *m_brTrueCstJt;
+    TBranch *m_brTrueCstEta;
+    TBranch *m_brTrueCstPhi;
 
-    // generic input tree branch members
-    TBranch *m_brEvtNumJets;
-    TBranch *m_brJetNumCst;
-    TBranch *m_brJetID;
-    TBranch *m_brJetTruthID;
-    TBranch *m_brJetEnergy;
-    TBranch *m_brJetPt;
-    TBranch *m_brJetEta;
-    TBranch *m_brJetPhi;
-    TBranch *m_brJetArea;
-    TBranch *m_brCstZ;
-    TBranch *m_brCstDr;
-    TBranch *m_brCstEnergy;
-    TBranch *m_brCstJt;
-    TBranch *m_brCstEta;
-    TBranch *m_brCstPhi;
+    // input reco. tree branch members
+    TBranch *m_brRecoNumJets;
+    TBranch *m_brRecoNumTrks;
+    TBranch *m_brRecoVtxX;
+    TBranch *m_brRecoVtxY;
+    TBranch *m_brRecoVtxZ;
+    TBranch *m_brRecoSumECal;
+    TBranch *m_brRecoSumHCal;
+    TBranch *m_brRecoJetID;
+    TBranch *m_brRecoJetNumCst;
+    TBranch *m_brRecoJetEne;
+    TBranch *m_brRecoJetPt;
+    TBranch *m_brRecoJetEta;
+    TBranch *m_brRecoJetPhi;
+    TBranch *m_brRecoJetArea;
+    TBranch *m_brRecoCstMatchID;
+    TBranch *m_brRecoCstZ;
+    TBranch *m_brRecoCstDr;
+    TBranch *m_brRecoCstEne;
+    TBranch *m_brRecoCstJt;
+    TBranch *m_brRecoCstEta;
+    TBranch *m_brRecoCstPhi;
 
 };
 

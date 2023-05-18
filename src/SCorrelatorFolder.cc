@@ -44,11 +44,11 @@ SCorrelatorFolder::SCorrelatorFolder(const string &name, const bool isComplex, c
   // set debug/batch mode & print debug statement
   m_inDebugMode = doDebug;
   m_inBatchMode = inBatch;
-  if (m_inDebugMode) PrintDebug(1);
+  if (m_inDebugMode) PrintDebug();
 
   // set module name & announce start of calculation
   m_moduleName = name;
-  if (m_inStandaloneMode) PrintMessage(0);
+  if (m_inStandaloneMode) PrintMessage();
 
 }  // end ctor(string, bool, bool)
 
@@ -60,8 +60,9 @@ SCorrelatorFolder::~SCorrelatorFolder() {
   if (m_inDebugMode) PrintDebug(14);
 
   // delete pointers to files
-  if (!m_inTree) {
-    delete m_inFile;
+  if (!m_inTrueTree || !m_inRecoTree) {
+    if (!m_inTrueTree) delete m_inTrueFile;
+    if (!m_inRecoTree) delete m_inRecoFile;
     delete m_outFile;
   }
 
@@ -111,7 +112,7 @@ void SCorrelatorFolder::Init() {
     PrintError(5);
     assert(m_inStandaloneMode);
   } else {
-    OpenInputFile();
+    OpenInputFiles();
   }
   OpenOutputFile();
 
@@ -119,7 +120,7 @@ void SCorrelatorFolder::Init() {
   PrintMessage(1);
 
   // initialize input and output
-  InitializeTree();
+  InitializeTrees();
   return;
 
 }  // end 'StandaloneInit()'
