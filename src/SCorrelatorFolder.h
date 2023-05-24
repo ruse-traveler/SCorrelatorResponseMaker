@@ -103,7 +103,7 @@ class SCorrelatorFolder : public SubsysReco {
     void GrabInputNodes();
     void OpenInputFiles();
     void OpenOutputFile();
-    void OpenFile(const string &fileName, TFile *file);
+    void OpenFile(const string& fileName, TFile*& file);
     void SaveOutput();
 
     // analysis methods (*.ana.h)
@@ -113,9 +113,9 @@ class SCorrelatorFolder : public SubsysReco {
     // system methods (*.sys.h)
     void    InitializeMembers();
     void    InitializeTrees();
-    void    PrintMessage(const uint32_t code = 0, const uint64_t nEvts = 0, const uint64_t event = 0);
-    void    PrintDebug(const uint32_t code = 0);
-    void    PrintError(const uint32_t code = 0, const size_t nDrBinEdges = 0, const size_t iDrBin = 0);
+    void    PrintMessage(const uint32_t code);
+    void    PrintDebug(const uint32_t code);
+    void    PrintError(const uint32_t code);
     bool    CheckCriticalParameters();
     int64_t GetEntry(const uint64_t entry, TTree *tree);
     int64_t LoadTree(const uint64_t entry, TTree *tree, int &fCurrent);

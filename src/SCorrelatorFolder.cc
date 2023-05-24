@@ -44,11 +44,11 @@ SCorrelatorFolder::SCorrelatorFolder(const string &name, const bool isComplex, c
   // set debug/batch mode & print debug statement
   m_inDebugMode = doDebug;
   m_inBatchMode = inBatch;
-  if (m_inDebugMode) PrintDebug();
+  if (m_inDebugMode) PrintDebug(0);
 
-  // set module name & announce start of calculation
+  // set module name & announce start of folding
   m_moduleName = name;
-  if (m_inStandaloneMode) PrintMessage();
+  if (m_inStandaloneMode) PrintMessage(0);
 
 }  // end ctor(string, bool, bool)
 
@@ -57,7 +57,7 @@ SCorrelatorFolder::SCorrelatorFolder(const string &name, const bool isComplex, c
 SCorrelatorFolder::~SCorrelatorFolder() {
 
   // print debug statement
-  if (m_inDebugMode) PrintDebug(14);
+  if (m_inDebugMode) PrintDebug(1);
 
   // delete pointers to files
   if (!m_inTrueTree || !m_inRecoTree) {
@@ -105,11 +105,11 @@ int SCorrelatorFolder::End(PHCompositeNode*) {
 void SCorrelatorFolder::Init() {
 
   // print debug statement
-  if (m_inDebugMode) PrintDebug(10);
+  if (m_inDebugMode) PrintDebug(2);
 
   // make sure standalone mode is on & open files
   if (m_inComplexMode) {
-    PrintError(5);
+    PrintError(0);
     assert(m_inStandaloneMode);
   } else {
     OpenInputFiles();
@@ -130,13 +130,16 @@ void SCorrelatorFolder::Init() {
 void SCorrelatorFolder::Analyze() {
 
   // print debug statement
-  if (m_inDebugMode) PrintDebug(12);
+  if (m_inDebugMode) PrintDebug(3);
 
   // make sure standalone mode is on
   if (m_inComplexMode) {
-    PrintError(8);
+    PrintError(0);
     assert(m_inStandaloneMode);
   }
+
+  // announce start of analysis
+  PrintMessage(2);
 
   /* TODO analyzing goes here */
   return;
@@ -148,18 +151,18 @@ void SCorrelatorFolder::Analyze() {
 void SCorrelatorFolder::End() {
 
   // print debug statement
-  if (m_inDebugMode) PrintDebug(13);
+  if (m_inDebugMode) PrintDebug(4);
 
   // make sure standalone mode is on & save output
   if (m_inComplexMode) {
-    PrintError(9);
+    PrintError(0);
     assert(m_inStandaloneMode);
   } else {
     SaveOutput();
   }
 
   // announce end
-  PrintMessage(11);
+  PrintMessage(3);
   return;
 
 }  // end 'StandaloneEnd()'

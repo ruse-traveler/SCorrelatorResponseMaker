@@ -19,7 +19,7 @@ using namespace std;
 void SCorrelatorFolder::InitializeMembers() {
 
   // print debug statement
-  if (m_inDebugMode) PrintDebug(0);
+  if (m_inDebugMode) PrintDebug(19);
 
   // initialize io members
   m_outFile    = 0x0;
@@ -166,15 +166,15 @@ void SCorrelatorFolder::InitializeMembers() {
 void SCorrelatorFolder::InitializeTrees() {
 
   // print debug statement
-  if (m_inDebugMode) PrintDebug(4);
+  if (m_inDebugMode) PrintDebug(20);
 
   // check for trees
   if (!m_inTrueTree) {
-    PrintError(10);
+    PrintError(1);
     assert(m_inTrueTree);
   }
   if (!m_inRecoTree) {
-    PrintError(10);
+    PrintError(2);
     assert(m_inRecoTree);
   }
   m_fTrueCurrent = -1;
@@ -235,26 +235,51 @@ void SCorrelatorFolder::InitializeTrees() {
   m_inRecoTree -> SetBranchAddress("CstPhi",         m_recoCstPhi,     &m_brRecoCstPhi);
 
   // announce tree setting
-  if (m_inStandaloneMode) PrintMessage(2);
+  if (m_inStandaloneMode) PrintMessage(5);
   return;
 
 }  // end 'InitializeTree()'
 
 
 
-void SCorrelatorFolder::PrintMessage(const uint32_t code, const uint64_t nEvts, const uint64_t event) {
+void SCorrelatorFolder::PrintMessage(const uint32_t code) {
 
   // print debug statement
-  if (m_inDebugMode && (m_verbosity > 5)) PrintDebug(22);
+  if (m_inDebugMode && (m_verbosity > 5)) PrintDebug(21);
 
   switch (code) {
+    case 0:
+      cout << "\n  Beginning correlator folding..." << endl;
+      break;
+    case 1:
+      cout << "    Initializing folder:\n"
+           << "      input truth file = " << m_inTrueFileName << "\n"
+           << "      input reco file  = " << m_inRecoFileName
+           << endl;
+      break;
+    case 2:
+      cout << "    Beginning analysis." << endl;
+      break;
+    case 3:
+      cout << "  Correlator folding complete!\n" << endl;
+      break;
+    case 4:
+      cout << "      Saved output." << endl;
+      break;
+    case 5:
+      cout << "    Initialized input trees:\n"
+           << "      input truth tree = " << m_inTrueTreeName << "\n"
+           << "      input reco tree  = " << m_inRecoTreeName
+           << endl;
+      break;
     default:
-      cerr << "WARNING: unknown status code!" << endl;
+      PrintError(code);
       break;
   }
   return;
 
 }  // end 'PrintMessage(uint32_t)'
+
 
 
 void SCorrelatorFolder::PrintDebug(const uint32_t code) {
@@ -265,8 +290,86 @@ void SCorrelatorFolder::PrintDebug(const uint32_t code) {
   }
 
   switch (code) {
+    case 0:
+      cout << "SCorrelatorFolder::SCorrelatorFolder() constructing folder..." << endl;
+      break;
+    case 1:
+      cout << "SCorrelatorFolder::~SCorrelatorFolder() destructing folder..." << endl;
+      break;
+    case 2:
+      cout << "SCorrelatorFolder::Init() initializing in standalone mode..." << endl;
+      break;
+    case 3:
+      cout << "SCorrelatorFolder::Analyze() running analysis in standalone mode..." << endl;
+      break;
+    case 4:
+      cout << "SCorrelatorFolder::End() ending in standalone mode..." << endl;
+      break;
+    case 5:
+      cout << "SCorrelatorFolder::SetInputNodes(string&, string&) setting input node names..." << endl;
+      break;
+    case 6:
+      cout << "SCorrelatorFolder::SetInputFiles(string&, string&) setting input file names..." << endl;
+      break;
+    case 7:
+      cout << "ScorrelatorFolder::SetInputTrees(string&, string&) setting input tree names..." << endl;
+      break;
+    case 8:
+      cout << "SCorrelatorFolder::SetJetMatchQtRange(pair<double, double>) setting jet-matching qT range..." << endl;
+      break;
+    case 9:
+      cout << "SCorrelatorFolder::SetJetMatchDrRange(pair<double, double>) setting jet-matching dR range..." << endl;
+      break;
+    case 10:
+      cout << "SCorrelatorFolder::GetJetMatchQtRange() grabbing jet-matching qT range..." << endl;
+      break;
+    case 11:
+      cout << "SCorrelatorFolder::GetJetMatchDrRange() grabbing jet-matching dR range..." << endl;
+      break;
+    case 12:
+      cout << "SCorrelatorFolder::GrabInputNodes() grabbing input nodes..." << endl;
+      break;
+    case 13:
+      cout << "SCorrelatorFolder::OpenInputFiles() opening input files..." << endl;
+      break;
+    case 14:
+      cout << "SCorrelatorFolder::OpenOutputFile() opening output file..." << endl;
+      break;
+    case 15:
+      cout << "SCorrelatorFolder::OpenFile() opening a single file..." << endl;
+      break;
+    case 16:
+      cout << "SCorrelatorFolder::SaveOutput() saving output..." << endl;
+      break;
+    case 17:
+      cout << "SCorrelatorFolder::DoMatching() matching jets..." << endl;
+      break;
+    case 18:
+      cout << "SCorrelatorFolder::IsJetGoodMatch(double, double) checking if jet match is good..." << endl;
+      break;
+    case 19:
+      cout << "SCorrelatorFolder::InitializeMembers() initializing members..." << endl;
+      break;
+    case 20:
+      cout << "SCorrelatorFolder::InitializeTrees() initializing trees..." << endl;
+      break;
+    case 21:
+      cout << "SCorrelatorFolder::PrintMessage(uint32_t) printing a message..." << endl;
+      break;
+    case 22:
+      cout << "SCorrelatorFolder::PrintError(uint32_t) printing an error..." << endl;
+      break;
+    case 23:
+      cout << "SCorrelatorFolder::CheckCriticalParameters() checking critical parameters..." << endl;
+      break;
+    case 24:
+      cout << "SCorrelatorFolder::GetEntry(uint64_t, TTree*) grabbing entry from a tree..." << endl;
+      break;
+    case 25:
+      cout << "SCorrelatorFolder::LoadTree(uint64_t, TTree*, int) loading a tree..." << endl;
+      break;
     default:
-      cerr << "WARNING: unknown status code!" << endl;
+      PrintError(code);
       break;
   }
   return;
@@ -275,14 +378,28 @@ void SCorrelatorFolder::PrintDebug(const uint32_t code) {
 
 
 
-void SCorrelatorFolder::PrintError(const uint32_t code, const size_t nDrBinEdges, const size_t iDrBin) {
+void SCorrelatorFolder::PrintError(const uint32_t code) {
 
   // print debug statement
-  if (m_inDebugMode && (m_verbosity > 5)) PrintDebug(23);
+  if (m_inDebugMode && (m_verbosity > 5)) PrintDebug(22);
 
   switch (code) {
+    case 0:
+      cerr << "PANIC: trying to call standalone method in complex mode! Aborting!\n" << endl;
+      break;
+    case 1:
+      cerr << "PANIC: couldn't open input file! Aborting!\n" << endl;
+      break;
+    case 2:
+      cerr << "PANIC: no input truth tree! Aborting!\n" << endl;
+      break;
+    case 3:
+      cerr << "PANIC: no input reco tree! Aborting!\n" << endl;
+      break;
     default:
-      cout << "WARNING: unknown status code!" << endl;
+      cerr << "WARNING: unknown status code!\n"
+           << "         code = " << code
+           << endl;
       break;
   }
   return;
@@ -294,7 +411,7 @@ void SCorrelatorFolder::PrintError(const uint32_t code, const size_t nDrBinEdges
 bool SCorrelatorFolder::CheckCriticalParameters() {
 
   // print debugging statement
-  if (m_inDebugMode) PrintDebug(21); 
+  if (m_inDebugMode) PrintDebug(23); 
 
   /* TODO checking goes here */
   return true;
@@ -306,7 +423,7 @@ bool SCorrelatorFolder::CheckCriticalParameters() {
 int64_t SCorrelatorFolder::GetEntry(const uint64_t entry, TTree *tree) {
 
   // print debugging statemet
-  if (m_inDebugMode && (m_verbosity > 5)) PrintDebug(16);
+  if (m_inDebugMode && (m_verbosity > 5)) PrintDebug(24);
 
   int64_t entryStatus(-1);
   if (!tree) {
@@ -323,7 +440,7 @@ int64_t SCorrelatorFolder::GetEntry(const uint64_t entry, TTree *tree) {
 int64_t SCorrelatorFolder::LoadTree(const uint64_t entry, TTree *tree, int &fCurrent) {
 
   // print debugging statemet
-  if (m_inDebugMode && (m_verbosity > 5)) PrintDebug(17);
+  if (m_inDebugMode && (m_verbosity > 5)) PrintDebug(25);
 
   // check for tree & load
   int     treeNumber(-1);

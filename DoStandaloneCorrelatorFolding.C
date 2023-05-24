@@ -25,6 +25,7 @@ using namespace std;
 static const size_t NTrees = 2;
 
 
+
 void DoStandaloneCorrelatorFolding() {
 
   // io parameters

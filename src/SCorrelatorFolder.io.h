@@ -18,8 +18,8 @@ using namespace std;
 
 void SCorrelatorFolder::SetInputNodes(const string &iTrueNodeName, const string &iRecoNodeName) {
 
-  // print debug statemet
-  if (m_inDebugMode) PrintDebug();
+  // print debug statement
+  if (m_inDebugMode) PrintDebug(5);
 
   m_inTrueNodeName = iTrueNodeName;
   m_inRecoNodeName = iRecoNodeName;
@@ -31,8 +31,8 @@ void SCorrelatorFolder::SetInputNodes(const string &iTrueNodeName, const string 
 
 void SCorrelatorFolder::SetInputFiles(const string &iTrueFileName, const string &iRecoFileName) {
 
-  // print debug statemet
-  if (m_inDebugMode) PrintDebug();
+  // print debug statement
+  if (m_inDebugMode) PrintDebug(6);
 
   m_inTrueFileName = iTrueFileName;
   m_inRecoFileName = iRecoFileName;
@@ -44,8 +44,8 @@ void SCorrelatorFolder::SetInputFiles(const string &iTrueFileName, const string 
 
 void SCorrelatorFolder::SetInputTrees(const string &iTrueTreeName, const string &iRecoTreeName) {
 
-  // print debug statemet
-  if (m_inDebugMode) PrintDebug();
+  // print debug statement
+  if (m_inDebugMode) PrintDebug(7);
   
   m_inTrueTreeName = iTrueTreeName;
   m_inRecoTreeName = iRecoTreeName;
@@ -57,8 +57,8 @@ void SCorrelatorFolder::SetInputTrees(const string &iTrueTreeName, const string 
 
 void SCorrelatorFolder::SetJetMatchQtRange(const pair<double, double> qtRange) {
 
-  // print debug statemet
-  if (m_inDebugMode) PrintDebug();
+  // print debug statement
+  if (m_inDebugMode) PrintDebug(8);
 
   m_jetMatchQtRange[0] = qtRange.first;
   m_jetMatchQtRange[1] = qtRange.second;
@@ -70,8 +70,8 @@ void SCorrelatorFolder::SetJetMatchQtRange(const pair<double, double> qtRange) {
 
 void SCorrelatorFolder::SetJetMatchDrRange(const pair<double, double> drRange) {
 
-  // print debug statemet
-  if (m_inDebugMode) PrintDebug();
+  // print debug statement
+  if (m_inDebugMode) PrintDebug(9);
 
   m_jetMatchDrRange[0] = drRange.first;
   m_jetMatchDrRange[1] = drRange.second;
@@ -83,8 +83,8 @@ void SCorrelatorFolder::SetJetMatchDrRange(const pair<double, double> drRange) {
 
 pair<double, double> SCorrelatorFolder::GetJetMatchQtRange() {
 
-  // print debug statemet
-  if (m_inDebugMode) PrintDebug();
+  // print debug statement
+  if (m_inDebugMode) PrintDebug(10);
 
   const pair<double, double> qtRange(m_jetMatchQtRange[0], m_jetMatchQtRange[1]);
   return qtRange;  
@@ -95,8 +95,8 @@ pair<double, double> SCorrelatorFolder::GetJetMatchQtRange() {
 
 pair<double, double> SCorrelatorFolder::GetJetMatchDrRange() {
 
-  // print debug statemet
-  if (m_inDebugMode) PrintDebug();
+  // print debug statement
+  if (m_inDebugMode) PrintDebug(11);
 
   const pair<double, double> drRange(m_jetMatchDrRange[0], m_jetMatchDrRange[1]);
   return drRange;  
@@ -110,7 +110,7 @@ pair<double, double> SCorrelatorFolder::GetJetMatchDrRange() {
 void SCorrelatorFolder::GrabInputNodes() {
 
   // print debug statement
-  if (m_inDebugMode) PrintDebug(3);
+  if (m_inDebugMode) PrintDebug(12);
 
   /* TODO method goes here */
   return;
@@ -122,23 +122,30 @@ void SCorrelatorFolder::GrabInputNodes() {
 void SCorrelatorFolder::OpenInputFiles() {
 
   // print debug statement
-  if (m_inDebugMode) PrintDebug(11);
+  if (m_inDebugMode) PrintDebug(13);
 
   // open files
-  const bool isTrueTreeNotLoaded = (m_inTrueTree == 0);
-  const bool isRecoTreeNotLoaded = (m_inRecoTree == 0);
+  const bool isTrueTreeNotLoaded = (!m_inTrueTree);
+  const bool isRecoTreeNotLoaded = (!m_inRecoTree);
   if (isTrueTreeNotLoaded) OpenFile(m_inTrueFileName, m_inTrueFile);
   if (isRecoTreeNotLoaded) OpenFile(m_inRecoFileName, m_inRecoFile);
 
-  // grab trees
-  m_inTrueFile -> GetObject(m_inTrueTreeName.data(), m_inTrueTree);
-  m_inRecoFile -> GetObject(m_inRecoTreeName.data(), m_inRecoTree);
+  // try to grab trees
+  try {
+    m_inTrueFile -> GetObject(m_inTrueTreeName.data(), m_inTrueTree);
+    m_inRecoFile -> GetObject(m_inRecoTreeName.data(), m_inRecoTree);
+  } catch (...) {
+    PrintError(1);
+    assert(m_inTrueFile && m_inRecoFile);
+  }
+
+  // check if trees exist
   if (!m_inTrueTree) {
-    PrintError(7);
+    PrintError(2);
     assert(m_inTrueTree);
   }
   if (!m_inRecoTree) {
-    PrintError(7);
+    PrintError(3);
     assert(m_inRecoTree);
   }
   return;
@@ -150,7 +157,7 @@ void SCorrelatorFolder::OpenInputFiles() {
 void SCorrelatorFolder::OpenOutputFile() {
 
   // print debug statement
-  if (m_inDebugMode) PrintDebug(15);
+  if (m_inDebugMode) PrintDebug(14);
 
   // open file
   m_outFile = new TFile(m_outFileName.data(), "recreate");
@@ -164,10 +171,10 @@ void SCorrelatorFolder::OpenOutputFile() {
 
 
 
-void SCorrelatorFolder::OpenFile(const string &fileName, TFile *file) {
+void SCorrelatorFolder::OpenFile(const string& fileName, TFile*& file) {
 
   // print debug statement
-  if (m_inDebugMode) PrintDebug();
+  if (m_inDebugMode && (Verbosity() > 7)) PrintDebug(15);
 
   file = (TFile*) gROOT -> GetListOfFiles() -> FindObject(fileName.data());
   if (!file || !(file -> IsOpen())) {
@@ -179,20 +186,20 @@ void SCorrelatorFolder::OpenFile(const string &fileName, TFile *file) {
   }  // end if (file dne or isn't open)
   return;
 
-}  // end 'OpenFile(string&, TFile*)'
+}  // end 'OpenFile(string&, TFile*&)'
 
 
 
 void SCorrelatorFolder::SaveOutput() {
 
   // print debug statement
-  if (m_inDebugMode) PrintDebug(9);
+  if (m_inDebugMode) PrintDebug(16);
 
   m_outFile -> cd();
   /* TODO saving goes here */
 
   // announce saving
-  if (m_inStandaloneMode) PrintMessage(10);
+  if (m_inStandaloneMode) PrintMessage(4);
   return;
 
 }  // end 'SaveOutput()'

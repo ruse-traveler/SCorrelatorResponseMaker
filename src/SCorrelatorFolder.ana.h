@@ -19,7 +19,7 @@ using namespace std;
 void SCorrelatorFolder::DoMatching() {
 
   // print debug statement
-  if (m_inDebugMode) PrintDebug();
+  if (m_inDebugMode) PrintDebug(17);
 
 /* TODO fill in skeleton
   // for matching
@@ -84,9 +84,7 @@ void SCorrelatorFolder::DoMatching() {
 bool SCorrelatorFolder::IsJetGoodMatch(const double qtJet, const double drJet) {
 
   // print debug statement
-  if (m_inDebugMode && (Verbosity() > 2)) {
-    cout << "SCorrelatorJetTree::IsJetGoodMatch(double, double) Checking if jet match is good..." << endl;
-  }
+  if (m_inDebugMode && (Verbosity() > 2)) PrintDebug(18);
 
   const bool isInQtRange = ((qtJet > m_jetMatchQtRange[0]) && (qtJet < m_jetMatchQtRange[1]));
   const bool isInDrRange = ((drJet > m_jetMatchDrRange[0]) && (drJet < m_jetMatchDrRange[1]));
