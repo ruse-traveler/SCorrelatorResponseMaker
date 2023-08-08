@@ -1,20 +1,21 @@
 // ----------------------------------------------------------------------------
-// 'SCorrelatorFolder.cc'
+// 'SCorrelatorResponseMaker.cc'
 // Derek Anderson
 // 04.30.2023
 //
-// A module to unfold, backfold, and/or
-// perform corrections on an n-point
-// energy correlation strength function.
+// A module to match truth to reconstructed
+// jets/particles to derive corrections for
+// an n-point energy correlation strength
+// function.
 // ----------------------------------------------------------------------------
 
-#define SCORRELATORFOLDER_CC
+#define SCORRELATORRESPONSEMAKER_CC
 
 // user includes
-#include "SCorrelatorFolder.h"
-#include "SCorrelatorFolder.io.h"
-#include "SCorrelatorFolder.sys.h"
-#include "SCorrelatorFolder.ana.h"
+#include "SCorrelatorResponseMaker.h"
+#include "SCorrelatorResponseMaker.io.h"
+#include "SCorrelatorResponseMaker.sys.h"
+#include "SCorrelatorResponseMaker.ana.h"
 
 using namespace std;
 
@@ -22,7 +23,7 @@ using namespace std;
 
 // ctor/dtor ------------------------------------------------------------------
 
-SCorrelatorFolder::SCorrelatorFolder(const string &name, const bool isComplex, const bool doDebug, const bool inBatch) : SubsysReco(name) {
+SCorrelatorResponseMaker::SCorrelatorResponseMaker(const string &name, const bool isComplex, const bool doDebug, const bool inBatch) : SubsysReco(name) {
 
   // initialize internal variables
   InitializeMembers();
@@ -54,7 +55,7 @@ SCorrelatorFolder::SCorrelatorFolder(const string &name, const bool isComplex, c
 
 
 
-SCorrelatorFolder::~SCorrelatorFolder() {
+SCorrelatorResponseMaker::~SCorrelatorResponseMaker() {
 
   // print debug statement
   if (m_inDebugMode) PrintDebug(1);
@@ -72,7 +73,7 @@ SCorrelatorFolder::~SCorrelatorFolder() {
 
 // F4A methods ----------------------------------------------------------------
 
-int SCorrelatorFolder::Init(PHCompositeNode*) {
+int SCorrelatorResponseMaker::Init(PHCompositeNode*) {
 
   /* TODO init will go here */
   return Fun4AllReturnCodes::EVENT_OK;
@@ -82,7 +83,7 @@ int SCorrelatorFolder::Init(PHCompositeNode*) {
 
 
 
-int SCorrelatorFolder::process_event(PHCompositeNode*) {
+int SCorrelatorResponseMaker::process_event(PHCompositeNode*) {
 
   /* TODO event processing will go here */
   return Fun4AllReturnCodes::EVENT_OK;
@@ -91,7 +92,7 @@ int SCorrelatorFolder::process_event(PHCompositeNode*) {
 
 
 
-int SCorrelatorFolder::End(PHCompositeNode*) {
+int SCorrelatorResponseMaker::End(PHCompositeNode*) {
 
   /* TODO end will go here */
   return Fun4AllReturnCodes::EVENT_OK;
@@ -102,7 +103,7 @@ int SCorrelatorFolder::End(PHCompositeNode*) {
 
 // standalone-only methods ----------------------------------------------------
 
-void SCorrelatorFolder::Init() {
+void SCorrelatorResponseMaker::Init() {
 
   // print debug statement
   if (m_inDebugMode) PrintDebug(2);
@@ -127,7 +128,7 @@ void SCorrelatorFolder::Init() {
 
 
 
-void SCorrelatorFolder::Analyze() {
+void SCorrelatorResponseMaker::Analyze() {
 
   // print debug statement
   if (m_inDebugMode) PrintDebug(3);
@@ -148,7 +149,7 @@ void SCorrelatorFolder::Analyze() {
 
 
 
-void SCorrelatorFolder::End() {
+void SCorrelatorResponseMaker::End() {
 
   // print debug statement
   if (m_inDebugMode) PrintDebug(4);

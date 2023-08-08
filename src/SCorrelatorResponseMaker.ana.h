@@ -1,11 +1,12 @@
 // ----------------------------------------------------------------------------
-// 'SCorrelatorFolder.ana.h'
+// 'SCorrelatorResponseMaker.ana.h'
 // Derek Anderson
 // 02.14.2023
 //
-// A module to unfold, backfold, and/or
-// perform corrections on an n-point
-// energy correlation strength function.
+// A module to match truth to reconstructed
+// jets/particles to derive corrections for
+// an n-point energy correlation strength
+// function.
 // ----------------------------------------------------------------------------
 
 #pragma once
@@ -16,7 +17,7 @@ using namespace std;
 
 // analysis methods -----------------------------------------------------------
 
-void SCorrelatorFolder::DoMatching() {
+void SCorrelatorResponseMaker::DoMatching() {
 
   // print debug statement
   if (m_inDebugMode) PrintDebug(17);
@@ -81,7 +82,7 @@ void SCorrelatorFolder::DoMatching() {
 
 
 
-bool SCorrelatorFolder::IsJetGoodMatch(const double qtJet, const double drJet) {
+bool SCorrelatorResponseMaker::IsJetGoodMatch(const double qtJet, const double drJet) {
 
   // print debug statement
   if (m_inDebugMode && (Verbosity() > 2)) PrintDebug(18);

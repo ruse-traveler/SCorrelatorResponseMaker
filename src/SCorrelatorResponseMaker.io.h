@@ -1,11 +1,12 @@
 // ----------------------------------------------------------------------------
-// 'SCorrelatorFolder.io.h'
+// 'SCorrelatorResponseMaker.io.h'
 // Derek Anderson
 // 04.30.2023
 //
-// A module to unfold, backfold, and/or
-// perform corrections on an n-point
-// energy correlation strength function.
+// A module to match truth to reconstructed
+// jets/particles to derive corrections for
+// an n-point energy correlation strength
+// function.
 // ----------------------------------------------------------------------------
 
 #pragma once
@@ -16,7 +17,7 @@ using namespace std;
 
 // public i/o methods ---------------------------------------------------------
 
-void SCorrelatorFolder::SetInputNodes(const string &iTrueNodeName, const string &iRecoNodeName) {
+void SCorrelatorResponseMaker::SetInputNodes(const string &iTrueNodeName, const string &iRecoNodeName) {
 
   // print debug statement
   if (m_inDebugMode) PrintDebug(5);
@@ -29,7 +30,7 @@ void SCorrelatorFolder::SetInputNodes(const string &iTrueNodeName, const string 
 
 
 
-void SCorrelatorFolder::SetInputFiles(const string &iTrueFileName, const string &iRecoFileName) {
+void SCorrelatorResponseMaker::SetInputFiles(const string &iTrueFileName, const string &iRecoFileName) {
 
   // print debug statement
   if (m_inDebugMode) PrintDebug(6);
@@ -42,7 +43,7 @@ void SCorrelatorFolder::SetInputFiles(const string &iTrueFileName, const string 
 
 
 
-void SCorrelatorFolder::SetInputTrees(const string &iTrueTreeName, const string &iRecoTreeName) {
+void SCorrelatorResponseMaker::SetInputTrees(const string &iTrueTreeName, const string &iRecoTreeName) {
 
   // print debug statement
   if (m_inDebugMode) PrintDebug(7);
@@ -55,7 +56,7 @@ void SCorrelatorFolder::SetInputTrees(const string &iTrueTreeName, const string 
 
 
 
-void SCorrelatorFolder::SetJetMatchQtRange(const pair<double, double> qtRange) {
+void SCorrelatorResponseMaker::SetJetMatchQtRange(const pair<double, double> qtRange) {
 
   // print debug statement
   if (m_inDebugMode) PrintDebug(8);
@@ -68,7 +69,7 @@ void SCorrelatorFolder::SetJetMatchQtRange(const pair<double, double> qtRange) {
 
 
 
-void SCorrelatorFolder::SetJetMatchDrRange(const pair<double, double> drRange) {
+void SCorrelatorResponseMaker::SetJetMatchDrRange(const pair<double, double> drRange) {
 
   // print debug statement
   if (m_inDebugMode) PrintDebug(9);
@@ -81,7 +82,7 @@ void SCorrelatorFolder::SetJetMatchDrRange(const pair<double, double> drRange) {
 
 
 
-pair<double, double> SCorrelatorFolder::GetJetMatchQtRange() {
+pair<double, double> SCorrelatorResponseMaker::GetJetMatchQtRange() {
 
   // print debug statement
   if (m_inDebugMode) PrintDebug(10);
@@ -93,7 +94,7 @@ pair<double, double> SCorrelatorFolder::GetJetMatchQtRange() {
 
 
 
-pair<double, double> SCorrelatorFolder::GetJetMatchDrRange() {
+pair<double, double> SCorrelatorResponseMaker::GetJetMatchDrRange() {
 
   // print debug statement
   if (m_inDebugMode) PrintDebug(11);
@@ -107,7 +108,7 @@ pair<double, double> SCorrelatorFolder::GetJetMatchDrRange() {
 
 // private i/o methods --------------------------------------------------------
 
-void SCorrelatorFolder::GrabInputNodes() {
+void SCorrelatorResponseMaker::GrabInputNodes() {
 
   // print debug statement
   if (m_inDebugMode) PrintDebug(12);
@@ -119,7 +120,7 @@ void SCorrelatorFolder::GrabInputNodes() {
 
 
 
-void SCorrelatorFolder::OpenInputFiles() {
+void SCorrelatorResponseMaker::OpenInputFiles() {
 
   // print debug statement
   if (m_inDebugMode) PrintDebug(13);
@@ -154,7 +155,7 @@ void SCorrelatorFolder::OpenInputFiles() {
 
 
 
-void SCorrelatorFolder::OpenOutputFile() {
+void SCorrelatorResponseMaker::OpenOutputFile() {
 
   // print debug statement
   if (m_inDebugMode) PrintDebug(14);
@@ -171,7 +172,7 @@ void SCorrelatorFolder::OpenOutputFile() {
 
 
 
-void SCorrelatorFolder::OpenFile(const string& fileName, TFile*& file) {
+void SCorrelatorResponseMaker::OpenFile(const string& fileName, TFile*& file) {
 
   // print debug statement
   if (m_inDebugMode && (Verbosity() > 7)) PrintDebug(15);
@@ -190,7 +191,7 @@ void SCorrelatorFolder::OpenFile(const string& fileName, TFile*& file) {
 
 
 
-void SCorrelatorFolder::SaveOutput() {
+void SCorrelatorResponseMaker::SaveOutput() {
 
   // print debug statement
   if (m_inDebugMode) PrintDebug(16);

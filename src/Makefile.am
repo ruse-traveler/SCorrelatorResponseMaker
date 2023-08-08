@@ -1,7 +1,7 @@
 AUTOMAKE_OPTIONS = foreign
 
 lib_LTLIBRARIES = \
-    libscorrelatorfolder.la
+    libscorrelatorresponsemaker.la
 
 AM_LDFLAGS = \
   -L$(libdir) \
@@ -13,18 +13,18 @@ AM_CPPFLAGS = \
   -I$(ROOTSYS)/include
 
 pkginclude_HEADERS = \
-  SCorrelatorFolder.h
+  SCorrelatorResponseMaker.h
 
 if ! MAKEROOT6
   ROOT5_DICTS = \
-    SCorrelatorFolder_Dict.cc
+    SCorrelatorResponseMaker_Dict.cc
 endif
 
-libscorrelatorfolder_la_SOURCES = \
+libscorrelatorresponsemaker_la_SOURCES = \
   $(ROOT5_DICTS) \
-  SCorrelatorFolder.cc
+  SCorrelatorResponseMaker.cc
 
-libscorrelatorfolder_la_LDFLAGS = \
+libscorrelatorresponsemaker_la_LDFLAGS = \
   -L$(libdir) \
   -L$(OFFLINE_MAIN)/lib \
   -lcalo_io \
@@ -42,7 +42,7 @@ noinst_PROGRAMS = \
   testexternals
 
 testexternals_SOURCES = testexternals.C
-testexternals_LDADD = libscorrelatorfolder.la
+testexternals_LDADD = libscorrelatorresponsemaker.la
 
 testexternals.C:
 	echo "//*** this is a generated file. Do not commit, do not edit" > $@

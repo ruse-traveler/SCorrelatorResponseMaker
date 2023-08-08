@@ -1,11 +1,12 @@
 // ----------------------------------------------------------------------------
-// 'SCorrelatorFolder.sys.h'
+// 'SCorrelatorResponseMaker.sys.h'
 // Derek Anderson
 // 01.27.2023
 //
-// A module to unfold, backfold, and/or
-// perform corrections on an n-point
-// energy correlation strength function.
+// A module to match truth to reconstructed
+// jets/particles to derive corrections for
+// an n-point energy correlation strength
+// function.
 // ----------------------------------------------------------------------------
 
 #pragma once
@@ -16,7 +17,7 @@ using namespace std;
 
 // system methods -------------------------------------------------------------
 
-void SCorrelatorFolder::InitializeMembers() {
+void SCorrelatorResponseMaker::InitializeMembers() {
 
   // print debug statement
   if (m_inDebugMode) PrintDebug(19);
@@ -163,7 +164,7 @@ void SCorrelatorFolder::InitializeMembers() {
 
 
 
-void SCorrelatorFolder::InitializeTrees() {
+void SCorrelatorResponseMaker::InitializeTrees() {
 
   // print debug statement
   if (m_inDebugMode) PrintDebug(20);
@@ -242,7 +243,7 @@ void SCorrelatorFolder::InitializeTrees() {
 
 
 
-void SCorrelatorFolder::PrintMessage(const uint32_t code) {
+void SCorrelatorResponseMaker::PrintMessage(const uint32_t code) {
 
   // print debug statement
   if (m_inDebugMode && (m_verbosity > 5)) PrintDebug(21);
@@ -282,91 +283,91 @@ void SCorrelatorFolder::PrintMessage(const uint32_t code) {
 
 
 
-void SCorrelatorFolder::PrintDebug(const uint32_t code) {
+void SCorrelatorResponseMaker::PrintDebug(const uint32_t code) {
 
   // print debug statement
   if (m_inDebugMode && (m_verbosity > 7)) {
-    cout << "SCorrelatorFolder::PrintDebug(uint32_t) printing a debugging statement..." << endl;
+    cout << "SCorrelatorResponseMaker::PrintDebug(uint32_t) printing a debugging statement..." << endl;
   }
 
   switch (code) {
     case 0:
-      cout << "SCorrelatorFolder::SCorrelatorFolder() constructing folder..." << endl;
+      cout << "SCorrelatorResponseMaker::SCorrelatorResponseMaker() constructing folder..." << endl;
       break;
     case 1:
-      cout << "SCorrelatorFolder::~SCorrelatorFolder() destructing folder..." << endl;
+      cout << "SCorrelatorResponseMaker::~SCorrelatorResponseMaker() destructing folder..." << endl;
       break;
     case 2:
-      cout << "SCorrelatorFolder::Init() initializing in standalone mode..." << endl;
+      cout << "SCorrelatorResponseMaker::Init() initializing in standalone mode..." << endl;
       break;
     case 3:
-      cout << "SCorrelatorFolder::Analyze() running analysis in standalone mode..." << endl;
+      cout << "SCorrelatorResponseMaker::Analyze() running analysis in standalone mode..." << endl;
       break;
     case 4:
-      cout << "SCorrelatorFolder::End() ending in standalone mode..." << endl;
+      cout << "SCorrelatorResponseMaker::End() ending in standalone mode..." << endl;
       break;
     case 5:
-      cout << "SCorrelatorFolder::SetInputNodes(string&, string&) setting input node names..." << endl;
+      cout << "SCorrelatorResponseMaker::SetInputNodes(string&, string&) setting input node names..." << endl;
       break;
     case 6:
-      cout << "SCorrelatorFolder::SetInputFiles(string&, string&) setting input file names..." << endl;
+      cout << "SCorrelatorResponseMaker::SetInputFiles(string&, string&) setting input file names..." << endl;
       break;
     case 7:
-      cout << "ScorrelatorFolder::SetInputTrees(string&, string&) setting input tree names..." << endl;
+      cout << "ScorrelatorResponseMaker::SetInputTrees(string&, string&) setting input tree names..." << endl;
       break;
     case 8:
-      cout << "SCorrelatorFolder::SetJetMatchQtRange(pair<double, double>) setting jet-matching qT range..." << endl;
+      cout << "SCorrelatorResponseMaker::SetJetMatchQtRange(pair<double, double>) setting jet-matching qT range..." << endl;
       break;
     case 9:
-      cout << "SCorrelatorFolder::SetJetMatchDrRange(pair<double, double>) setting jet-matching dR range..." << endl;
+      cout << "SCorrelatorResponseMaker::SetJetMatchDrRange(pair<double, double>) setting jet-matching dR range..." << endl;
       break;
     case 10:
-      cout << "SCorrelatorFolder::GetJetMatchQtRange() grabbing jet-matching qT range..." << endl;
+      cout << "SCorrelatorResponseMaker::GetJetMatchQtRange() grabbing jet-matching qT range..." << endl;
       break;
     case 11:
-      cout << "SCorrelatorFolder::GetJetMatchDrRange() grabbing jet-matching dR range..." << endl;
+      cout << "SCorrelatorResponseMaker::GetJetMatchDrRange() grabbing jet-matching dR range..." << endl;
       break;
     case 12:
-      cout << "SCorrelatorFolder::GrabInputNodes() grabbing input nodes..." << endl;
+      cout << "SCorrelatorResponseMaker::GrabInputNodes() grabbing input nodes..." << endl;
       break;
     case 13:
-      cout << "SCorrelatorFolder::OpenInputFiles() opening input files..." << endl;
+      cout << "SCorrelatorResponseMaker::OpenInputFiles() opening input files..." << endl;
       break;
     case 14:
-      cout << "SCorrelatorFolder::OpenOutputFile() opening output file..." << endl;
+      cout << "SCorrelatorResponseMaker::OpenOutputFile() opening output file..." << endl;
       break;
     case 15:
-      cout << "SCorrelatorFolder::OpenFile() opening a single file..." << endl;
+      cout << "SCorrelatorResponseMaker::OpenFile() opening a single file..." << endl;
       break;
     case 16:
-      cout << "SCorrelatorFolder::SaveOutput() saving output..." << endl;
+      cout << "SCorrelatorResponseMaker::SaveOutput() saving output..." << endl;
       break;
     case 17:
-      cout << "SCorrelatorFolder::DoMatching() matching jets..." << endl;
+      cout << "SCorrelatorResponseMaker::DoMatching() matching jets..." << endl;
       break;
     case 18:
-      cout << "SCorrelatorFolder::IsJetGoodMatch(double, double) checking if jet match is good..." << endl;
+      cout << "SCorrelatorResponseMaker::IsJetGoodMatch(double, double) checking if jet match is good..." << endl;
       break;
     case 19:
-      cout << "SCorrelatorFolder::InitializeMembers() initializing members..." << endl;
+      cout << "SCorrelatorResponseMaker::InitializeMembers() initializing members..." << endl;
       break;
     case 20:
-      cout << "SCorrelatorFolder::InitializeTrees() initializing trees..." << endl;
+      cout << "SCorrelatorResponseMaker::InitializeTrees() initializing trees..." << endl;
       break;
     case 21:
-      cout << "SCorrelatorFolder::PrintMessage(uint32_t) printing a message..." << endl;
+      cout << "SCorrelatorResponseMaker::PrintMessage(uint32_t) printing a message..." << endl;
       break;
     case 22:
-      cout << "SCorrelatorFolder::PrintError(uint32_t) printing an error..." << endl;
+      cout << "SCorrelatorResponseMaker::PrintError(uint32_t) printing an error..." << endl;
       break;
     case 23:
-      cout << "SCorrelatorFolder::CheckCriticalParameters() checking critical parameters..." << endl;
+      cout << "SCorrelatorResponseMaker::CheckCriticalParameters() checking critical parameters..." << endl;
       break;
     case 24:
-      cout << "SCorrelatorFolder::GetEntry(uint64_t, TTree*) grabbing entry from a tree..." << endl;
+      cout << "SCorrelatorResponseMaker::GetEntry(uint64_t, TTree*) grabbing entry from a tree..." << endl;
       break;
     case 25:
-      cout << "SCorrelatorFolder::LoadTree(uint64_t, TTree*, int) loading a tree..." << endl;
+      cout << "SCorrelatorResponseMaker::LoadTree(uint64_t, TTree*, int) loading a tree..." << endl;
       break;
     default:
       PrintError(code);
@@ -378,7 +379,7 @@ void SCorrelatorFolder::PrintDebug(const uint32_t code) {
 
 
 
-void SCorrelatorFolder::PrintError(const uint32_t code) {
+void SCorrelatorResponseMaker::PrintError(const uint32_t code) {
 
   // print debug statement
   if (m_inDebugMode && (m_verbosity > 5)) PrintDebug(22);
@@ -408,7 +409,7 @@ void SCorrelatorFolder::PrintError(const uint32_t code) {
 
 
 
-bool SCorrelatorFolder::CheckCriticalParameters() {
+bool SCorrelatorResponseMaker::CheckCriticalParameters() {
 
   // print debugging statement
   if (m_inDebugMode) PrintDebug(23); 
@@ -420,7 +421,7 @@ bool SCorrelatorFolder::CheckCriticalParameters() {
 
 
 
-int64_t SCorrelatorFolder::GetEntry(const uint64_t entry, TTree *tree) {
+int64_t SCorrelatorResponseMaker::GetEntry(const uint64_t entry, TTree *tree) {
 
   // print debugging statemet
   if (m_inDebugMode && (m_verbosity > 5)) PrintDebug(24);
@@ -437,7 +438,7 @@ int64_t SCorrelatorFolder::GetEntry(const uint64_t entry, TTree *tree) {
 
 
 
-int64_t SCorrelatorFolder::LoadTree(const uint64_t entry, TTree *tree, int &fCurrent) {
+int64_t SCorrelatorResponseMaker::LoadTree(const uint64_t entry, TTree *tree, int &fCurrent) {
 
   // print debugging statemet
   if (m_inDebugMode && (m_verbosity > 5)) PrintDebug(25);

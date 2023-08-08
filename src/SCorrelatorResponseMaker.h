@@ -1,15 +1,16 @@
 // ----------------------------------------------------------------------------
-// 'SCorrelatorFolder.h'
+// 'SCorrelatorResponseMaker.h'
 // Derek Anderson
 // 04.30.2023
 //
-// A module to unfold, backfold, and/or
-// perform corrections on an n-point
-// energy correlation strength function.
+// A module to match truth to reconstructed
+// jets/particles to derive corrections for
+// an n-point energy correlation strength
+// function.
 // ----------------------------------------------------------------------------
 
-#ifndef SCORRELATORFOLDER_H
-#define SCORRELATORFOLDER_H
+#ifndef SCORRELATORRESPONSEMAKER_H
+#define SCORRELATORRESPONSEMAKER_H
 
 // standard c includes
 #include <cmath>
@@ -43,15 +44,15 @@ using namespace std;
 
 
 
-// SCorrelatorFolder definition -----------------------------------------------
+// SCorrelatorResponseMaker definition -----------------------------------------------
 
-class SCorrelatorFolder : public SubsysReco {
+class SCorrelatorResponseMaker : public SubsysReco {
 
   public:
 
     // ctor/dtor
-    SCorrelatorFolder(const string &name = "SCorrelatorFolder", const bool isComplex = false, const bool doDebug = false, const bool inBatch = false);
-    ~SCorrelatorFolder() override;
+    SCorrelatorResponseMaker(const string &name = "SCorrelatorResponseMaker", const bool isComplex = false, const bool doDebug = false, const bool inBatch = false);
+    ~SCorrelatorResponseMaker() override;
 
     // F4A methods
     int Init(PHCompositeNode*)          override;
