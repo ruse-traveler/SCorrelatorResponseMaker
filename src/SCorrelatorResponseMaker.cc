@@ -26,7 +26,7 @@ using namespace std;
 SCorrelatorResponseMaker::SCorrelatorResponseMaker(const string &name, const bool isComplex, const bool doDebug, const bool inBatch) : SubsysReco(name) {
 
   // initialize internal variables
-  InitializeMembers();
+  InitializeAddresses();
 
   // set standalone/complex mode
   if (isComplex) {

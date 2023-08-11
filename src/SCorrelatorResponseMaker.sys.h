@@ -17,34 +17,10 @@ using namespace std;
 
 // system methods -------------------------------------------------------------
 
-void SCorrelatorResponseMaker::InitializeMembers() {
+void SCorrelatorResponseMaker::InitializeAddresses() {
 
   // print debug statement
   if (m_inDebugMode) PrintDebug(19);
-
-  // initialize io members
-  m_outFile    = 0x0;
-  m_inTrueFile = 0x0;
-  m_inRecoFile = 0x0;
-  m_inTrueTree = 0x0;
-  m_inRecoTree = 0x0;
-
-  // initialize system members
-  m_fTrueCurrent     = 0;
-  m_fRecoCurrent     = 0;
-  m_verbosity        = 0;
-  m_inDebugMode      = false;
-  m_inBatchMode      = false;
-  m_inComplexMode    = false;
-  m_inStandaloneMode = true;
-  m_moduleName       = "";
-  m_inTrueFileName   = "";
-  m_inRecoFileName   = "";
-  m_inTrueNodeName   = "";
-  m_inRecoNodeName   = "";
-  m_inTrueTreeName   = "";
-  m_inRecoTreeName   = "";
-  m_outFileName      = "";
 
   // initialize input truth tree address members
   m_trueNumJets       = 0;
@@ -99,68 +75,48 @@ void SCorrelatorResponseMaker::InitializeMembers() {
   m_recoCstEta     = 0x0;
   m_recoCstPhi     = 0x0;
 
-  // initialize matching parameters
-  m_minPercentMatchCsts = 0;
-  m_jetMatchQtRange[0]  = 0.;
-  m_jetMatchQtRange[1]  = 0.;
-  m_jetMatchDrRange[0]  = 0.;
-  m_jetMatchDrRange[1]  = 0.;
-
-  // initialize input truth tree branch members
-  m_brTrueNumJets       = 0x0;
-  m_brTrueNumChrgPars   = 0x0;
-  m_brTruePartonID[0]   = 0x0;
-  m_brTruePartonID[1]   = 0x0;
-  m_brTruePartonMomX[0] = 0x0;
-  m_brTruePartonMomX[1] = 0x0;
-  m_brTruePartonMomY[0] = 0x0;
-  m_brTruePartonMomY[1] = 0x0;
-  m_brTruePartonMomZ[0] = 0x0;
-  m_brTruePartonMomZ[1] = 0x0;
-  m_brTrueVtxX          = 0x0;
-  m_brTrueVtxY          = 0x0;
-  m_brTrueVtxZ          = 0x0;
-  m_brTrueSumPar        = 0x0;
-  m_brTrueJetID         = 0x0;
-  m_brTrueJetNumCst     = 0x0;
-  m_brTrueJetEne        = 0x0;
-  m_brTrueJetPt         = 0x0;
-  m_brTrueJetEta        = 0x0;
-  m_brTrueJetPhi        = 0x0;
-  m_brTrueJetArea       = 0x0;
-  m_brTrueCstID         = 0x0;
-  m_brTrueCstZ          = 0x0;
-  m_brTrueCstDr         = 0x0;
-  m_brTrueCstEne        = 0x0;
-  m_brTrueCstJt         = 0x0;
-  m_brTrueCstEta        = 0x0;
-  m_brTrueCstPhi        = 0x0;
-
-  // initialize input reco. tree branch members
-  m_brRecoNumJets    = 0x0;
-  m_brRecoNumTrks    = 0x0;
-  m_brRecoVtxX       = 0x0;
-  m_brRecoVtxY       = 0x0;
-  m_brRecoVtxZ       = 0x0;
-  m_brRecoSumECal    = 0x0;
-  m_brRecoSumHCal    = 0x0;
-  m_brRecoJetID      = 0x0;
-  m_brRecoJetNumCst  = 0x0;
-  m_brRecoJetEne     = 0x0;
-  m_brRecoJetPt      = 0x0;
-  m_brRecoJetEta     = 0x0;
-  m_brRecoJetPhi     = 0x0;
-  m_brRecoJetArea    = 0x0;
-  m_brRecoCstMatchID = 0x0;
-  m_brRecoCstZ       = 0x0;
-  m_brRecoCstDr      = 0x0;
-  m_brRecoCstEne     = 0x0;
-  m_brRecoCstJt      = 0x0;
-  m_brRecoCstEta     = 0x0;
-  m_brRecoCstPhi     = 0x0;
+  // initialize output response tree address members
+  m_matchNumJets.first     = 0.;
+  m_matchNumJets.second    = 0.;
+  m_matchNumTrks.first     = 0.;
+  m_matchNumTrks.second    = 0.;
+  m_matchVtxX.first        = 0.;
+  m_matchVtxX.second       = 0.;
+  m_matchVtxY.first        = 0.;
+  m_matchVtxY.second       = 0.;
+  m_matchVtxZ.first        = 0.;
+  m_matchVtxZ.second       = 0.;
+  m_matchJetID.first       = 0x0;
+  m_matchJetID.second      = 0x0;
+  m_matchJetNumCst.first   = 0x0;
+  m_matchJetNumCst.second  = 0x0;
+  m_matchJetEne.first      = 0x0;
+  m_matchJetEne.second     = 0x0;
+  m_matchJetPt.first       = 0x0;
+  m_matchJetPt.second      = 0x0;
+  m_matchJetEta.first      = 0x0;
+  m_matchJetEta.second     = 0x0;
+  m_matchJetPhi.first      = 0x0;
+  m_matchJetPhi.second     = 0x0;
+  m_matchJetArea.first     = 0x0;
+  m_matchJetArea.second    = 0x0;
+  m_matchCstMatchID.first  = 0x0;
+  m_matchCstMatchID.second = 0x0;
+  m_matchCstZ.first        = 0x0;
+  m_matchCstZ.second       = 0x0;
+  m_matchCstDr.first       = 0x0;
+  m_matchCstDr.second      = 0x0;
+  m_matchCstEne.first      = 0x0;
+  m_matchCstEne.second     = 0x0;
+  m_matchCstJt.first       = 0x0;
+  m_matchCstJt.second      = 0x0;
+  m_matchCstEta.first      = 0x0;
+  m_matchCstEta.second     = 0x0;
+  m_matchCstPhi.first      = 0x0;
+  m_matchCstPhi.second     = 0x0;
   return;
 
-}  // end 'InitializeMembers()'
+}  // end 'InitializeAddresses()'
 
 
 
@@ -349,7 +305,7 @@ void SCorrelatorResponseMaker::PrintDebug(const uint32_t code) {
       cout << "SCorrelatorResponseMaker::IsJetGoodMatch(double, double) checking if jet match is good..." << endl;
       break;
     case 19:
-      cout << "SCorrelatorResponseMaker::InitializeMembers() initializing members..." << endl;
+      cout << "SCorrelatorResponseMaker::InitializeAddresses() initializing members..." << endl;
       break;
     case 20:
       cout << "SCorrelatorResponseMaker::InitializeTrees() initializing trees..." << endl;
