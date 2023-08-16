@@ -128,6 +128,7 @@ class SCorrelatorResponseMaker : public SubsysReco {
     TFile* m_inRecoFile = NULL;
     TTree* m_inTrueTree = NULL;
     TTree* m_inRecoTree = NULL;
+    TTree* m_matchTree  = NULL;
 
     // system members
     int    m_fTrueCurrent     = 0;
@@ -213,7 +214,7 @@ class SCorrelatorResponseMaker : public SubsysReco {
     pair<vector<double>*, vector<double>*>                 m_matchJetEta;
     pair<vector<double>*, vector<double>*>                 m_matchJetPhi;
     pair<vector<double>*, vector<double>*>                 m_matchJetArea;
-    pair<vector<vector<int>>*, vector<vector<int>>*>       m_matchCstMatchID;
+    pair<vector<vector<int>>*, vector<vector<int>>*>       m_matchCstID;
     pair<vector<vector<double>>*, vector<vector<double>>*> m_matchCstZ;
     pair<vector<vector<double>>*, vector<vector<double>>*> m_matchCstDr;
     pair<vector<vector<double>>*, vector<vector<double>>*> m_matchCstEne;
@@ -269,26 +270,6 @@ class SCorrelatorResponseMaker : public SubsysReco {
     TBranch* m_brRecoCstJt      = NULL;
     TBranch* m_brRecoCstEta     = NULL;
     TBranch* m_brRecoCstPhi     = NULL;
-
-   // output response tree branch members
-   TBranch* m_brMatchNumJets[CONST::NLEVELS]     = {NULL, NULL};
-   TBranch* m_brMatchNumChrgPars[CONST::NLEVELS] = {NULL, NULL};
-   TBranch* m_brMatchVtxX[CONST::NLEVELS]        = {NULL, NULL};
-   TBranch* m_brMatchVtxY[CONST::NLEVELS]        = {NULL, NULL};
-   TBranch* m_brMatchVtxZ[CONST::NLEVELS]        = {NULL, NULL};
-   TBranch* m_brMatchJetID[CONST::NLEVELS]       = {NULL, NULL};
-   TBranch* m_brMatchJetNumCst[CONST::NLEVELS]   = {NULL, NULL};
-   TBranch* m_brMatchJetEne[CONST::NLEVELS]      = {NULL, NULL};
-   TBranch* m_brMatchJetPt[CONST::NLEVELS]       = {NULL, NULL};
-   TBranch* m_brMatchJetEta[CONST::NLEVELS]      = {NULL, NULL};
-   TBranch* m_brMatchJetPhi[CONST::NLEVELS]      = {NULL, NULL};
-   TBranch* m_brMatchJetArea[CONST::NLEVELS]     = {NULL, NULL};
-   TBranch* m_brMatchCstZ[CONST::NLEVELS]        = {NULL, NULL};
-   TBranch* m_brMatchCstDr[CONST::NLEVELS]       = {NULL, NULL};
-   TBranch* m_brMatchCstEne[CONST::NLEVELS]      = {NULL, NULL};
-   TBranch* m_brMatchCstJt[CONST::NLEVELS]       = {NULL, NULL};
-   TBranch* m_brMatchCstEta[CONST::NLEVELS]      = {NULL, NULL};
-   TBranch* m_brMatchCstPhi[CONST::NLEVELS]      = {NULL, NULL};
 
 };
 

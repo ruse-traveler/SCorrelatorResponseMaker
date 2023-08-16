@@ -196,8 +196,8 @@ void SCorrelatorResponseMaker::SaveOutput() {
   // print debug statement
   if (m_inDebugMode) PrintDebug(16);
 
-  m_outFile -> cd();
-  /* TODO saving goes here */
+  m_outFile   -> cd();
+  m_matchTree -> Write();
 
   // announce saving
   if (m_inStandaloneMode) PrintMessage(4);
