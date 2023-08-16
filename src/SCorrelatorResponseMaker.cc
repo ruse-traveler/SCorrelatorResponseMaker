@@ -62,9 +62,16 @@ SCorrelatorResponseMaker::~SCorrelatorResponseMaker() {
 
   // delete pointers to files
   if (!m_inTrueTree || !m_inRecoTree) {
-    if (!m_inTrueTree) delete m_inTrueFile;
-    if (!m_inRecoTree) delete m_inRecoFile;
+    if (!m_inTrueTree) {
+      delete m_inTrueFile;
+      m_inTrueFile = NULL;
+    }
+    if (!m_inRecoTree) {
+      delete m_inRecoFile;
+      m_inRecoFile = NULL;
+    }
     delete m_outFile;
+    m_outFile = NULL;
   }
 
 }  // end dtor
