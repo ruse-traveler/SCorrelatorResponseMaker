@@ -22,61 +22,90 @@ void SCorrelatorResponseMaker::DoMatching() {
   // print debug statement
   if (m_inDebugMode) PrintDebug(17);
 
-/* TODO fill in skeleton
-  // for matching
-  vector<fastjet::PseudoJet> trueCsts;
-  vector<fastjet::PseudoJet> recoCsts;
-  trueCsts.clear();
-  recoCsts.clear();
+  // for constituent matching
+  pair<vector<int>,    vector<int>>    vecCstID;
+  pair<vector<double>, vector<double>> vecCstZ;
+  pair<vector<double>, vector<double>> vecCstDr;
+  pair<vector<double>, vector<double>> vecCstEne;
+  pair<vector<double>, vector<double>> vecCstJt;
+  pair<vector<double>, vector<double>> vecCstEta;
+  pair<vector<double>, vector<double>> vecCstPhi;
 
-  // loop over true jets
-  for (size_t iTruJet = 0; iTruJet < m_trueJets.size(); iTruJet++) {
+  // get no. of events
+  const uint64_t                 nTrueEvts = m_inTrueTree -> GetEntriesFast();
+  const uint64_t                 nRecoEvts = m_inRecoTree -> GetEntriesFast();
+  const pair<uint64_t, uint64_t> nEvts     = {nTrueEvts, nRecoEvts};
+  PrintMessage(6, 0, nEvts);
 
-    // clear matching variables
-    trueCsts.clear();
-    recoCsts.clear();
+  // loop over true events
+  uint64_t nTrueBytes = 0;
+  uint64_t nRecoBytes = 0;
+  for (uint64_t iTrueEvt = 0; iTrueEvt < nTrueEvts; iTrueEvt++) {
 
-    // grab truth jet info
-    const double ptTrue = m_trueJetPt[iTruJet];
-    const double hTrue  = m_trueJetEta[iTruJet];
-    const double fTrue  = m_trueJetPhi[iTruJet];
+    // clear constituent matching vectors
+    vecCstID.first.clear();
+    vecCstID.second.clear();
+    vecCstZ.first.clear();
+    vecCstZ.second.clear();
+    vecCstDr.first.clear();
+    vecCstDr.second.clear();
+    vecCstEne.first.clear();
+    vecCstEne.second.clear();
+    vecCstJt.first.clear();
+    vecCstJt.second.clear();
+    vecCstEta.first.clear();
+    vecCstEta.second.clear();
+    vecCstPhi.first.clear();
+    vecCstPhi.second.clear();
 
-    // loop over reco jets
-    bool   isTrueMatched = false;
-    size_t iRecoMatchJet = -1;
-    for (size_t iRecJet = 0; iRecJet < m_recoJets.size(); iRecJet++) {
+    // clear input/output addresses
+    InitializeAddresses();
 
-      const bool isGoodJetMatch = IsJetGoodMatch(qtJet, drJet);
-      if (isGoodJetMatch) {
-        isTrueMatched = true;
-        iRecoMatchJet = iRecJet;
-        break;
-      }
-    }  // end reco jet loop
+    // load true entry
+    const uint64_t trueEntry = LoadTree(iTrueEvt, m_inTrueTree, m_fTrueCurrent);
+    if (trueEntry < 0) break;
 
-    // loop over true cst.s
-    trueCsts = m_trueJets[iTruJet].constituents();
-    for (size_t iTruCst = 0; iTruCst < trueCsts.size(); iTruCst++) {
+    const uint64_t trueBytes = GetEntry(iTrueEvt, m_inTrueTree);
+    if (trueBytes < 0) {
+      PrintError(4, iTrueEvt);
+      break;
+    } else {
+      nTrueBytes += trueBytes;
+      PrintMessage(7, iTrueEvt + 1, nEvts);
+    }
 
-      // only match cst.s if jet is matched
-      if (!isTrueMatched) continue;
+    // load reco entry
+    // FIXME should the reco event be located via event ID first?
+    const uint64_t recoEntry = LoadTree(iTrueEvt, m_inRecoTree, m_fRecoCurrent);
+    if (recoEntry < 0) break;
 
-      // loop over reco cst.s
-      recoCsts = m_recoJets[iRecoMatchJet].constituents();
-      for (size_t iRecCst = 0; iRecCst < recoCsts.size(); iRecCst++) {
+    const uint64_t recoBytes = GetEntry(iTrueEvt, m_inRecoTree);
+    if (recoBytes < 0) {
+      PrintError(5, iTrueEvt);
+      break;
+    } else {
+      nRecoBytes += recoBytes;
+    }
 
-        const bool isGoodCstMatch = IsCstGoodMatch(qtCst, drCst);
-        if (isGoodCstMatch) {
-          // fill output vectors here //
-          break;
-        }
+    // set event info
+    m_matchNumJets = make_pair(m_trueNumJets,     m_recoNumJets);
+    m_matchNumTrks = make_pair(m_trueNumChrgPars, m_recoNumTrks);
+    m_matchVtxX    = make_pair(m_trueVtxX,        m_recoVtxX);
+    m_matchVtxY    = make_pair(m_trueVtxY,        m_recoVtxY);
+    m_matchVtxZ    = make_pair(m_trueVtxZ,        m_trueVtxZ);
 
-      }  // end reco cst loop
+    // loop over true jets
+    for (int iTrueJet = 0; iTrueJet < m_trueNumJets; iTrueJet++) {
 
-    }  // end true cst loop
-  }  // end true jet loop
-*/
-  return;
+      /* TODO jet matching goes here */
+
+    }  // end true jet loop
+
+    // fill tree
+    m_matchTree -> Fill();
+
+  }  // end true event loop
+  PrintMessage(8);
 
 }  // end 'DoMatching()'
 

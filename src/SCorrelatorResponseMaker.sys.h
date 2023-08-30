@@ -86,34 +86,34 @@ void SCorrelatorResponseMaker::InitializeAddresses() {
   m_matchVtxY.second      = 0.;
   m_matchVtxZ.first       = 0.;
   m_matchVtxZ.second      = 0.;
-  m_matchJetID.first      = NULL;
-  m_matchJetID.second     = NULL;
-  m_matchJetNumCst.first  = NULL;
-  m_matchJetNumCst.second = NULL;
-  m_matchJetEne.first     = NULL;
-  m_matchJetEne.second    = NULL;
-  m_matchJetPt.first      = NULL;
-  m_matchJetPt.second     = NULL;
-  m_matchJetEta.first     = NULL;
-  m_matchJetEta.second    = NULL;
-  m_matchJetPhi.first     = NULL;
-  m_matchJetPhi.second    = NULL;
-  m_matchJetArea.first    = NULL;
-  m_matchJetArea.second   = NULL;
-  m_matchCstID.first      = NULL;
-  m_matchCstID.second     = NULL;
-  m_matchCstZ.first       = NULL;
-  m_matchCstZ.second      = NULL;
-  m_matchCstDr.first      = NULL;
-  m_matchCstDr.second     = NULL;
-  m_matchCstEne.first     = NULL;
-  m_matchCstEne.second    = NULL;
-  m_matchCstJt.first      = NULL;
-  m_matchCstJt.second     = NULL;
-  m_matchCstEta.first     = NULL;
-  m_matchCstEta.second    = NULL;
-  m_matchCstPhi.first     = NULL;
-  m_matchCstPhi.second    = NULL;
+  m_matchJetID.first.clear();
+  m_matchJetID.second.clear();
+  m_matchJetNumCst.first.clear();
+  m_matchJetNumCst.second.clear();
+  m_matchJetEne.first.clear();
+  m_matchJetEne.second.clear();
+  m_matchJetPt.first.clear();
+  m_matchJetPt.second.clear();
+  m_matchJetEta.first.clear();
+  m_matchJetEta.second.clear();
+  m_matchJetPhi.first.clear();
+  m_matchJetPhi.second.clear();
+  m_matchJetArea.first.clear();
+  m_matchJetArea.second.clear();
+  m_matchCstID.first.clear();
+  m_matchCstID.second.clear();
+  m_matchCstZ.first.clear();
+  m_matchCstZ.second.clear();
+  m_matchCstDr.first.clear();
+  m_matchCstDr.second.clear();
+  m_matchCstEne.first.clear();
+  m_matchCstEne.second.clear();
+  m_matchCstJt.first.clear();
+  m_matchCstJt.second.clear();
+  m_matchCstEta.first.clear();
+  m_matchCstEta.second.clear();
+  m_matchCstPhi.first.clear();
+  m_matchCstPhi.second.clear();
   return;
 
 }  // end 'InitializeAddresses()'
@@ -240,7 +240,7 @@ void SCorrelatorResponseMaker::InitializeTrees() {
 
 
 
-void SCorrelatorResponseMaker::PrintMessage(const uint32_t code) {
+void SCorrelatorResponseMaker::PrintMessage(const uint32_t code, const uint64_t iEvt, const pair<uint64_t, uint64_t> nEvts) {
 
   // print debug statement
   if (m_inDebugMode && (m_verbosity > 5)) PrintDebug(21);
@@ -270,13 +270,26 @@ void SCorrelatorResponseMaker::PrintMessage(const uint32_t code) {
            << "      input reco tree  = " << m_inRecoTreeName
            << endl;
       break;
+    case 6:
+      cout << "    Beginning event loop: " << nEvts.first << " truth events and " << nEvts.second << " reconstructed events to process." << endl;
+      break;
+    case 7:
+      if (iEvt == nEvts.first) {
+        cout << "      Processing event " << iEvt << "/" << nEvts.first << "..." << endl;
+      } else {
+        cout << "      Processing event " << iEvt << "/" << nEvts.first << "...\r" << flush;
+      }
+      break;
+    case 8:
+      cout << "    Finished event loop." << endl;
+      break;
     default:
       PrintError(code);
       break;
   }
   return;
 
-}  // end 'PrintMessage(uint32_t)'
+}  // end 'PrintMessage(uint32_t, uint64_t, pair<uint64_t, uint64_t>)'
 
 
 
@@ -376,7 +389,7 @@ void SCorrelatorResponseMaker::PrintDebug(const uint32_t code) {
 
 
 
-void SCorrelatorResponseMaker::PrintError(const uint32_t code) {
+void SCorrelatorResponseMaker::PrintError(const uint32_t code, const uint64_t iEvt) {
 
   // print debug statement
   if (m_inDebugMode && (m_verbosity > 5)) PrintDebug(22);
@@ -394,6 +407,12 @@ void SCorrelatorResponseMaker::PrintError(const uint32_t code) {
     case 3:
       cerr << "PANIC: no input reco tree! Aborting!\n" << endl;
       break;
+    case 4:
+      cerr << "WARNING: issue with entry " << iEvt << " in truth tree! Aborting event loop!" << endl;
+      break;
+    case 5:
+      cerr << "WARNING: issue with entry " << iEvt << " in reco tree! Aborting event loop!" << endl;
+      break;
     default:
       cerr << "WARNING: unknown status code!\n"
            << "         code = " << code
@@ -402,7 +421,7 @@ void SCorrelatorResponseMaker::PrintError(const uint32_t code) {
   }
   return;
 
-}  // end 'PrintError(unint32_t)'
+}  // end 'PrintError(unint32_t, uint64_t)'
 
 
 
@@ -435,7 +454,7 @@ int64_t SCorrelatorResponseMaker::GetEntry(const uint64_t entry, TTree *tree) {
 
 
 
-int64_t SCorrelatorResponseMaker::LoadTree(const uint64_t entry, TTree *tree, int &fCurrent) {
+int64_t SCorrelatorResponseMaker::LoadTree(const uint64_t entry, TTree* tree, int& fCurrent) {
 
   // print debugging statemet
   if (m_inDebugMode && (m_verbosity > 5)) PrintDebug(25);

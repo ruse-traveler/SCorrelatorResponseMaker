@@ -115,12 +115,12 @@ class SCorrelatorResponseMaker : public SubsysReco {
     // system methods (*.sys.h)
     void    InitializeAddresses();
     void    InitializeTrees();
-    void    PrintMessage(const uint32_t code);
+    void    PrintMessage(const uint32_t code, const uint64_t iEvt = 0, const pair<uint64_t, uint64_t> nEvts = {0, 0});
     void    PrintDebug(const uint32_t code);
-    void    PrintError(const uint32_t code);
+    void    PrintError(const uint32_t code, const uint64_t iEvt = 0);
     bool    CheckCriticalParameters();
-    int64_t GetEntry(const uint64_t entry, TTree *tree);
-    int64_t LoadTree(const uint64_t entry, TTree *tree, int &fCurrent);
+    int64_t GetEntry(const uint64_t entry, TTree* tree);
+    int64_t LoadTree(const uint64_t entry, TTree* tree, int& fCurrent);
 
     // io members
     TFile* m_outFile    = NULL;
@@ -202,25 +202,26 @@ class SCorrelatorResponseMaker : public SubsysReco {
     vector<vector<double>>* m_recoCstPhi;
 
     // output response tree address members
-    pair<int, int>                                         m_matchNumJets;
-    pair<int, int>                                         m_matchNumTrks;
-    pair<double, double>                                   m_matchVtxX;
-    pair<double, double>                                   m_matchVtxY;
-    pair<double, double>                                   m_matchVtxZ;
-    pair<vector<uint32_t>*, vector<uint32_t>*>             m_matchJetID;
-    pair<vector<uint64_t>*, vector<uint64_t>*>             m_matchJetNumCst;
-    pair<vector<double>*, vector<double>*>                 m_matchJetEne;
-    pair<vector<double>*, vector<double>*>                 m_matchJetPt;
-    pair<vector<double>*, vector<double>*>                 m_matchJetEta;
-    pair<vector<double>*, vector<double>*>                 m_matchJetPhi;
-    pair<vector<double>*, vector<double>*>                 m_matchJetArea;
-    pair<vector<vector<int>>*, vector<vector<int>>*>       m_matchCstID;
-    pair<vector<vector<double>>*, vector<vector<double>>*> m_matchCstZ;
-    pair<vector<vector<double>>*, vector<vector<double>>*> m_matchCstDr;
-    pair<vector<vector<double>>*, vector<vector<double>>*> m_matchCstEne;
-    pair<vector<vector<double>>*, vector<vector<double>>*> m_matchCstJt;
-    pair<vector<vector<double>>*, vector<vector<double>>*> m_matchCstEta;
-    pair<vector<vector<double>>*, vector<vector<double>>*> m_matchCstPhi;
+    // FIXME should be consolidated into a single class/struct for ease-of-maintenance
+    pair<int, int>                                       m_matchNumJets;
+    pair<int, int>                                       m_matchNumTrks;
+    pair<double, double>                                 m_matchVtxX;
+    pair<double, double>                                 m_matchVtxY;
+    pair<double, double>                                 m_matchVtxZ;
+    pair<vector<uint32_t>, vector<uint32_t>>             m_matchJetID;
+    pair<vector<uint64_t>, vector<uint64_t>>             m_matchJetNumCst;
+    pair<vector<double>, vector<double>>                 m_matchJetEne;
+    pair<vector<double>, vector<double>>                 m_matchJetPt;
+    pair<vector<double>, vector<double>>                 m_matchJetEta;
+    pair<vector<double>, vector<double>>                 m_matchJetPhi;
+    pair<vector<double>, vector<double>>                 m_matchJetArea;
+    pair<vector<vector<int>>, vector<vector<int>>>       m_matchCstID;
+    pair<vector<vector<double>>, vector<vector<double>>> m_matchCstZ;
+    pair<vector<vector<double>>, vector<vector<double>>> m_matchCstDr;
+    pair<vector<vector<double>>, vector<vector<double>>> m_matchCstEne;
+    pair<vector<vector<double>>, vector<vector<double>>> m_matchCstJt;
+    pair<vector<vector<double>>, vector<vector<double>>> m_matchCstEta;
+    pair<vector<vector<double>>, vector<vector<double>>> m_matchCstPhi;
 
     // input truth tree branch members
     TBranch* m_brTrueNumJets                     = NULL;

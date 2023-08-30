@@ -149,7 +149,7 @@ void SCorrelatorResponseMaker::Analyze() {
   // announce start of analysis
   PrintMessage(2);
 
-  /* TODO analyzing goes here */
+  DoMatching();
   return;
 
 }  // end 'StandaloneAnalyze()'
