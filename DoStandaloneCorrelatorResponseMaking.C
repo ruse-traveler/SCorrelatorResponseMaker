@@ -31,8 +31,8 @@ void DoStandaloneCorrelatorResponseMaking() {
   // io parameters
   const string sOutFile("test.root");
   const string sInFiles[NTrees] = {
-    "../SCorrelatorJetTree/output/debug.testingTrkMatching.root",
-    "../SCorrelatorJetTree/output/debug.testingTrkMatching.root"
+    "../SCorrelatorJetTree/output/test/debug.testingTrkMatching.root",
+    "../SCorrelatorJetTree/output/test/debug.testingTrkMatching.root"
   };
   const string sInTrees[NTrees] = {
     "TruthJetTree",
@@ -47,7 +47,7 @@ void DoStandaloneCorrelatorResponseMaking() {
   // misc parameters
   const int  verbosity = 0;
   const bool isComplex = false;
-  const bool doDebug   = true;
+  const bool doDebug   = false;
   const bool inBatch   = false;
 
   // do folding
