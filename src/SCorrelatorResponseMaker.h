@@ -39,8 +39,11 @@
 #include <phool/PHIODataNode.h>
 #include <phool/PHNodeIterator.h>
 #include <phool/PHCompositeNode.h>
+// analysis-specific includes
+#include "/sphenix/user/danderson/eec/SCorrelatorUtilities/SCorrelatorUtilities.h"
 
 using namespace std;
+using namespace SCorrelatorUtilities;
 
 
 
@@ -72,8 +75,8 @@ class SCorrelatorResponseMaker : public SubsysReco {
     void SetInputNodes(const string &iTrueNodeName, const string &iRecoNodeName);
     void SetInputFiles(const string &iTrueFileName, const string &iRecoFileName);
     void SetInputTrees(const string &iTrueTreeName, const string &iRecoTreeName);
-    void SetJetMatchQtRange(const pair<double, double>);
-    void SetJetMatchDrRange(const pair<double, double>);
+    void SetJetMatchQtRange(const pair<double, double> qtRange);
+    void SetJetMatchDrRange(const pair<double, double> drRange);
 
     // system getters
     int    GetVerbosity()         {return m_verbosity;}
@@ -86,11 +89,11 @@ class SCorrelatorResponseMaker : public SubsysReco {
     string GetInputRecoNodeName() {return m_inRecoNodeName;}
     string GetInputTrueTreeName() {return m_inTrueTreeName;}
     string GetInputRecoTreeName() {return m_inRecoTreeName;}
-    string GetOutputFileName()    {return m_outFileName;} 
+    string GetOutputFileName()    {return m_outFileName;}
 
-    // matching getters (*.io.h)
-    pair<double, double> GetJetMatchQtRange();
-    pair<double, double> GetJetMatchDrRange();
+    // matching getters
+    pair<double, double> GetJetMatchQtRange() {return m_jetMatchQtRange;}
+    pair<double, double> GetJetMatchDrRange() {return m_jetMatchDrRange;}
 
   private:
 
@@ -110,7 +113,6 @@ class SCorrelatorResponseMaker : public SubsysReco {
 
     // analysis methods (*.ana.h)
     void DoMatching();
-    bool IsJetGoodMatch(const double qtJet, const double drJet);
 
     // system methods (*.sys.h)
     void    InitializeAddresses();
@@ -147,10 +149,15 @@ class SCorrelatorResponseMaker : public SubsysReco {
     string m_inRecoTreeName   = "";
     string m_outFileName      = "";
 
-    // matching parameters
-    double m_minPercentMatchCsts            = 0;
-    double m_jetMatchQtRange[CONST::NRANGE] = {0., 0.};
-    double m_jetMatchDrRange[CONST::NRANGE] = {0., 0.};
+    // matching members
+    pair<float, float>   m_fracCstMatchRange = {0., 1.};
+    pair<double, double> m_jetMatchQtRange   = {0., 10.};
+    pair<double, double> m_jetMatchDrRange   = {0., 10.};
+
+    // input address members
+    EvtInfo m_evtInfo;
+    JetInfo m_jetInfo;
+    CstInfo m_cstInfo;
 
     // input truth tree address members
     int                     m_trueNumJets;
@@ -201,21 +208,24 @@ class SCorrelatorResponseMaker : public SubsysReco {
     vector<vector<double>>* m_recoCstEta;
     vector<vector<double>>* m_recoCstPhi;
 
-    // output response tree address members
+    // output response tree event-level address members
     // FIXME should be consolidated into a single class/struct for ease-of-maintenance
-    pair<int, int>                                       m_matchNumJets;
-    pair<int, int>                                       m_matchNumTrks;
-    pair<double, double>                                 m_matchVtxX;
-    pair<double, double>                                 m_matchVtxY;
-    pair<double, double>                                 m_matchVtxZ;
-    pair<vector<uint32_t>, vector<uint32_t>>             m_matchJetID;
-    pair<vector<uint64_t>, vector<uint64_t>>             m_matchJetNumCst;
-    pair<vector<double>, vector<double>>                 m_matchJetEne;
-    pair<vector<double>, vector<double>>                 m_matchJetPt;
-    pair<vector<double>, vector<double>>                 m_matchJetEta;
-    pair<vector<double>, vector<double>>                 m_matchJetPhi;
-    pair<vector<double>, vector<double>>                 m_matchJetArea;
-    pair<vector<vector<int>>, vector<vector<int>>>       m_matchCstID;
+    // TODO add non-pair values (e.g. sum of particle energy, fraction of cst.s matched)
+    pair<int,    int>    m_matchNumJets;
+    pair<int,    int>    m_matchNumTrks;
+    pair<double, double> m_matchVtxX;
+    pair<double, double> m_matchVtxY;
+    pair<double, double> m_matchVtxZ;
+    // output response tree jet-level address members
+    pair<vector<uint32_t>, vector<uint32_t>> m_matchJetID;
+    pair<vector<uint64_t>, vector<uint64_t>> m_matchJetNumCst;
+    pair<vector<double>,   vector<double>>   m_matchJetEne;
+    pair<vector<double>,   vector<double>>   m_matchJetPt;
+    pair<vector<double>,   vector<double>>   m_matchJetEta;
+    pair<vector<double>,   vector<double>>   m_matchJetPhi;
+    pair<vector<double>,   vector<double>>   m_matchJetArea;
+    // output response tree cst-level address members
+    pair<vector<vector<int>>,    vector<vector<int>>>    m_matchCstID;
     pair<vector<vector<double>>, vector<vector<double>>> m_matchCstZ;
     pair<vector<vector<double>>, vector<vector<double>>> m_matchCstDr;
     pair<vector<vector<double>>, vector<vector<double>>> m_matchCstEne;

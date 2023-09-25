@@ -61,8 +61,8 @@ void SCorrelatorResponseMaker::SetJetMatchQtRange(const pair<double, double> qtR
   // print debug statement
   if (m_inDebugMode) PrintDebug(8);
 
-  m_jetMatchQtRange[0] = qtRange.first;
-  m_jetMatchQtRange[1] = qtRange.second;
+  m_jetMatchQtRange.first  = qtRange.first;
+  m_jetMatchQtRange.second = qtRange.second;
   return;
 
 }  // end 'SetJetMatchQtRange(pair<double, double>)'
@@ -74,35 +74,11 @@ void SCorrelatorResponseMaker::SetJetMatchDrRange(const pair<double, double> drR
   // print debug statement
   if (m_inDebugMode) PrintDebug(9);
 
-  m_jetMatchDrRange[0] = drRange.first;
-  m_jetMatchDrRange[1] = drRange.second;
+  m_jetMatchDrRange.first  = drRange.first;
+  m_jetMatchDrRange.second = drRange.second;
   return;
 
 }  // end 'SetJetMatchDrRange(pair<double, double>)'
-
-
-
-pair<double, double> SCorrelatorResponseMaker::GetJetMatchQtRange() {
-
-  // print debug statement
-  if (m_inDebugMode) PrintDebug(10);
-
-  const pair<double, double> qtRange(m_jetMatchQtRange[0], m_jetMatchQtRange[1]);
-  return qtRange;  
-
-}  // end 'GetJetMatchQtRange()'
-
-
-
-pair<double, double> SCorrelatorResponseMaker::GetJetMatchDrRange() {
-
-  // print debug statement
-  if (m_inDebugMode) PrintDebug(11);
-
-  const pair<double, double> drRange(m_jetMatchDrRange[0], m_jetMatchDrRange[1]);
-  return drRange;  
-
-}  // end 'GetJetMatchDrRange()'
 
 
 
