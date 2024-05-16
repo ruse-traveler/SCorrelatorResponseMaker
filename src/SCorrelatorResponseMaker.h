@@ -12,7 +12,7 @@
 #ifndef SCORRELATORRESPONSEMAKER_H
 #define SCORRELATORRESPONSEMAKER_H
 
-// standard c includes
+// c++ utilities
 #include <cmath>
 #include <string>
 #include <vector>
@@ -20,148 +20,121 @@
 #include <sstream>
 #include <cstdlib>
 #include <utility>
-// root includes
-#include "TH1.h"
-#include "TROOT.h"
-#include "TFile.h"
-#include "TTree.h"
-#include "TMath.h"
-#include "TString.h"
-#include "TVector3.h"  // TODO update to XYZvector
-#include "TDirectory.h"
-// f4a include
+// root libraries
+#include <TH1.h>
+#include <TROOT.h>
+#include <TFile.h>
+#include <TTree.h>
+#include <TMath.h>
+#include <TString.h>
+#include <TDirectory.h>
+#include <Math/Vector3D.h>
+// f4a libraries
 #include <fun4all/SubsysReco.h>
 #include <fun4all/Fun4AllReturnCodes.h>
 #include <fun4all/Fun4AllHistoManager.h>
-// phool includes
+// phool utilities
 #include <phool/phool.h>
 #include <phool/getClass.h>
 #include <phool/PHIODataNode.h>
 #include <phool/PHNodeIterator.h>
 #include <phool/PHCompositeNode.h>
-// analysis-specific includes
-#include "/sphenix/user/danderson/eec/SCorrelatorUtilities/SCorrelatorUtilities.h"
+// analysis utilities
+#include "/sphenix/user/danderson/install/include/scorrelatorutilities/Tools.h"
+#include "/sphenix/user/danderson/install/include/scorrelatorutilities/Types.h"
+#include "/sphenix/user/danderson/install/include/scorrelatorutilities/Constants.h"
+#include "/sphenix/user/danderson/install/include/scorrelatorutilities/Interfaces.h"
+// analysis definitions
+#include "SCorrelatorResponseMakerConfig.h"
+#include "SCorrelatorResponseMakerInput.h"
+#include "SCorrelatorResponseMakerOutput.h"
 
+// make common namespaces
 using namespace std;
 using namespace SCorrelatorUtilities;
 
 
 
-// SCorrelatorResponseMaker definition -----------------------------------------------
+namespace SColdQcdCorrelatorAnalysis {
 
-class SCorrelatorResponseMaker : public SubsysReco {
+  // SCorrelatorResponseMaker definition --------------------------------------
 
-  public:
+  class SCorrelatorResponseMaker : public SubsysReco {
 
-    // ctor/dtor
-    SCorrelatorResponseMaker(const string &name = "SCorrelatorResponseMaker", const bool isComplex = false, const bool doDebug = false, const bool inBatch = false);
-    ~SCorrelatorResponseMaker() override;
+    public:
 
-    // F4A methods
-    int Init(PHCompositeNode*)          override;
-    int process_event(PHCompositeNode*) override;
-    int End(PHCompositeNode*)           override;
+      // ctor/dtor
+      SCorrelatorResponseMaker(const string &name = "SCorrelatorResponseMaker", const bool isComplex = false, const bool doDebug = false, const bool inBatch = false);
+      ~SCorrelatorResponseMaker() override;
 
-    // standalone-only methods
-    void Init();
-    void Analyze();
-    void End();
+      // F4A methods
+      int Init(PHCompositeNode*)          override;
+      int process_event(PHCompositeNode*) override;
+      int End(PHCompositeNode*)           override;
 
-    // setters (inline)
-    void SetVerbosity(const int verb)           {m_verbosity   = verb;}
-    void SetOutputFile(const string &oFileName) {m_outFileName = oFileName;}
+      // standalone-only methods
+      void Init();
+      void Analyze();
+      void End();
 
-    // setters (*.io.h)
-    void SetInputNodes(const string &iTrueNodeName, const string &iRecoNodeName);
-    void SetInputFiles(const string &iTrueFileName, const string &iRecoFileName);
-    void SetInputTrees(const string &iTrueTreeName, const string &iRecoTreeName);
-    void SetJetMatchQtRange(const pair<double, double> qtRange);
-    void SetJetMatchDrRange(const pair<double, double> drRange);
+      // setters
+      void SetConfig(const SCorrelatorResponseMakerConfig& config) {m_config = config;}
 
-    // system getters
-    int    GetVerbosity()         {return m_verbosity;}
-    bool   GetInDebugMode()       {return m_inDebugMode;}
-    bool   GetInComplexMode()     {return m_inComplexMode;}
-    bool   GetInStandaloneMode()  {return m_inStandaloneMode;}
-    string GetInputTrueFileName() {return m_inTrueFileName;}
-    string GetInputRecoFileName() {return m_inRecoFileName;}
-    string GetInputTrueNodeName() {return m_inTrueNodeName;}
-    string GetInputRecoNodeName() {return m_inRecoNodeName;}
-    string GetInputTrueTreeName() {return m_inTrueTreeName;}
-    string GetInputRecoTreeName() {return m_inRecoTreeName;}
-    string GetOutputFileName()    {return m_outFileName;}
+      // getters
+      SCorrelatorResponseMakerConfig GetConfig() {return m_config;}
 
-    // matching getters
-    pair<double, double> GetJetMatchQtRange() {return m_jetMatchQtRange;}
-    pair<double, double> GetJetMatchDrRange() {return m_jetMatchDrRange;}
+    private:
 
-  private:
+      // constants
+      //   - TODO remove
+      enum CONST {
+        NRANGE   = 2,
+        NLEVELS  = 2,
+        NPARTONS = 2
+      };
 
-    // constants
-    enum CONST {
-      NRANGE   = 2,
-      NLEVELS  = 2,
-      NPARTONS = 2
-    };
+      // io methods (*.io.h)
+      void GrabInputNodes();
+      void OpenInputFiles();
+      void OpenOutputFile();
+      void OpenFile(const string& fileName, TFile*& file);
+      void SaveOutput();
 
-    // io methods (*.io.h)
-    void GrabInputNodes();
-    void OpenInputFiles();
-    void OpenOutputFile();
-    void OpenFile(const string& fileName, TFile*& file);
-    void SaveOutput();
+      // analysis methods (*.ana.h)
+      void DoMatching();
 
-    // analysis methods (*.ana.h)
-    void DoMatching();
+      // system methods (*.sys.h)
+      void    InitializeAddresses();
+      void    InitializeTrees();
+      void    PrintMessage(const uint32_t code, const uint64_t iEvt = 0, const pair<uint64_t, uint64_t> nEvts = {0, 0});
+      void    PrintDebug(const uint32_t code);
+      void    PrintError(const uint32_t code, const uint64_t iEvt = 0);
+      bool    CheckCriticalParameters();
+      int64_t GetEntry(const uint64_t entry, TTree* tree);
+      int64_t LoadTree(const uint64_t entry, TTree* tree, int& fCurrent);
 
-    // system methods (*.sys.h)
-    void    InitializeAddresses();
-    void    InitializeTrees();
-    void    PrintMessage(const uint32_t code, const uint64_t iEvt = 0, const pair<uint64_t, uint64_t> nEvts = {0, 0});
-    void    PrintDebug(const uint32_t code);
-    void    PrintError(const uint32_t code, const uint64_t iEvt = 0);
-    bool    CheckCriticalParameters();
-    int64_t GetEntry(const uint64_t entry, TTree* tree);
-    int64_t LoadTree(const uint64_t entry, TTree* tree, int& fCurrent);
+      // io members
+      TFile* m_outFile    = NULL;
+      TFile* m_inTrueFile = NULL;
+      TFile* m_inRecoFile = NULL;
+      TTree* m_inTrueTree = NULL;
+      TTree* m_inRecoTree = NULL;
+      TTree* m_matchTree  = NULL;
 
-    // io members
-    TFile* m_outFile    = NULL;
-    TFile* m_inTrueFile = NULL;
-    TFile* m_inRecoFile = NULL;
-    TTree* m_inTrueTree = NULL;
-    TTree* m_inRecoTree = NULL;
-    TTree* m_matchTree  = NULL;
+      // system members
+      int m_fTrueCurrent = 0;
+      int m_fRecoCurrent = 0;
 
-    // system members
-    int    m_fTrueCurrent     = 0;
-    int    m_fRecoCurrent     = 0;
-    int    m_verbosity        = 0;
-    bool   m_inDebugMode      = false;
-    bool   m_inBatchMode      = false;
-    bool   m_inComplexMode    = false;
-    bool   m_inStandaloneMode = true;
-    string m_moduleName       = "";
-    string m_inTrueFileName   = "";
-    string m_inRecoFileName   = "";
-    string m_inTrueNodeName   = "";
-    string m_inRecoNodeName   = "";
-    string m_inTrueTreeName   = "";
-    string m_inRecoTreeName   = "";
-    string m_outFileName      = "";
+      // configuration
+      SCorrelatorResponseMakerConfig m_config; 
 
-    // matching members
-    pair<float, float>   m_fracCstMatchRange = {0., 1.};
-    pair<double, double> m_jetMatchQtRange   = {0., 10.};
-    pair<double, double> m_jetMatchDrRange   = {0., 10.};
+      // inputs
+      SCorrelatorResponseMakerInput       m_input;
+      SCorrelatorResponseMakerLegacyInput m_legacy;
 
-    // input address members
-    EvtInfo m_evtInfo;
-    JetInfo m_jetInfo;
-    CstInfo m_cstInfo;
-
-    // input truth tree address members
-    int                     m_trueNumJets;
-    int                     m_trueNumChrgPars;
+      // input truth tree address members
+      int                     m_trueNumJets;
+      int                     m_trueNumChrgPars;
     int                     m_truePartonID[CONST::NPARTONS];
     double                  m_truePartonMomX[CONST::NPARTONS];
     double                  m_truePartonMomY[CONST::NPARTONS];

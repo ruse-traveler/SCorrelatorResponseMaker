@@ -2,6 +2,7 @@ reference/
 output/
 backup/
 input/
+log/
 src/*
 !src/SCorrelatorResponseMaker.h
 !src/SCorrelatorResponseMaker.cc
@@ -9,6 +10,9 @@ src/*
 !src/SCorrelatorResponseMaker.sys.h
 !src/SCorrelatorResponseMaker.ana.h
 !src/SCorrelatorResponseMakerLinkDef.h
+!src/SCorrelatorResponseMakerConfig.h
+!src/SCorrelatorResponseMakerInput.h
+!src/SCorrelatorResponseMakerOutput.h
 !src/autogen.sh
 !src/configure.ac
 !src/Makefile.am

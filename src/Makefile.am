@@ -5,7 +5,8 @@ lib_LTLIBRARIES = \
 
 AM_LDFLAGS = \
   -L$(libdir) \
-  -L$(OFFLINE_MAIN)/lib
+  -L$(OFFLINE_MAIN)/lib \
+  $(MYINSTALL)/lib/libscorrelatorutilities.la
 
 AM_CPPFLAGS = \
   -I$(includedir) \
@@ -13,7 +14,10 @@ AM_CPPFLAGS = \
   -I$(ROOTSYS)/include
 
 pkginclude_HEADERS = \
-  SCorrelatorResponseMaker.h
+  SCorrelatorResponseMaker.h \
+  SCorrelatorResponseMakerConfig.h \
+  SCorrelatorResponseMakerInput.h \
+  SCorrelatorResponseMakerOutput.h
 
 if ! MAKEROOT6
   ROOT5_DICTS = \
