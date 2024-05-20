@@ -1,10 +1,11 @@
-// ----------------------------------------------------------------------------
-// 'SCorrelatorResponseMakerConfig.h'
-// Derek Anderson
-// 05.16.2024
-//
-// Configuration struct for 'SCorrelatorResponseMaker' module.
-// ----------------------------------------------------------------------------
+/// ---------------------------------------------------------------------------
+/*! \file   SCorrelatorResponseMakerConfig.h
+ *  \author Derek Anderson
+ *  \date   05.16.2024
+ *
+ *  Configuration struct for 'SCorrelatorResponseMaker' module.
+ */
+/// ---------------------------------------------------------------------------
 
 #ifndef SENERGYCORRELATORCONFIG_H
 #define SENERGYCORRELATORCONFIG_H
@@ -16,8 +17,9 @@ using namespace std;
 
 namespace SColdQcdCorrelatorAnalysis {
 
-  // SCorrelatorResponseMakerConfig definition --------------------------------
-
+  // --------------------------------------------------------------------------
+  //! User options for module
+  // --------------------------------------------------------------------------
   struct SCorrelatorResponseMakerConfig {
 
     // system members

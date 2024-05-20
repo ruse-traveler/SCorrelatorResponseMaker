@@ -72,7 +72,44 @@ namespace SColdQcdCorrelatorAnalysis {
     // ------------------------------------------------------------------------
     void SetTreeAddresses(TTree* tree) {
 
-      /* TODO fill in */
+      tree -> Branch("EvtTrueNumJets",     &m_matchNumJets.first,  "EvtTrueNumJets/I");
+      tree -> Branch("EvtRecoNumJets",     &m_matchNumJets.second, "EvtRecoNumJets/I");
+      tree -> Branch("EvtTrueNumChrgPars", &m_matchNumTrks.first,  "EvtTrueNumTrks/I");
+      tree -> Branch("EvtRecoNumChrgPars", &m_matchNumTrks.second, "EvtRecoNumTrks/I");
+      tree -> Branch("EvtTrueVtxX",        &m_matchVtxX.first,     "EvtTrueVtxX/D");
+      tree -> Branch("EvtRecoVtxX",        &m_matchVtxX.second,    "EvtRecoVtxX/D");
+      tree -> Branch("EvtTrueVtxY",        &m_matchVtxY.first,     "EvtTrueVtxY/D");
+      tree -> Branch("EvtRecoVtxY",        &m_matchVtxY.second,    "EvtRecoVtxY/D");
+      tree -> Branch("EvtTrueVtxZ",        &m_matchVtxZ.first,     "EvtTrueVtxZ/D");
+      tree -> Branch("EvtRecoVtxZ",        &m_matchVtxZ.second,    "EvtRecoVtxZ/D");
+      tree -> Branch("JetTrueJetID",       &m_matchJetID.first);
+      tree -> Branch("JetRecoJetID",       &m_matchJetID.second);
+      tree -> Branch("JetTrueNumCst",      &m_matchJetNumCst.first);
+      tree -> Branch("JetRecoNumCst",      &m_matchJetNumCst.second);
+      tree -> Branch("JetTrueEne",         &m_matchJetEne.first);
+      tree -> Branch("JetRecoEne",         &m_matchJetEne.second);
+      tree -> Branch("JetTruePt",          &m_matchJetPt.first);
+      tree -> Branch("JetRecoPt",          &m_matchJetPt.second);
+      tree -> Branch("JetTrueEta",         &m_matchJetEta.first);
+      tree -> Branch("JetRecoEta",         &m_matchJetEta.second);
+      tree -> Branch("JetTruePhi",         &m_matchJetPhi.first);
+      tree -> Branch("JetRecoPhi",         &m_matchJetPhi.second);
+      tree -> Branch("JetTrueArea",        &m_matchJetArea.first);
+      tree -> Branch("JetRecoArea",        &m_matchJetArea.second);
+      tree -> Branch("CstTrueCstID",       &m_matchCstID.first);
+      tree -> Branch("CstRecoCstID",       &m_matchCstID.second);
+      tree -> Branch("CstTrueZ",           &m_matchCstZ.first);
+      tree -> Branch("CstRecoZ",           &m_matchCstZ.second);
+      tree -> Branch("CstTrueDr",          &m_matchCstDr.first);
+      tree -> Branch("CstRecoDr",          &m_matchCstDr.second);
+      tree -> Branch("CstRecoEne",         &m_matchCstEne.second);
+      tree -> Branch("CstTrueEne",         &m_matchCstEne.first);
+      tree -> Branch("CstTrueJt",          &m_matchCstJt.first);
+      tree -> Branch("CstRecoJt",          &m_matchCstJt.second);
+      tree -> Branch("CstTrueEta",         &m_matchCstEta.first);
+      tree -> Branch("CstRecoEta",         &m_matchCstEta.second);
+      tree -> Branch("CstTruePhi",         &m_matchCstPhi.first);
+      tree -> Branch("CstRecoPhi",         &m_matchCstPhi.second);
       return;
 
     }  // end 'SetTreeAddresses(TTree* tree)'

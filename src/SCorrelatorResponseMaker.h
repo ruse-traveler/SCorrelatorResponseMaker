@@ -1,13 +1,14 @@
-// ----------------------------------------------------------------------------
-// 'SCorrelatorResponseMaker.h'
-// Derek Anderson
-// 04.30.2023
-//
-// A module to match truth to reconstructed
-// jets/particles to derive corrections for
-// an n-point energy correlation strength
-// function.
-// ----------------------------------------------------------------------------
+/// ---------------------------------------------------------------------------
+/*! \file   SCorrelatorResponseMaker.h
+ *  \author Derek Anderson
+ *  \date   04.30.2023
+ *
+ * A module to match truth to reconstructed
+ * jets/particles to derive corrections for
+ * an n-point energy correlation strength
+ * function.
+ */
+/// ---------------------------------------------------------------------------
 
 #ifndef SCORRELATORRESPONSEMAKER_H
 #define SCORRELATORRESPONSEMAKER_H
@@ -56,8 +57,14 @@ using namespace std;
 
 namespace SColdQcdCorrelatorAnalysis {
 
-  // SCorrelatorResponseMaker definition --------------------------------------
-
+  // --------------------------------------------------------------------------
+  // Response tree maker
+  // --------------------------------------------------------------------------
+  /*! A module to match truth-to-reco level jets/constituents
+   *  to derive corrections for ENC spectra from.  Produces a
+   *  "Response Tree", a tree mapping all truth jets and their
+   *  constituents onto reconstructed jets/constituents.
+   */
   class SCorrelatorResponseMaker : public SubsysReco {
 
     public:
@@ -95,14 +102,11 @@ namespace SColdQcdCorrelatorAnalysis {
       void DoMatching();
 
       // system methods (*.sys.h)
-      void    InitializeAddresses();
-      void    InitializeTrees();
-      void    PrintMessage(const uint32_t code, const uint64_t iEvt = 0, const pair<uint64_t, uint64_t> nEvts = {0, 0});
-      void    PrintDebug(const uint32_t code);
-      void    PrintError(const uint32_t code, const uint64_t iEvt = 0);
-      bool    CheckCriticalParameters();
-      int64_t GetEntry(const uint64_t entry, TTree* tree);
-      int64_t LoadTree(const uint64_t entry, TTree* tree, int& fCurrent);
+      void InitializeTrees();
+      void PrintMessage(const uint32_t code, const uint64_t iEvt = 0, const pair<uint64_t, uint64_t> nEvts = {0, 0});
+      void PrintDebug(const uint32_t code);
+      void PrintError(const uint32_t code, const uint64_t iEvt = 0);
+      bool CheckCriticalParameters();
 
       // io members
       TFile* m_outFile    = NULL;
@@ -129,7 +133,9 @@ namespace SColdQcdCorrelatorAnalysis {
       SCorrelatorResponseMakerOutput m_output;
       SCorrelatorResponseMakerOutput m_outLegacy;
 
-};
+  };  // end SCorrelatorResponseMaker
+
+}  // end SColdQcdCorrelatorAnalysis namespace
 
 #endif
 
