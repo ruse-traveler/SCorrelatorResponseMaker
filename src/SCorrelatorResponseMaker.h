@@ -51,7 +51,6 @@
 
 // make common namespaces
 using namespace std;
-using namespace SCorrelatorUtilities;
 
 
 
@@ -84,14 +83,6 @@ namespace SColdQcdCorrelatorAnalysis {
       SCorrelatorResponseMakerConfig GetConfig() {return m_config;}
 
     private:
-
-      // constants
-      //   - TODO remove
-      enum CONST {
-        NRANGE   = 2,
-        NLEVELS  = 2,
-        NPARTONS = 2
-      };
 
       // io methods (*.io.h)
       void GrabInputNodes();
@@ -129,131 +120,14 @@ namespace SColdQcdCorrelatorAnalysis {
       SCorrelatorResponseMakerConfig m_config; 
 
       // inputs
-      SCorrelatorResponseMakerInput       m_input;
-      SCorrelatorResponseMakerLegacyInput m_legacy;
+      SCorrelatorResponseMakerRecoInput        m_recoInput;
+      SCorrelatorResponseMakerTruthInput       m_trueInput;
+      SCorrelatorResponseMakerLegacyRecoInput  m_recoLegacy;
+      SCorrelatorResponseMakerLegacyTruthInput m_trueLegacy;
 
-      // input truth tree address members
-      int                     m_trueNumJets;
-      int                     m_trueNumChrgPars;
-    int                     m_truePartonID[CONST::NPARTONS];
-    double                  m_truePartonMomX[CONST::NPARTONS];
-    double                  m_truePartonMomY[CONST::NPARTONS];
-    double                  m_truePartonMomZ[CONST::NPARTONS];
-    double                  m_trueVtxX;
-    double                  m_trueVtxY;
-    double                  m_trueVtxZ;
-    double                  m_trueSumPar;
-    vector<uint32_t>*       m_trueJetID;
-    vector<uint64_t>*       m_trueJetNumCst;
-    vector<double>*         m_trueJetEne;
-    vector<double>*         m_trueJetPt;
-    vector<double>*         m_trueJetEta;
-    vector<double>*         m_trueJetPhi;
-    vector<double>*         m_trueJetArea;
-    vector<vector<int>>*    m_trueCstID;
-    vector<vector<double>>* m_trueCstZ;
-    vector<vector<double>>* m_trueCstDr;
-    vector<vector<double>>* m_trueCstEne;
-    vector<vector<double>>* m_trueCstJt;
-    vector<vector<double>>* m_trueCstEta;
-    vector<vector<double>>* m_trueCstPhi;
-
-    // input reco. tree address members
-    int                     m_recoNumJets;
-    int                     m_recoNumTrks;
-    double                  m_recoVtxX;
-    double                  m_recoVtxY;
-    double                  m_recoVtxZ;
-    double                  m_recoSumECal;
-    double                  m_recoSumHCal;
-    vector<uint32_t>*       m_recoJetID;
-    vector<uint64_t>*       m_recoJetNumCst;
-    vector<double>*         m_recoJetEne;
-    vector<double>*         m_recoJetPt;
-    vector<double>*         m_recoJetEta;
-    vector<double>*         m_recoJetPhi;
-    vector<double>*         m_recoJetArea;
-    vector<vector<int>>*    m_recoCstMatchID;
-    vector<vector<double>>* m_recoCstZ;
-    vector<vector<double>>* m_recoCstDr;
-    vector<vector<double>>* m_recoCstEne;
-    vector<vector<double>>* m_recoCstJt;
-    vector<vector<double>>* m_recoCstEta;
-    vector<vector<double>>* m_recoCstPhi;
-
-    // output response tree event-level address members
-    // FIXME should be consolidated into a single class/struct for ease-of-maintenance
-    // TODO add non-pair values (e.g. sum of particle energy, fraction of cst.s matched)
-    pair<int,    int>    m_matchNumJets;
-    pair<int,    int>    m_matchNumTrks;
-    pair<double, double> m_matchVtxX;
-    pair<double, double> m_matchVtxY;
-    pair<double, double> m_matchVtxZ;
-    // output response tree jet-level address members
-    pair<vector<uint32_t>, vector<uint32_t>> m_matchJetID;
-    pair<vector<uint64_t>, vector<uint64_t>> m_matchJetNumCst;
-    pair<vector<double>,   vector<double>>   m_matchJetEne;
-    pair<vector<double>,   vector<double>>   m_matchJetPt;
-    pair<vector<double>,   vector<double>>   m_matchJetEta;
-    pair<vector<double>,   vector<double>>   m_matchJetPhi;
-    pair<vector<double>,   vector<double>>   m_matchJetArea;
-    // output response tree cst-level address members
-    pair<vector<vector<int>>,    vector<vector<int>>>    m_matchCstID;
-    pair<vector<vector<double>>, vector<vector<double>>> m_matchCstZ;
-    pair<vector<vector<double>>, vector<vector<double>>> m_matchCstDr;
-    pair<vector<vector<double>>, vector<vector<double>>> m_matchCstEne;
-    pair<vector<vector<double>>, vector<vector<double>>> m_matchCstJt;
-    pair<vector<vector<double>>, vector<vector<double>>> m_matchCstEta;
-    pair<vector<vector<double>>, vector<vector<double>>> m_matchCstPhi;
-
-    // input truth tree branch members
-    TBranch* m_brTrueNumJets                     = NULL;
-    TBranch* m_brTrueNumChrgPars                 = NULL;
-    TBranch* m_brTruePartonID[CONST::NPARTONS]   = {NULL, NULL};
-    TBranch* m_brTruePartonMomX[CONST::NPARTONS] = {NULL, NULL};
-    TBranch* m_brTruePartonMomY[CONST::NPARTONS] = {NULL, NULL};
-    TBranch* m_brTruePartonMomZ[CONST::NPARTONS] = {NULL, NULL};
-    TBranch* m_brTrueVtxX                        = NULL;
-    TBranch* m_brTrueVtxY                        = NULL;
-    TBranch* m_brTrueVtxZ                        = NULL;
-    TBranch* m_brTrueSumPar                      = NULL;
-    TBranch* m_brTrueJetID                       = NULL;
-    TBranch* m_brTrueJetNumCst                   = NULL;
-    TBranch* m_brTrueJetEne                      = NULL;
-    TBranch* m_brTrueJetPt                       = NULL;
-    TBranch* m_brTrueJetEta                      = NULL;
-    TBranch* m_brTrueJetPhi                      = NULL;
-    TBranch* m_brTrueJetArea                     = NULL;
-    TBranch* m_brTrueCstID                       = NULL;
-    TBranch* m_brTrueCstZ                        = NULL;
-    TBranch* m_brTrueCstDr                       = NULL;
-    TBranch* m_brTrueCstEne                      = NULL;
-    TBranch* m_brTrueCstJt                       = NULL;
-    TBranch* m_brTrueCstEta                      = NULL;
-    TBranch* m_brTrueCstPhi                      = NULL;
-
-    // input reco. tree branch members
-    TBranch* m_brRecoNumJets    = NULL;
-    TBranch* m_brRecoNumTrks    = NULL;
-    TBranch* m_brRecoVtxX       = NULL;
-    TBranch* m_brRecoVtxY       = NULL;
-    TBranch* m_brRecoVtxZ       = NULL;
-    TBranch* m_brRecoSumECal    = NULL;
-    TBranch* m_brRecoSumHCal    = NULL;
-    TBranch* m_brRecoJetID      = NULL;
-    TBranch* m_brRecoJetNumCst  = NULL;
-    TBranch* m_brRecoJetEne     = NULL;
-    TBranch* m_brRecoJetPt      = NULL;
-    TBranch* m_brRecoJetEta     = NULL;
-    TBranch* m_brRecoJetPhi     = NULL;
-    TBranch* m_brRecoJetArea    = NULL;
-    TBranch* m_brRecoCstMatchID = NULL;
-    TBranch* m_brRecoCstZ       = NULL;
-    TBranch* m_brRecoCstDr      = NULL;
-    TBranch* m_brRecoCstEne     = NULL;
-    TBranch* m_brRecoCstJt      = NULL;
-    TBranch* m_brRecoCstEta     = NULL;
-    TBranch* m_brRecoCstPhi     = NULL;
+      // outputs
+      SCorrelatorResponseMakerOutput m_output;
+      SCorrelatorResponseMakerOutput m_outLegacy;
 
 };
 
