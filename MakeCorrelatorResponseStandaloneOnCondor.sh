@@ -1,8 +1,8 @@
 #!/bin/bash
 # -----------------------------------------------------------------------------
-# 'MakeCorrelatorResponseStandaloneOnCondor.sh'
-# Derek Anderson
-# 05.16.2024
+# @file   MakeCorrelatorResponseStandaloneOnCondor.sh
+# @author Derek Anderson
+# @date   05.16.2024
 #
 # short script to run 'MakeCorrelatorResponseStandalone.cxx' macro via condor
 # -----------------------------------------------------------------------------

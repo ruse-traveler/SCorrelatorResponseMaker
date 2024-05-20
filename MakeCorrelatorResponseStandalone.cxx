@@ -1,11 +1,12 @@
-// ----------------------------------------------------------------------------
-// 'MakeCorrelatorResponseStandalone.cxx'
-// Derek Anderson
-// 04.30.2023
-//
-// Use this to run the SCorrelatorResponseMaker
-// class in standalone mode.
-// ----------------------------------------------------------------------------
+/// ---------------------------------------------------------------------------
+/*! \file   MakeCorrelatorResponseStandalone.cxx
+ *  \author Derek Anderson
+ *  \date   04.30.2023
+ *
+ *  Use this to run the SCorrelatorResponseMaker
+ *  class in standalone mode.
+ */
+/// ---------------------------------------------------------------------------
 
 #ifndef MAKECORRELATORRESPONSESTANDALONE_CXX
 #define MAKECORRELATORRESPONSESTANDALONE_CXX

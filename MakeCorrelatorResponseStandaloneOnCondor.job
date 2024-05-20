@@ -1,7 +1,7 @@
 # -----------------------------------------------------------------------------
-# 'MakeCorrelatorResponseStandaloneOnCondor.job'
-# Derek Anderson
-# 05.16.2024
+# @file   MakeCorrelatorResponseStandaloneOnCondor.job
+# @author Derek Anderson
+# @date   05.16.2024
 #
 # Job file to run standalone correlator response maker via condor.
 # -----------------------------------------------------------------------------

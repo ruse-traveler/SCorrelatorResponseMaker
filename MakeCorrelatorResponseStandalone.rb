@@ -1,8 +1,8 @@
 #!/usr/bin/env ruby
 # -----------------------------------------------------------------------------
-# 'MakeCorrelatorResponseStandalone.rb'
-# Derek Anderson
-# 05.16.2024
+# @file   MakeCorrelatorResponseStandalone.rb
+# @author Derek Anderson
+# @date   05.16.2024
 #
 # Short script to run the 'MakeCorrelatorResponseStandalone.cxx' macro.
 # -----------------------------------------------------------------------------

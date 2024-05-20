@@ -1,10 +1,11 @@
-// ----------------------------------------------------------------------------
-// 'CorrelatorResponseMakerOptions.h'
-// Derek Anderson
-// 05.16.2024
-//
-// Options for the 'SCrrelatorResponseMaker' module.
-// ----------------------------------------------------------------------------
+/// ---------------------------------------------------------------------------
+/*! \file   CorrelatorResponseMakerOptions.h
+ *  \author Derek Anderson
+ *  \date   05.16.2024
+ *
+ *  Options for the 'SCrrelatorResponseMaker' module.
+ */
+/// ---------------------------------------------------------------------------
 
 #ifndef CORRELATORRESPONSEMAKEROPTIONS_H
 #define CORRELATORRESPONSEMAKEROPTIONS_H 
