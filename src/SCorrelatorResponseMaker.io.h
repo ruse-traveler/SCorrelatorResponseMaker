@@ -27,7 +27,7 @@ namespace SColdQcdCorrelatorAnalysis {
 
     // print debug statement
     if (m_config.inDebugMode && (m_config.verbosity > 1)) {
-      PrintDebug(12);
+      PrintDebug(5);
     }
 
     /* TODO method goes here */
@@ -44,7 +44,7 @@ namespace SColdQcdCorrelatorAnalysis {
 
     // print debug statement
     if (m_config.inDebugMode && (m_config.verbosity > 1)) {
-      PrintDebug(13);
+      PrintDebug(6);
     }
 
     // open files
@@ -84,7 +84,7 @@ namespace SColdQcdCorrelatorAnalysis {
 
     // print debug statement
     if (m_config.inDebugMode && (m_config.verbosity > 1)) {
-      PrintDebug(14);
+      PrintDebug(7);
     }
 
     // open file
@@ -105,7 +105,7 @@ namespace SColdQcdCorrelatorAnalysis {
 
     // print debug statement
     if (m_config.inDebugMode && (m_config.verbsoity > 2)) {
-      PrintDebug(15);
+      PrintDebug(8);
     }
 
     file = (TFile*) gROOT -> GetListOfFiles() -> FindObject(fileName.data());
@@ -129,7 +129,7 @@ namespace SColdQcdCorrelatorAnalysis {
 
     // print debug statement
     if (m_config.inDebugMode && (m_config.verbosity > 1)) {
-      PrintDebug(16);
+      PrintDebug(9);
     }
 
     m_outFile   -> cd();

@@ -27,7 +27,7 @@ namespace SColdQcdCorrelatorAnalysis {
 
     // print debug statement
     if (m_config.inDebugMode && (m_config.verbosity > 1)) {
-      PrintDebug(17);
+      PrintDebug(10);
     }
 
     // for storing jet info

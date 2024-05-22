@@ -27,7 +27,7 @@ namespace SColdQcdCorrelatorAnalysis {
 
     // print debug statement
     if (m_config.inDebugMode && (m_config.verbosity > 1)) {
-      PrintDebug(20);
+      PrintDebug(11);
     }
 
     // check for trees
@@ -64,14 +64,16 @@ namespace SColdQcdCorrelatorAnalysis {
   void SCorrelatorResponseMaker::PrintMessage(const uint32_t code, const uint64_t iEvt, const pair<uint64_t, uint64_t> nEvts) {
 
     // print debug statement
-    if (m_config.inDebugMode && (m_config.verbosity > 3)) PrintDebug(21);
+    if (m_config.inDebugMode && (m_config.verbosity > 3)) {
+      PrintDebug(12);
+    }
 
     switch (code) {
       case 0:
-        cout << "\n  Beginning correlator folding..." << endl;
+        cout << "\n  Beginning correlator response making..." << endl;
         break;
       case 1:
-        cout << "    Initializing folder:\n"
+        cout << "    Initializing response maker:\n"
              << "      input truth file = " << m_config.inTrueFileName << "\n"
              << "      input reco file  = " << m_config.inRecoFileName
              << endl;
@@ -126,10 +128,10 @@ namespace SColdQcdCorrelatorAnalysis {
 
     switch (code) {
       case 0:
-        cout << "SCorrelatorResponseMaker::SCorrelatorResponseMaker() constructing folder..." << endl;
+        cout << "SCorrelatorResponseMaker::SCorrelatorResponseMaker() constructing response maker..." << endl;
         break;
       case 1:
-        cout << "SCorrelatorResponseMaker::~SCorrelatorResponseMaker() destructing folder..." << endl;
+        cout << "SCorrelatorResponseMaker::~SCorrelatorResponseMaker() destructing response maker..." << endl;
         break;
       case 2:
         cout << "SCorrelatorResponseMaker::Init() initializing in standalone mode..." << endl;
@@ -141,67 +143,31 @@ namespace SColdQcdCorrelatorAnalysis {
         cout << "SCorrelatorResponseMaker::End() ending in standalone mode..." << endl;
         break;
       case 5:
-        cout << "SCorrelatorResponseMaker::SetInputNodes(string&, string&) setting input node names..." << endl;
-        break;
-      case 6:
-        cout << "SCorrelatorResponseMaker::SetInputFiles(string&, string&) setting input file names..." << endl;
-        break;
-      case 7:
-        cout << "ScorrelatorResponseMaker::SetInputTrees(string&, string&) setting input tree names..." << endl;
-        break;
-      case 8:
-        cout << "SCorrelatorResponseMaker::SetJetMatchQtRange(pair<double, double>) setting jet-matching qT range..." << endl;
-        break;
-      case 9:
-        cout << "SCorrelatorResponseMaker::SetJetMatchDrRange(pair<double, double>) setting jet-matching dR range..." << endl;
-        break;
-      case 10:
-        cout << "SCorrelatorResponseMaker::GetJetMatchQtRange() grabbing jet-matching qT range..." << endl;
-        break;
-      case 11:
-        cout << "SCorrelatorResponseMaker::GetJetMatchDrRange() grabbing jet-matching dR range..." << endl;
-        break;
-      case 12:
         cout << "SCorrelatorResponseMaker::GrabInputNodes() grabbing input nodes..." << endl;
         break;
-      case 13:
+      case 6:
         cout << "SCorrelatorResponseMaker::OpenInputFiles() opening input files..." << endl;
         break;
-      case 14:
+      case 7:
         cout << "SCorrelatorResponseMaker::OpenOutputFile() opening output file..." << endl;
         break;
-      case 15:
+      case 8:
         cout << "SCorrelatorResponseMaker::OpenFile() opening a single file..." << endl;
         break;
-      case 16:
+      case 9:
         cout << "SCorrelatorResponseMaker::SaveOutput() saving output..." << endl;
         break;
-      case 17:
+      case 10:
         cout << "SCorrelatorResponseMaker::DoMatching() matching jets..." << endl;
         break;
-      case 18:
-        cout << "SCorrelatorResponseMaker::IsJetGoodMatch(double, double) checking if jet match is good..." << endl;
-        break;
-      case 19:
-        cout << "SCorrelatorResponseMaker::InitializeAddresses() initializing members..." << endl;
-        break;
-      case 20:
+      case 11:
         cout << "SCorrelatorResponseMaker::InitializeTrees() initializing trees..." << endl;
         break;
-      case 21:
+      case 12:
         cout << "SCorrelatorResponseMaker::PrintMessage(uint32_t) printing a message..." << endl;
         break;
-      case 22:
+      case 13:
         cout << "SCorrelatorResponseMaker::PrintError(uint32_t) printing an error..." << endl;
-        break;
-      case 23:
-        cout << "SCorrelatorResponseMaker::CheckCriticalParameters() checking critical parameters..." << endl;
-        break;
-      case 24:
-        cout << "SCorrelatorResponseMaker::GetEntry(uint64_t, TTree*) grabbing entry from a tree..." << endl;
-        break;
-      case 25:
-        cout << "SCorrelatorResponseMaker::LoadTree(uint64_t, TTree*, int) loading a tree..." << endl;
         break;
       default:
         PrintError(code);
@@ -219,7 +185,9 @@ namespace SColdQcdCorrelatorAnalysis {
   void SCorrelatorResponseMaker::PrintError(const uint32_t code, const uint64_t iEvt) {
 
     // print debug statement
-    if (m_config.inDebugMode && (m_config.verbosity > 3)) PrintDebug(22);
+    if (m_config.inDebugMode && (m_config.verbosity > 3)) {
+      PrintDebug(13);
+    }
 
     switch (code) {
       case 0:
