@@ -26,7 +26,7 @@ namespace SColdQcdCorrelatorAnalysis {
   void SCorrelatorResponseMaker::DoMatching() {
 
     // print debug statement
-    if (m_inDebugMode) PrintDebug(17);
+    if (m_config.inDebugMode) PrintDebug(17);
 
     // for storing jet info
     //   - FIXME all bookkeeping containers should be made members

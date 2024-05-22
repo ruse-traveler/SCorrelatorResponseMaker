@@ -41,18 +41,18 @@ namespace SColdQcdCorrelatorAnalysis {
   void SCorrelatorResponseMaker::OpenInputFiles() {
 
     // print debug statement
-    if (m_inDebugMode) PrintDebug(13);
+    if (m_config.inDebugMode) PrintDebug(13);
 
     // open files
     const bool isTrueTreeNotLoaded = (!m_inTrueTree);
     const bool isRecoTreeNotLoaded = (!m_inRecoTree);
-    if (isTrueTreeNotLoaded) OpenFile(m_inTrueFileName, m_inTrueFile);
-    if (isRecoTreeNotLoaded) OpenFile(m_inRecoFileName, m_inRecoFile);
+    if (isTrueTreeNotLoaded) OpenFile(m_config.inTrueFileName, m_inTrueFile);
+    if (isRecoTreeNotLoaded) OpenFile(m_config.inRecoFileName, m_inRecoFile);
 
     // try to grab trees
     try {
-      m_inTrueFile -> GetObject(m_inTrueTreeName.data(), m_inTrueTree);
-      m_inRecoFile -> GetObject(m_inRecoTreeName.data(), m_inRecoTree);
+      m_inTrueFile -> GetObject(m_config.inTrueTreeName.data(), m_inTrueTree);
+      m_inRecoFile -> GetObject(m_config.inRecoTreeName.data(), m_inRecoTree);
     } catch (...) {
       PrintError(1);
       assert(m_inTrueFile && m_inRecoFile);
@@ -79,10 +79,10 @@ namespace SColdQcdCorrelatorAnalysis {
   void SCorrelatorResponseMaker::OpenOutputFile() {
 
     // print debug statement
-    if (m_inDebugMode) PrintDebug(14);
+    if (m_config.inDebugMode) PrintDebug(14);
 
     // open file
-    m_outFile = new TFile(m_outFileName.data(), "recreate");
+    m_outFile = new TFile(m_config.outFileName.data(), "recreate");
     if (!m_outFile) {
       PrintError(11);
       assert(m_outFile);
@@ -98,7 +98,7 @@ namespace SColdQcdCorrelatorAnalysis {
   void SCorrelatorResponseMaker::OpenFile(const string& fileName, TFile*& file) {
 
     // print debug statement
-    if (m_inDebugMode && (Verbosity() > 7)) PrintDebug(15);
+    if (m_config.inDebugMode && (Verbosity() > 7)) PrintDebug(15);
 
     file = (TFile*) gROOT -> GetListOfFiles() -> FindObject(fileName.data());
     if (!file || !(file -> IsOpen())) {
@@ -120,13 +120,13 @@ namespace SColdQcdCorrelatorAnalysis {
   void SCorrelatorResponseMaker::SaveOutput() {
 
     // print debug statement
-    if (m_inDebugMode) PrintDebug(16);
+    if (m_config.inDebugMode) PrintDebug(16);
 
     m_outFile   -> cd();
     m_matchTree -> Write();
 
     // announce saving
-    if (m_inStandaloneMode) PrintMessage(4);
+    if (m_config.isStandalone) PrintMessage(4);
     return;
 
   }  // end 'SaveOutput()'

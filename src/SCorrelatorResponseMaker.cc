@@ -38,26 +38,24 @@ namespace SColdQcdCorrelatorAnalysis {
 
     // set standalone/complex mode
     if (isComplex) {
-      m_inComplexMode    = true;
-      m_inStandaloneMode = false; 
+      m_config.inStandaloneMode = false; 
     } else {
-      m_inComplexMode    = false;
-      m_inStandaloneMode = true;
+      m_config.isStandalone = true;
     }
 
     // set verbosity in complex mode
-    if (m_inComplexMode) {
-      m_verbosity = Verbosity();
+    if (!m_config.isStandalone) {
+      m_config.verbosity = Verbosity();
     }
 
     // set debug/batch mode & print debug statement
-    m_inDebugMode = doDebug;
-    m_inBatchMode = inBatch;
-    if (m_inDebugMode) PrintDebug(0);
+    m_config.inDebugMode = doDebug;
+    m_config.inBatchMode = inBatch;
+    if (m_config.inDebugMode) PrintDebug(0);
 
     // set module name & announce start of folding
-    m_moduleName = name;
-    if (m_inStandaloneMode) PrintMessage(0);
+    m_config.moduleName = name;
+    if (m_config.isStandalone) PrintMessage(0);
 
   }  // end ctor(string, bool, bool)
 
@@ -69,7 +67,7 @@ namespace SColdQcdCorrelatorAnalysis {
   SCorrelatorResponseMaker::~SCorrelatorResponseMaker() {
 
     // print debug statement
-    if (m_inDebugMode) PrintDebug(1);
+    if (m_config.inDebugMode) PrintDebug(1);
 
     // delete pointers to files
     if (!m_inTrueTree || !m_inRecoTree) {
@@ -135,12 +133,12 @@ namespace SColdQcdCorrelatorAnalysis {
   void SCorrelatorResponseMaker::Init() {
 
     // print debug statement
-    if (m_inDebugMode) PrintDebug(2);
+    if (m_config.inDebugMode) PrintDebug(2);
 
     // make sure standalone mode is on & open files
-    if (m_inComplexMode) {
+    if (!m_config.isStandalone) {
       PrintError(0);
-      assert(m_inStandaloneMode);
+      assert(m_config.isStandalone);
     } else {
       OpenInputFiles();
     }
@@ -163,12 +161,12 @@ namespace SColdQcdCorrelatorAnalysis {
   void SCorrelatorResponseMaker::Analyze() {
 
     // print debug statement
-    if (m_inDebugMode) PrintDebug(3);
+    if (m_config.inDebugMode) PrintDebug(3);
 
     // make sure standalone mode is on
-    if (m_inComplexMode) {
+    if (!m_config.isStandalone) {
       PrintError(0);
-      assert(m_inStandaloneMode);
+      assert(m_config.isStandalone);
     }
 
     // announce start of analysis
@@ -187,12 +185,12 @@ namespace SColdQcdCorrelatorAnalysis {
   void SCorrelatorResponseMaker::End() {
 
     // print debug statement
-    if (m_inDebugMode) PrintDebug(4);
+    if (m_config.inDebugMode) PrintDebug(4);
 
     // make sure standalone mode is on & save output
-    if (m_inComplexMode) {
+    if (!m_config.isStandalone) {
       PrintError(0);
-      assert(m_inStandaloneMode);
+      assert(m_config.isStandalone);
     } else {
       SaveOutput();
     }
