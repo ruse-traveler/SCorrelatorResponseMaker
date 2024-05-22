@@ -70,7 +70,8 @@ namespace SColdQcdCorrelatorAnalysis {
     public:
 
       // ctor/dtor
-      SCorrelatorResponseMaker(const string &name = "SCorrelatorResponseMaker", const bool isComplex = false, const bool doDebug = false, const bool inBatch = false);
+      SCorrelatorResponseMaker(const string &name = "SCorrelatorResponseMaker", const bool debug = false, const bool standalone = true);
+      SCorrelatorResponseMaker(SCorrelatorResponseMakerConfig& config);
       ~SCorrelatorResponseMaker() override;
 
       // F4A methods
@@ -106,7 +107,6 @@ namespace SColdQcdCorrelatorAnalysis {
       void PrintMessage(const uint32_t code, const uint64_t iEvt = 0, const pair<uint64_t, uint64_t> nEvts = {0, 0});
       void PrintDebug(const uint32_t code);
       void PrintError(const uint32_t code, const uint64_t iEvt = 0);
-      bool CheckCriticalParameters();
 
       // io members
       TFile* m_outFile    = NULL;

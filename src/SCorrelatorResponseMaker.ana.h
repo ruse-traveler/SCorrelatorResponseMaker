@@ -26,7 +26,9 @@ namespace SColdQcdCorrelatorAnalysis {
   void SCorrelatorResponseMaker::DoMatching() {
 
     // print debug statement
-    if (m_config.inDebugMode) PrintDebug(17);
+    if (m_config.inDebugMode && (m_config.verbosity > 1)) {
+      PrintDebug(17);
+    }
 
     // for storing jet info
     //   - FIXME all bookkeeping containers should be made members
@@ -120,10 +122,10 @@ namespace SColdQcdCorrelatorAnalysis {
 
       // load reco entry
       //   - FIXME should the reco event be located via an event ID first?
-      const uint64_t recoEntry = LoadTree(iTrueEvt, m_inRecoTree, m_fRecoCurrent);
+      const uint64_t recoEntry = Interfaces::LoadTree(iTrueEvt, m_inRecoTree, m_fRecoCurrent);
       if (recoEntry < 0) break;
 
-      const uint64_t recoBytes = GetEntry(iTrueEvt, m_inRecoTree);
+      const uint64_t recoBytes = Interfaces::GetEntry(iTrueEvt, m_inRecoTree);
       if (recoBytes < 0) {
         PrintError(5, iTrueEvt);
         break;

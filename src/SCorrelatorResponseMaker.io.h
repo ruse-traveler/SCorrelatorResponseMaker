@@ -26,7 +26,9 @@ namespace SColdQcdCorrelatorAnalysis {
   void SCorrelatorResponseMaker::GrabInputNodes() {
 
     // print debug statement
-    if (m_config.inDebugMode) PrintDebug(12);
+    if (m_config.inDebugMode && (m_config.verbosity > 1)) {
+      PrintDebug(12);
+    }
 
     /* TODO method goes here */
     return;
@@ -41,7 +43,9 @@ namespace SColdQcdCorrelatorAnalysis {
   void SCorrelatorResponseMaker::OpenInputFiles() {
 
     // print debug statement
-    if (m_config.inDebugMode) PrintDebug(13);
+    if (m_config.inDebugMode && (m_config.verbosity > 1)) {
+      PrintDebug(13);
+    }
 
     // open files
     const bool isTrueTreeNotLoaded = (!m_inTrueTree);
@@ -79,7 +83,9 @@ namespace SColdQcdCorrelatorAnalysis {
   void SCorrelatorResponseMaker::OpenOutputFile() {
 
     // print debug statement
-    if (m_config.inDebugMode) PrintDebug(14);
+    if (m_config.inDebugMode && (m_config.verbosity > 1)) {
+      PrintDebug(14);
+    }
 
     // open file
     m_outFile = new TFile(m_config.outFileName.data(), "recreate");
@@ -98,7 +104,9 @@ namespace SColdQcdCorrelatorAnalysis {
   void SCorrelatorResponseMaker::OpenFile(const string& fileName, TFile*& file) {
 
     // print debug statement
-    if (m_config.inDebugMode && (Verbosity() > 7)) PrintDebug(15);
+    if (m_config.inDebugMode && (m_config.verbsoity > 2)) {
+      PrintDebug(15);
+    }
 
     file = (TFile*) gROOT -> GetListOfFiles() -> FindObject(fileName.data());
     if (!file || !(file -> IsOpen())) {
@@ -120,7 +128,9 @@ namespace SColdQcdCorrelatorAnalysis {
   void SCorrelatorResponseMaker::SaveOutput() {
 
     // print debug statement
-    if (m_config.inDebugMode) PrintDebug(16);
+    if (m_config.inDebugMode && (m_config.verbosity > 1)) {
+      PrintDebug(16);
+    }
 
     m_outFile   -> cd();
     m_matchTree -> Write();

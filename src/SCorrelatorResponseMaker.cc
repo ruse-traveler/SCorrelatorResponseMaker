@@ -27,37 +27,42 @@ namespace SColdQcdCorrelatorAnalysis {
   // ctor/dtor ================================================================
 
   // --------------------------------------------------------------------------
-  //! Module ctor
+  //! Module ctor accepting name and mode on/off flags
   // --------------------------------------------------------------------------
   SCorrelatorResponseMaker::SCorrelatorResponseMaker(
     const string &name,
-    const bool isComplex,
-    const bool doDebug,
-    const bool inBatch
+    const bool debug,
+    const bool standalone
   ) : SubsysReco(name) {
 
-    // set standalone/complex mode
-    if (isComplex) {
-      m_config.inStandaloneMode = false; 
-    } else {
-      m_config.isStandalone = true;
+    // print relevant messages
+    if (debug && (Verbosity() > 1)) {
+      PrintDebug(0);
     }
-
-    // set verbosity in complex mode
-    if (!m_config.isStandalone) {
-      m_config.verbosity = Verbosity();
+    if (standalone) {
+      PrintMessage(0);
     }
-
-    // set debug/batch mode & print debug statement
-    m_config.inDebugMode = doDebug;
-    m_config.inBatchMode = inBatch;
-    if (m_config.inDebugMode) PrintDebug(0);
-
-    // set module name & announce start of folding
-    m_config.moduleName = name;
-    if (m_config.isStandalone) PrintMessage(0);
 
   }  // end ctor(string, bool, bool)
+
+
+
+  // --------------------------------------------------------------------------
+  //! Module ctor accepting config struct
+  // --------------------------------------------------------------------------
+  SCorrelatorResponseMaker::SCorrelatorResponseMaker(
+    SCorrelatorResponseMakerConfig& config
+  ) : SubsysReco(config.moduleName) {
+
+    m_config = config;
+    if (m_config.inDebugMode && (m_config.verbsoity > 1)) {
+      PrintDebug(0);
+    }
+
+    // announce start of module
+    if (m_config.isStandalone) PrintMessage(0);
+
+  }  // end ctor(SCorrelatorResponseMakerConfig&)'
 
 
 
@@ -67,7 +72,9 @@ namespace SColdQcdCorrelatorAnalysis {
   SCorrelatorResponseMaker::~SCorrelatorResponseMaker() {
 
     // print debug statement
-    if (m_config.inDebugMode) PrintDebug(1);
+    if (m_config.inDebugMode && (m_config.verbosity > 1)) {
+      PrintDebug(1);
+    }
 
     // delete pointers to files
     if (!m_inTrueTree || !m_inRecoTree) {
@@ -133,7 +140,9 @@ namespace SColdQcdCorrelatorAnalysis {
   void SCorrelatorResponseMaker::Init() {
 
     // print debug statement
-    if (m_config.inDebugMode) PrintDebug(2);
+    if (m_config.inDebugMode && (m_config.verbosity > 0)) {
+      PrintDebug(2);
+    }
 
     // make sure standalone mode is on & open files
     if (!m_config.isStandalone) {
@@ -161,7 +170,9 @@ namespace SColdQcdCorrelatorAnalysis {
   void SCorrelatorResponseMaker::Analyze() {
 
     // print debug statement
-    if (m_config.inDebugMode) PrintDebug(3);
+    if (m_config.inDebugMode && (m_config.verbosity(0)) {
+      PrintDebug(3);
+    }
 
     // make sure standalone mode is on
     if (!m_config.isStandalone) {
@@ -185,7 +196,9 @@ namespace SColdQcdCorrelatorAnalysis {
   void SCorrelatorResponseMaker::End() {
 
     // print debug statement
-    if (m_config.inDebugMode) PrintDebug(4);
+    if (m_config.inDebugMode && (m_config.verbosity(0)) {
+      PrintDebug(4);
+    }
 
     // make sure standalone mode is on & save output
     if (!m_config.isStandalone) {

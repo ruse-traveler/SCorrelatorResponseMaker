@@ -26,7 +26,9 @@ namespace SColdQcdCorrelatorAnalysis {
   void SCorrelatorResponseMaker::InitializeTrees() {
 
     // print debug statement
-    if (m_config.inDebugMode) PrintDebug(20);
+    if (m_config.inDebugMode && (m_config.verbosity > 1)) {
+      PrintDebug(20);
+    }
 
     // check for trees
     if (!m_inTrueTree) {
@@ -62,7 +64,7 @@ namespace SColdQcdCorrelatorAnalysis {
   void SCorrelatorResponseMaker::PrintMessage(const uint32_t code, const uint64_t iEvt, const pair<uint64_t, uint64_t> nEvts) {
 
     // print debug statement
-    if (m_config.inDebugMode && (m_config.verbosity > 5)) PrintDebug(21);
+    if (m_config.inDebugMode && (m_config.verbosity > 3)) PrintDebug(21);
 
     switch (code) {
       case 0:
@@ -118,7 +120,7 @@ namespace SColdQcdCorrelatorAnalysis {
   void SCorrelatorResponseMaker::PrintDebug(const uint32_t code) {
 
     // print debug statement
-    if (m_config.inDebugMode && (m_config.verbosity > 7)) {
+    if (m_config.inDebugMode && (m_config.verbosity > 3)) {
       cout << "SCorrelatorResponseMaker::PrintDebug(uint32_t) printing a debugging statement..." << endl;
     }
 
@@ -217,7 +219,7 @@ namespace SColdQcdCorrelatorAnalysis {
   void SCorrelatorResponseMaker::PrintError(const uint32_t code, const uint64_t iEvt) {
 
     // print debug statement
-    if (m_config.inDebugMode && (m_config.verbosity > 5)) PrintDebug(22);
+    if (m_config.inDebugMode && (m_config.verbosity > 3)) PrintDebug(22);
 
     switch (code) {
       case 0:
@@ -247,21 +249,6 @@ namespace SColdQcdCorrelatorAnalysis {
     return;
 
   }  // end 'PrintError(unint32_t, uint64_t)'
-
-
-
-  // --------------------------------------------------------------------------
-  //! Check critical parameters to ensure they were set
-  // --------------------------------------------------------------------------
-  bool SCorrelatorResponseMaker::CheckCriticalParameters() {
-
-    // print debugging statement
-    if (m_config.inDebugMode) PrintDebug(23); 
-
-    /* TODO checking goes here */
-    return true;
-
-  }  // end 'CheckCriticalParameters()'
 
 }  // end SColdQcdCorrelatorAnalysis namespace
 
