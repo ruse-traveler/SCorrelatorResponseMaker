@@ -31,7 +31,7 @@ to_copy = [
   "src/SCorrelatorResponseMaker.sys.h",
   "src/SCorrelatorResponseMaker.ana.h",
   "src/SCorrelatorResponseMakerInput.h",
-  "src/SCorrealtorResponseMakerOutput.h",
+  "src/SCorrelatorResponseMakerOutput.h",
   "src/SCorrelatorResponseMakerConfig.h",
   "src/SCorrelatorResponseMakerLinkDef.h",
   "src/autogen.sh",
