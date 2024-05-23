@@ -15,9 +15,10 @@
 #include <utility>
 #include <optional>
 // analysis utilities
-#include "/sphenix/user/danderson/install/include/scorrelatorutilities/Types.h"
-#include "/sphenix/user/danderson/install/include/scorrelatorutilities/Constants.h"
-#include "/sphenix/user/danderson/install/include/scorrelatorresponsemaker/SCorrealtorResponseMakerConfig.h"
+#include <scorrelatorutilities/Types.h>
+#include <scorrelatorutilities/Constants.h>
+// module configuration
+#include <scorrelatorresponsemaker/SCorrealtorResponseMakerConfig.h>
 
 // make common namespaces implicit
 using namespace std;

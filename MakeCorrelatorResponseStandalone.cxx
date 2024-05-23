@@ -15,16 +15,17 @@
 #include <string>
 #include <cstdlib>
 #include <utility>
-// user includes
-#include "/sphenix/user/danderson/install/include/scorrelatorresponsemaker/SCorrelatorResponseMaker.h"
-#include "/sphenix/user/danderson/install/include/scorrelatorresponsemaker/SCorrelatorResponseMakerConfig.h"
+// module definition
+#include <scorrelatorresponsemaker/SCorrelatorResponseMaker.h>
+// macro options
 #include "EnergyCorrelatorOptions.h"
+
+// load libraries
+R__LOAD_LIBRARY(libscorrelatorutilities.so)
+R__LOAD_LIBRARY(libscorrelatorresponsemaker.so)
 
 // make common namespaces implicit
 using namespace std;
-
-// load libraries
-R__LOAD_LIBRARY(/sphenix/user/danderson/install/lib/libscorrelatorresponsemaker.so)
 
 
 
