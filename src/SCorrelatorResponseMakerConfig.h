@@ -27,6 +27,7 @@ namespace SColdQcdCorrelatorAnalysis {
     bool   inDebugMode    = false;
     bool   inBatchMode    = false;
     bool   isStandalone   = true;
+    bool   isLegacyIO     = true;
     string moduleName     = "";
     string inTrueFileName = "";
     string inRecoFileName = "";

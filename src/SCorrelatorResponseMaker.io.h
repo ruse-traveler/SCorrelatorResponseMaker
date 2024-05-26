@@ -98,6 +98,7 @@ namespace SColdQcdCorrelatorAnalysis {
   }  // end 'OpenOutputFile()'
 
 
+
   // --------------------------------------------------------------------------
   //! Open a specified file for reading
   // --------------------------------------------------------------------------
@@ -119,6 +120,29 @@ namespace SColdQcdCorrelatorAnalysis {
     return;
 
   }  // end 'OpenFile(string&, TFile*&)'
+
+
+
+  // --------------------------------------------------------------------------
+  //! Fill output tree
+  // --------------------------------------------------------------------------
+  void SCorrelatorResponseMaker::FillTree() {
+
+    // print debug statement
+    if (m_config.inDebugMode && (m_config.verbsoity > 1)) {
+      PrintDebug(14);
+    }
+
+    // if making legacy output, translate accordingly
+    if (m_config.isLegacyIO) {
+      m_outLegacy.GetOutput(m_output);
+    }
+
+    // fill output tree
+    m_matchTree -> Fill();
+    return;
+
+  }  // end 'FillTree()'
 
 
 

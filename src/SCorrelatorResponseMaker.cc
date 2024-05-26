@@ -183,7 +183,9 @@ namespace SColdQcdCorrelatorAnalysis {
     // announce start of analysis
     PrintMessage(2);
 
+    // do matching and fill tree with results
     DoMatching();
+    FillTree();
     return;
 
   }  // end 'StandaloneAnalyze()'

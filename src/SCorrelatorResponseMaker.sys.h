@@ -31,24 +31,35 @@ namespace SColdQcdCorrelatorAnalysis {
     }
 
     // check for trees
-    if (!m_inTrueTree) {
-      PrintError(1);
-      assert(m_inTrueTree);
-    }
     if (!m_inRecoTree) {
       PrintError(2);
       assert(m_inRecoTree);
     }
-    m_fTrueCurrent = -1;
+    if (!m_inTrueTree) {
+      PrintError(1);
+      assert(m_inTrueTree);
+    }
     m_fRecoCurrent = -1;
-    m_inTrueTree   -> SetMakeClass(1);
+    m_fTrueCurrent = -1;
     m_inRecoTree   -> SetMakeClass(1);
+    m_inTrueTree   -> SetMakeClass(1);
 
-    /* TODO use structs instead */
+    // set input trees
+    if (m_config.isLegacyIO) {
+      m_recoLegacy.SetTreeAddresses(m_inRecoTree);
+      m_trueLegacy.SetTreeAddresses(m_inTrueTree);
+    } else {
+      m_recoInput.SetTreeAddresses(m_inRecoTree);
+      m_trueInput.SetTreeAddresses(m_inTrueTree);
+    }
 
     // initialize response tree
     m_matchTree = new TTree("ResponseTree", "A tree of matched truth-reco. events");
-    /* TODO initialize tree with struct */
+    if (m_config.isLegacyIO) {
+      m_outLegacy.SetTreeAddresses(m_matchTree);
+    } else {
+      m_output.SetTreeAddresses(m_matchTree);
+    }
 
     // announce tree setting
     if (m_config.isStandalone) PrintMessage(5);
@@ -169,6 +180,9 @@ namespace SColdQcdCorrelatorAnalysis {
       case 13:
         cout << "SCorrelatorResponseMaker::PrintError(uint32_t) printing an error..." << endl;
         break;
+      case 14:
+        cout << "SCorrelatorResponseMaker::FillTree() filling output tree..." << endl;
+        break; 
       default:
         PrintError(code);
         break;
