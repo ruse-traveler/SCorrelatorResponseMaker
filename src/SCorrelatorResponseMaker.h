@@ -92,18 +92,17 @@ namespace SColdQcdCorrelatorAnalysis {
 
     private:
 
-      // io methods (*.io.h)
-      void GrabInputNodes();
-      void OpenInputFiles();
-      void OpenOutputFile();
-      void OpenFile(const string& fileName, TFile*& file);
-      void SaveOutput();
-
       // analysis methods (*.ana.h)
       void DoMatching();
 
       // system methods (*.sys.h)
+      void GrabInputNodes();
+      void OpenFile(const string& fileName, TFile*& file);
+      void OpenInputFiles();
+      void OpenOutputFile();
       void InitializeTrees();
+      void FillTree();
+      void SaveOutput();
       void PrintMessage(const uint32_t code, const uint64_t iEvt = 0, const pair<uint64_t, uint64_t> nEvts = {0, 0});
       void PrintDebug(const uint32_t code);
       void PrintError(const uint32_t code, const uint64_t iEvt = 0);

@@ -6,13 +6,12 @@ log/
 src/*
 !src/SCorrelatorResponseMaker.h
 !src/SCorrelatorResponseMaker.cc
-!src/SCorrelatorResponseMaker.io.h
-!src/SCorrelatorResponseMaker.sys.h
 !src/SCorrelatorResponseMaker.ana.h
-!src/SCorrelatorResponseMakerLinkDef.h
-!src/SCorrelatorResponseMakerConfig.h
+!src/SCorrelatorResponseMaker.sys.h
 !src/SCorrelatorResponseMakerInput.h
 !src/SCorrelatorResponseMakerOutput.h
+!src/SCorrelatorResponseMakerConfig.h
+!src/SCorrelatorResponseMakerLinkDef.h
 !src/autogen.sh
 !src/configure.ac
 !src/Makefile.am

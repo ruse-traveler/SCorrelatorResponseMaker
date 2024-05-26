@@ -14,7 +14,6 @@
 
 // user includes
 #include "SCorrelatorResponseMaker.h"
-#include "SCorrelatorResponseMaker.io.h"
 #include "SCorrelatorResponseMaker.sys.h"
 #include "SCorrelatorResponseMaker.ana.h"
 
