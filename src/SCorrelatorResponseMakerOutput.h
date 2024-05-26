@@ -86,7 +86,7 @@ namespace SColdQcdCorrelatorAnalysis {
     pair<vector<vector<double>>, vector<vector<double>>> cstZ;
     pair<vector<vector<double>>, vector<vector<double>>> cstDr;
     pair<vector<vector<double>>, vector<vector<double>>> cstEne;
-    pair<vector<vector<double>>, vector<vector<double>>> cstJt;
+    pair<vector<vector<double>>, vector<vector<double>>> cstPt;
     pair<vector<vector<double>>, vector<vector<double>>> cstEta;
     pair<vector<vector<double>>, vector<vector<double>>> cstPhi;
 
@@ -124,8 +124,8 @@ namespace SColdQcdCorrelatorAnalysis {
       cstDr.second.clear();
       cstEne.first.clear();
       cstEne.second.clear();
-      cstJt.first.clear();
-      cstJt.second.clear();
+      cstPt.first.clear();
+      cstPt.second.clear();
       cstEta.first.clear();
       cstEta.second.clear();
       cstPhi.first.clear();
@@ -141,44 +141,44 @@ namespace SColdQcdCorrelatorAnalysis {
     // ------------------------------------------------------------------------
     void SetTreeAddresses(TTree* tree) {
 
-      tree -> Branch("EvtTrueNumJets",     &m_matchNumJets.first,  "EvtTrueNumJets/I");
-      tree -> Branch("EvtRecoNumJets",     &m_matchNumJets.second, "EvtRecoNumJets/I");
-      tree -> Branch("EvtTrueNumChrgPars", &m_matchNumTrks.first,  "EvtTrueNumTrks/I");
-      tree -> Branch("EvtRecoNumChrgPars", &m_matchNumTrks.second, "EvtRecoNumTrks/I");
-      tree -> Branch("EvtTrueVtxX",        &m_matchVtxX.first,     "EvtTrueVtxX/D");
-      tree -> Branch("EvtRecoVtxX",        &m_matchVtxX.second,    "EvtRecoVtxX/D");
-      tree -> Branch("EvtTrueVtxY",        &m_matchVtxY.first,     "EvtTrueVtxY/D");
-      tree -> Branch("EvtRecoVtxY",        &m_matchVtxY.second,    "EvtRecoVtxY/D");
-      tree -> Branch("EvtTrueVtxZ",        &m_matchVtxZ.first,     "EvtTrueVtxZ/D");
-      tree -> Branch("EvtRecoVtxZ",        &m_matchVtxZ.second,    "EvtRecoVtxZ/D");
-      tree -> Branch("JetTrueJetID",       &m_matchJetID.first);
-      tree -> Branch("JetRecoJetID",       &m_matchJetID.second);
-      tree -> Branch("JetTrueNumCst",      &m_matchJetNumCst.first);
-      tree -> Branch("JetRecoNumCst",      &m_matchJetNumCst.second);
-      tree -> Branch("JetTrueEne",         &m_matchJetEne.first);
-      tree -> Branch("JetRecoEne",         &m_matchJetEne.second);
-      tree -> Branch("JetTruePt",          &m_matchJetPt.first);
-      tree -> Branch("JetRecoPt",          &m_matchJetPt.second);
-      tree -> Branch("JetTrueEta",         &m_matchJetEta.first);
-      tree -> Branch("JetRecoEta",         &m_matchJetEta.second);
-      tree -> Branch("JetTruePhi",         &m_matchJetPhi.first);
-      tree -> Branch("JetRecoPhi",         &m_matchJetPhi.second);
-      tree -> Branch("JetTrueArea",        &m_matchJetArea.first);
-      tree -> Branch("JetRecoArea",        &m_matchJetArea.second);
-      tree -> Branch("CstTrueCstID",       &m_matchCstID.first);
-      tree -> Branch("CstRecoCstID",       &m_matchCstID.second);
-      tree -> Branch("CstTrueZ",           &m_matchCstZ.first);
-      tree -> Branch("CstRecoZ",           &m_matchCstZ.second);
-      tree -> Branch("CstTrueDr",          &m_matchCstDr.first);
-      tree -> Branch("CstRecoDr",          &m_matchCstDr.second);
-      tree -> Branch("CstRecoEne",         &m_matchCstEne.second);
-      tree -> Branch("CstTrueEne",         &m_matchCstEne.first);
-      tree -> Branch("CstTrueJt",          &m_matchCstJt.first);
-      tree -> Branch("CstRecoJt",          &m_matchCstJt.second);
-      tree -> Branch("CstTrueEta",         &m_matchCstEta.first);
-      tree -> Branch("CstRecoEta",         &m_matchCstEta.second);
-      tree -> Branch("CstTruePhi",         &m_matchCstPhi.first);
-      tree -> Branch("CstRecoPhi",         &m_matchCstPhi.second);
+      tree -> Branch("EvtTrueNumJets",     &numJets.first,  "EvtTrueNumJets/I");
+      tree -> Branch("EvtRecoNumJets",     &numJets.second, "EvtRecoNumJets/I");
+      tree -> Branch("EvtTrueNumChrgPars", &numTrks.first,  "EvtTrueNumTrks/I");
+      tree -> Branch("EvtRecoNumChrgPars", &numTrks.second, "EvtRecoNumTrks/I");
+      tree -> Branch("EvtTrueVtxX",        &vtxX.first,     "EvtTrueVtxX/D");
+      tree -> Branch("EvtRecoVtxX",        &vtxX.second,    "EvtRecoVtxX/D");
+      tree -> Branch("EvtTrueVtxY",        &vtxY.first,     "EvtTrueVtxY/D");
+      tree -> Branch("EvtRecoVtxY",        &vtxY.second,    "EvtRecoVtxY/D");
+      tree -> Branch("EvtTrueVtxZ",        &vtxZ.first,     "EvtTrueVtxZ/D");
+      tree -> Branch("EvtRecoVtxZ",        &vtxZ.second,    "EvtRecoVtxZ/D");
+      tree -> Branch("JetTrueJetID",       &jetID.first);
+      tree -> Branch("JetRecoJetID",       &jetID.second);
+      tree -> Branch("JetTrueNumCst",      &jetNumCst.first);
+      tree -> Branch("JetRecoNumCst",      &jetNumCst.second);
+      tree -> Branch("JetTrueEne",         &jetEne.first);
+      tree -> Branch("JetRecoEne",         &jetEne.second);
+      tree -> Branch("JetTruePt",          &jetPt.first);
+      tree -> Branch("JetRecoPt",          &jetPt.second);
+      tree -> Branch("JetTrueEta",         &jetEta.first);
+      tree -> Branch("JetRecoEta",         &jetEta.second);
+      tree -> Branch("JetTruePhi",         &jetPhi.first);
+      tree -> Branch("JetRecoPhi",         &jetPhi.second);
+      tree -> Branch("JetTrueArea",        &jetArea.first);
+      tree -> Branch("JetRecoArea",        &jetArea.second);
+      tree -> Branch("CstTrueCstID",       &cstID.first);
+      tree -> Branch("CstRecoCstID",       &cstID.second);
+      tree -> Branch("CstTrueZ",           &cstZ.first);
+      tree -> Branch("CstRecoZ",           &cstZ.second);
+      tree -> Branch("CstTrueDr",          &cstDr.first);
+      tree -> Branch("CstRecoDr",          &cstDr.second);
+      tree -> Branch("CstRecoEne",         &cstEne.second);
+      tree -> Branch("CstTrueEne",         &cstEne.first);
+      tree -> Branch("CstTruePt",          &cstPt.first);
+      tree -> Branch("CstRecoPt",          &cstPt.second);
+      tree -> Branch("CstTrueEta",         &cstEta.first);
+      tree -> Branch("CstRecoEta",         &cstEta.second);
+      tree -> Branch("CstTruePhi",         &cstPhi.first);
+      tree -> Branch("CstRecoPhi",         &cstPhi.second);
       return;
 
     }  // end 'SetTreeAddresses(TTree* tree)'
@@ -190,7 +190,78 @@ namespace SColdQcdCorrelatorAnalysis {
     // ------------------------------------------------------------------------
     void GetOutput(const SCorrelatorResponseMakerOutput& output) {
 
-      /* TODO fill in */
+      // grab no.s of jets
+      const int64_t nTrueJets = output.jetGen.size();
+      const int64_t nRecoJets = output.jetRec.size();
+
+      // set event info
+      numJets = make_pair( nTrueJets,                          nRecoJets );
+      numTrks = make_pair( output.evtGen.GetNChrgPar(),        output.evtRec.GetNTrks() );
+      vtxX    = make_pair( output.evtGen.GetPartonA().GetVX(), output.evtRec.GetVX() );
+      vtxY    = make_pair( output.evtGen.GetPartonA().GetVY(), output.evtRec.GetVY() );
+      vtxZ    = make_pair( output.evtGen.GetPartonA().GetVZ(), output.evtRec.GetVZ() );
+
+      // set true jet info
+      for (Types::JetInfo& jet : output.jetGen) {
+        jetID.first.push_back( jet.GetJetID() );
+        jetNumCst.first.push_back( jet.GetNCsts() );
+        jetEne.first.push_back( jet.GetEne() );
+        jetPt.first.push_back( jet.GetPT() );
+        jetEta.first.push_back( jet.GetEta() );
+        jetPhi.first.push_back( jet.GetPhi() );
+        jetArea.first.push_back( jet.GetArea() );
+      }
+
+      // set reco jet info
+      for (Types::JetInfo& jet : output.jetRec) {
+        jetID.second.push_back( jet.GetJetID() );
+        jetNumCst.second.push_back( jet.GetNCsts() );
+        jetEne.second.push_back( jet.GetEne() );
+        jetPt.second.push_back( jet.GetPT() );
+        jetEta.second.push_back( jet.GetEta() );
+        jetPhi.second.push_back( jet.GetPhi() );
+        jetArea.second.push_back( jet.GetArea() );
+      }
+
+      // set true cst info
+      cstID.first.resize( nTrueJets );
+      cstZ.first.resize( nTrueJets );
+      cstDr.first.resize( nTrueJets );
+      cstEne.first.resize( nTrueJets );
+      cstPt.first.resize( nTrueJets );
+      cstEta.first.resize( nTrueJets );
+      cstPhi.first.resize( nTrueJets );
+      for (int64_t iTrueJet = 0; iTrueJet < output.cstGen.size(); ++iTrueJet) {
+        for (Types::CstInfo& cst : output.cstGen[iTrueJet]) {
+          cstID.first.at(iTrueJet).push_back( cst.GetCstID() );
+          cstZ.first.at(iTrueJet).push_back( cst.GetZ() );
+          cstDr.first.at(iTrueJet).push_back( cst.GetDR() );
+          cstEne.first.at(iTrueJet).push_back( cst.GetEne() );
+          cstPt.first.at(iTrueJet).push_back( cst.GetPT() );
+          cstEta.first.at(iTrueJet).push_back( cst.GetEta() );
+          cstPhi.first.at(iTrueJet).push_back( cst.GetPhi() );
+        }
+      }
+
+      // set reco cst info
+      cstID.second.resize( nRecoJets );
+      cstZ.second.resize( nRecoJets );
+      cstDr.second.resize( nRecoJets );
+      cstEne.second.resize( nRecoJets );
+      cstPt.second.resize( nRecoJets );
+      cstEta.second.resize( nRecoJets );
+      cstPhi.second.resize( nRecoJets );
+      for (int64_t iRecoJet = 0; iRecoJet < output.cstRec.size(); ++iRecoJet) {
+        for (Types::CstInfo& cst : output.cstRec[iRecoJet]) {
+          cstID.second.at(iRecoJet).push_back( cst.GetCstID() );
+          cstZ.second.at(iRecoJet).push_back( cst.GetZ() );
+          cstDr.second.at(iRecoJet).push_back( cst.GetDR() );
+          cstEne.second.at(iRecoJet).push_back( cst.GetEne() );
+          cstPt.second.at(iRecoJet).push_back( cst.GetPT() );
+          cstEta.second.at(iRecoJet).push_back( cst.GetEta() );
+          cstPhi.second.at(iRecoJet).push_back( cst.GetPhi() );
+        }
+      }
       return;
 
     }  // end 'GetOutput(SCorrelatorResponseMakerOutput&)'
