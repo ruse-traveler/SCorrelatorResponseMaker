@@ -15,9 +15,11 @@ AM_CPPFLAGS = \
 
 pkginclude_HEADERS = \
   SCorrelatorResponseMaker.h \
-  SCorrelatorResponseMakerConfig.h \
+  SCorrelatorResponseMaker.ana.h \
+  SCorrelatorResponseMaker.sys.h \
   SCorrelatorResponseMakerInput.h \
-  SCorrelatorResponseMakerOutput.h
+  SCorrelatorResponseMakerOutput.h \
+  SCorrelatorResponseMakerConfig.h
 
 if ! MAKEROOT6
   ROOT5_DICTS = \
