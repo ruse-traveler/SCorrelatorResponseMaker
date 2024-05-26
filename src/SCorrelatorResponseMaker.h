@@ -94,6 +94,7 @@ namespace SColdQcdCorrelatorAnalysis {
 
       // analysis methods (*.ana.h)
       void DoMatching();
+      bool IsBetterMatch(const double frac, const double best);
 
       // system methods (*.sys.h)
       void GrabInputNodes();

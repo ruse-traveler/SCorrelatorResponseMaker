@@ -334,6 +334,9 @@ namespace SColdQcdCorrelatorAnalysis {
       case 14:
         cout << "SCorrelatorResponseMaker::FillTree() filling output tree..." << endl;
         break; 
+      case 15:
+        cout << "SCorrelatorResponseMaker::IsBetterMatch(double, double) checking if match is best so far..." << endl;
+        break;
       default:
         PrintError(code);
         break;
