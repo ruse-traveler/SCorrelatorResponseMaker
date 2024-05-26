@@ -43,7 +43,7 @@ namespace SColdQcdCorrelatorAnalysis {
   void SCorrelatorResponseMaker::OpenFile(const string& fileName, TFile*& file) {
 
     // print debug statement
-    if (m_config.inDebugMode && (m_config.verbsoity > 2)) {
+    if (m_config.inDebugMode && (m_config.verbosity > 2)) {
       PrintDebug(8);
     }
 
@@ -178,7 +178,7 @@ namespace SColdQcdCorrelatorAnalysis {
   void SCorrelatorResponseMaker::FillTree() {
 
     // print debug statement
-    if (m_config.inDebugMode && (m_config.verbsoity > 1)) {
+    if (m_config.inDebugMode && (m_config.verbosity > 1)) {
       PrintDebug(14);
     }
 

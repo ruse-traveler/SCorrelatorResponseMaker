@@ -37,7 +37,7 @@ namespace SColdQcdCorrelatorAnalysis {
     // ------------------------------------------------------------------------
     //! Reset variables
     // ------------------------------------------------------------------------
-    void Reset()
+    void Reset() {
       evtGen.Reset();
       evtRec.Reset();
       jetGen.clear();
@@ -202,7 +202,7 @@ namespace SColdQcdCorrelatorAnalysis {
       vtxZ    = make_pair( output.evtGen.GetPartonA().GetVZ(), output.evtRec.GetVZ() );
 
       // set true jet info
-      for (Types::JetInfo& jet : output.jetGen) {
+      for (const Types::JetInfo& jet : output.jetGen) {
         jetID.first.push_back( jet.GetJetID() );
         jetNumCst.first.push_back( jet.GetNCsts() );
         jetEne.first.push_back( jet.GetEne() );
@@ -213,7 +213,7 @@ namespace SColdQcdCorrelatorAnalysis {
       }
 
       // set reco jet info
-      for (Types::JetInfo& jet : output.jetRec) {
+      for (const Types::JetInfo& jet : output.jetRec) {
         jetID.second.push_back( jet.GetJetID() );
         jetNumCst.second.push_back( jet.GetNCsts() );
         jetEne.second.push_back( jet.GetEne() );
@@ -231,8 +231,8 @@ namespace SColdQcdCorrelatorAnalysis {
       cstPt.first.resize( nTrueJets );
       cstEta.first.resize( nTrueJets );
       cstPhi.first.resize( nTrueJets );
-      for (int64_t iTrueJet = 0; iTrueJet < output.cstGen.size(); ++iTrueJet) {
-        for (Types::CstInfo& cst : output.cstGen[iTrueJet]) {
+      for (size_t iTrueJet = 0; iTrueJet < output.cstGen.size(); ++iTrueJet) {
+        for (const Types::CstInfo& cst : output.cstGen[iTrueJet]) {
           cstID.first.at(iTrueJet).push_back( cst.GetCstID() );
           cstZ.first.at(iTrueJet).push_back( cst.GetZ() );
           cstDr.first.at(iTrueJet).push_back( cst.GetDR() );
@@ -251,8 +251,8 @@ namespace SColdQcdCorrelatorAnalysis {
       cstPt.second.resize( nRecoJets );
       cstEta.second.resize( nRecoJets );
       cstPhi.second.resize( nRecoJets );
-      for (int64_t iRecoJet = 0; iRecoJet < output.cstRec.size(); ++iRecoJet) {
-        for (Types::CstInfo& cst : output.cstRec[iRecoJet]) {
+      for (size_t iRecoJet = 0; iRecoJet < output.cstRec.size(); ++iRecoJet) {
+        for (const Types::CstInfo& cst : output.cstRec[iRecoJet]) {
           cstID.second.at(iRecoJet).push_back( cst.GetCstID() );
           cstZ.second.at(iRecoJet).push_back( cst.GetZ() );
           cstDr.second.at(iRecoJet).push_back( cst.GetDR() );

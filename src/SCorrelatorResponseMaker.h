@@ -130,8 +130,8 @@ namespace SColdQcdCorrelatorAnalysis {
       SCorrelatorResponseMakerLegacyTruthInput m_trueLegacy;
 
       // outputs
-      SCorrelatorResponseMakerOutput m_output;
-      SCorrelatorResponseMakerOutput m_outLegacy;
+      SCorrelatorResponseMakerOutput       m_output;
+      SCorrelatorResponseMakerLegacyOutput m_outLegacy;
 
   };  // end SCorrelatorResponseMaker
 

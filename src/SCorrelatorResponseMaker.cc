@@ -54,7 +54,7 @@ namespace SColdQcdCorrelatorAnalysis {
   ) : SubsysReco(config.moduleName) {
 
     m_config = config;
-    if (m_config.inDebugMode && (m_config.verbsoity > 1)) {
+    if (m_config.inDebugMode && (m_config.verbosity > 1)) {
       PrintDebug(0);
     }
 
@@ -169,7 +169,7 @@ namespace SColdQcdCorrelatorAnalysis {
   void SCorrelatorResponseMaker::Analyze() {
 
     // print debug statement
-    if (m_config.inDebugMode && (m_config.verbosity(0)) {
+    if (m_config.inDebugMode && (m_config.verbosity > 0)) {
       PrintDebug(3);
     }
 
@@ -182,9 +182,8 @@ namespace SColdQcdCorrelatorAnalysis {
     // announce start of analysis
     PrintMessage(2);
 
-    // do matching and fill tree with results
+    // do matching
     DoMatching();
-    FillTree();
     return;
 
   }  // end 'StandaloneAnalyze()'
@@ -197,7 +196,7 @@ namespace SColdQcdCorrelatorAnalysis {
   void SCorrelatorResponseMaker::End() {
 
     // print debug statement
-    if (m_config.inDebugMode && (m_config.verbosity(0)) {
+    if (m_config.inDebugMode && (m_config.verbosity > 0)) {
       PrintDebug(4);
     }
 

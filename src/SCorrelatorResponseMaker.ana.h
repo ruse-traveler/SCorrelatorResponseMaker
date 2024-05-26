@@ -46,10 +46,10 @@ namespace SColdQcdCorrelatorAnalysis {
 
       // load true entry
       //   - FIXME event loop should go into the top-level analysis method
-      const uint64_t trueEntry = Interfaces::LoadTree(iTrueEvt, m_inTrueTree, m_fTrueCurrent);
+      const uint64_t trueEntry = Interfaces::LoadTree(m_inTrueTree, iTrueEvt, m_fTrueCurrent);
       if (trueEntry < 0) break;
 
-      const uint64_t trueBytes = Interfaces::GetEntry(iTrueEvt, m_inTrueTree);
+      const uint64_t trueBytes = Interfaces::GetEntry(m_inTrueTree, iTrueEvt);
       if (trueBytes < 0) {
         PrintError(4, iTrueEvt);
         break;
@@ -60,10 +60,10 @@ namespace SColdQcdCorrelatorAnalysis {
 
       // load reco entry
       //   - FIXME should the reco event be located via an event ID first?
-      const uint64_t recoEntry = Interfaces::LoadTree(iTrueEvt, m_inRecoTree, m_fRecoCurrent);
+      const uint64_t recoEntry = Interfaces::LoadTree(m_inRecoTree, iTrueEvt, m_fRecoCurrent);
       if (recoEntry < 0) break;
 
-      const uint64_t recoBytes = Interfaces::GetEntry(iTrueEvt, m_inRecoTree);
+      const uint64_t recoBytes = Interfaces::GetEntry(m_inRecoTree, iTrueEvt);
       if (recoBytes < 0) {
         PrintError(5, iTrueEvt);
         break;
@@ -73,8 +73,8 @@ namespace SColdQcdCorrelatorAnalysis {
 
       // is uing legacy input, fill container
       if (m_config.isLegacyIO) {
-        m_recoInput.SetInput(m_recoLegacy);
-        m_trueInput.SetInput(m_trueLegacy);
+        m_recoLegacy.SetInput(m_recoInput);
+        m_trueLegacy.SetInput(m_trueInput);
       }
 
       /* TODO grab event-level info here */
@@ -85,14 +85,14 @@ namespace SColdQcdCorrelatorAnalysis {
         /* TODO grab truth jet-level info here */
 
         // get constituent values
+        const uint64_t nTrueCsts = m_trueInput.csts.at(iTrueJet).size();
         for (Types::CstInfo& genCst : m_trueInput.csts.at(iTrueJet)) {
-
-          /* TODO grab truth cst-level info here */
-
+          m_output.cstGen.at(iTrueJet).push_back( genCst );
         }  // end true cst loop
 
         // loop over reco jets
-        int      iMatchJet        = -1;
+        //   - TODO need bookkeeping container to keep track of matched
+        //     reco jets...
         bool     jetWasMatched    = false;
         double   bestFracCstMatch = 0.;
         uint64_t nMatchCst        = 0;
@@ -124,7 +124,6 @@ namespace SColdQcdCorrelatorAnalysis {
           const double fracCstMatch = nMatchCst / nTrueCsts;
           const bool   isBetterMatch = IsBetterMatch(fracCstMatch, bestFracCstMatch);
           if (isBetterMatch) {
-            iMatchJet     = iRecoJet;
             jetWasMatched = true;
           }
         }  // end reco jet loop

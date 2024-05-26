@@ -91,17 +91,18 @@ namespace SColdQcdCorrelatorAnalysis {
   struct SCorrelatorResponseMakerLegacyRecoInput {
 
     // event level info
-    int    nJets     = numeric_limits<int>::max();
-    int    nChrgPars = numeric_limits<int>::max();
-    double eSumPar   = numeric_limits<double>::max();
-    double vtxX      = numeric_limits<double>::max();
-    double vtxY      = numeric_limits<double>::max();
-    double vtxZ      = numeric_limits<double>::max();
+    int    evtNumJets = numeric_limits<int>::max();
+    int    evtNumTrks = numeric_limits<int>::max();
+    double evtSumECal = numeric_limits<double>::max();
+    double evtSumHCal = numeric_limits<double>::max();
+    double evtVtxX    = numeric_limits<double>::max();
+    double evtVtxY    = numeric_limits<double>::max();
+    double evtVtxZ    = numeric_limits<double>::max();
 
     // jet and constituent info
-    vector<unsigned long>*  jetNCst    = NULL;
+    vector<unsigned long>*  jetNumCst  = NULL;
     vector<unsigned int>*   jetID      = NULL;
-    vector<double>*         jetE       = NULL;
+    vector<double>*         jetEnergy  = NULL;
     vector<double>*         jetPt      = NULL;
     vector<double>*         jetEta     = NULL;
     vector<double>*         jetPhi     = NULL;
@@ -110,7 +111,7 @@ namespace SColdQcdCorrelatorAnalysis {
     vector<vector<int>>*    cstMatchID = NULL;
     vector<vector<double>>* cstZ       = NULL;
     vector<vector<double>>* cstDr      = NULL;
-    vector<vector<double>>* cstE       = NULL;
+    vector<vector<double>>* cstEnergy  = NULL;
     vector<vector<double>>* cstPt      = NULL;
     vector<vector<double>>* cstEta     = NULL;
     vector<vector<double>>* cstPhi     = NULL;
@@ -122,24 +123,24 @@ namespace SColdQcdCorrelatorAnalysis {
     // ------------------------------------------------------------------------
     void Reset() {
 
-      nJets      = numeric_limits<int>::max();
-      nChrgPars  = numeric_limits<int>::max();
-      eSumPar    = numeric_limits<double>::max();
-      vtxX       = numeric_limits<double>::max();
-      vtxY       = numeric_limits<double>::max();
-      vtxZ       = numeric_limits<double>::max();
-      jetNCst    = NULL;
+      evtNumJets = numeric_limits<int>::max();
+      evtNumTrks = numeric_limits<int>::max();
+      evtSumECal = numeric_limits<double>::max();
+      evtSumHCal = numeric_limits<double>::max();
+      evtVtxX    = numeric_limits<double>::max();
+      evtVtxY    = numeric_limits<double>::max();
+      evtVtxZ    = numeric_limits<double>::max();
+      jetNumCst  = NULL;
       jetID      = NULL;
-      jetE       = NULL;
+      jetEnergy  = NULL;
       jetPt      = NULL;
       jetEta     = NULL;
       jetPhi     = NULL;
       jetArea    = NULL;
       cstType    = NULL;
-      cstEmbedID = NULL;
       cstZ       = NULL;
       cstDr      = NULL;
-      cstE       = NULL;
+      cstEnergy  = NULL;
       cstPt      = NULL;
       cstEta     = NULL;
       cstPhi     = NULL;
@@ -389,11 +390,11 @@ namespace SColdQcdCorrelatorAnalysis {
       partons.second.SetVR( hypot(evtVtxX, evtVtxY) );
 
       // set event variables
-      input.gen.SetESumChrg( evtSumPar );
-      input.gen.SetESumNeu( evtSumPar );
-      input.gen.SetPartons(partons);
+      input.evt.SetESumChrg( evtSumPar );
+      input.evt.SetESumNeu( evtSumPar );
+      input.evt.SetPartons(partons);
       if (isEmbed.has_value()) {
-        input.gen.SetIsEmbed( isEmbed.value() );
+        input.evt.SetIsEmbed( isEmbed.value() );
       }
 
       // set jet variables
