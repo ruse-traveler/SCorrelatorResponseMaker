@@ -14,6 +14,7 @@
 #define SCORRELATORRESPONSEMAKER_H
 
 // c++ utilities
+#include <map>
 #include <cmath>
 #include <string>
 #include <vector>
@@ -104,6 +105,8 @@ namespace SColdQcdCorrelatorAnalysis {
       void InitializeTrees();
       void FillTree();
       void SaveOutput();
+      void ResetOutVariables();
+      void ResetBookkeepers();
       void PrintMessage(const uint32_t code, const uint64_t iEvt = 0, const pair<uint64_t, uint64_t> nEvts = {0, 0});
       void PrintDebug(const uint32_t code);
       void PrintError(const uint32_t code, const uint64_t iEvt = 0);
@@ -119,6 +122,9 @@ namespace SColdQcdCorrelatorAnalysis {
       // system members
       int m_fTrueCurrent = 0;
       int m_fRecoCurrent = 0;
+
+      // bookkeeping members
+      map<int, int> m_mapTrueToRecoCst;
 
       // configuration
       SCorrelatorResponseMakerConfig m_config; 

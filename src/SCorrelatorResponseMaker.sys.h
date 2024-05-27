@@ -217,6 +217,41 @@ namespace SColdQcdCorrelatorAnalysis {
 
 
   // --------------------------------------------------------------------------
+  //! Reset output variables
+  // --------------------------------------------------------------------------
+  void SCorrelatorResponseMaker::ResetOutVariables() {
+
+    // print debug statement
+    if (m_config.inDebugMode && (m_config.verbosity > 1)) {
+      PrintDebug(16);
+    }
+
+    m_output.Reset();
+    m_outLegacy.Reset();
+    return;
+
+  }  // end 'ResetOutVariables()'
+
+
+
+  // --------------------------------------------------------------------------
+  //! Reset bookkeeping variables
+  // --------------------------------------------------------------------------
+  void SCorrelatorResponseMaker::ResetBookkeepers() {
+
+    // print debug statement
+    if (m_config.inDebugMode && (m_config.verbosity > 2)) {
+      PrintDebug(17);
+    }
+
+    m_mapTrueToRecoCst.clear();
+    return;
+
+  }  // end 'ResetBookkeepers()'
+
+
+
+  // --------------------------------------------------------------------------
   //! Print standard operation messages
   // --------------------------------------------------------------------------
   void SCorrelatorResponseMaker::PrintMessage(
@@ -336,6 +371,12 @@ namespace SColdQcdCorrelatorAnalysis {
         break; 
       case 15:
         cout << "SCorrelatorResponseMaker::IsBetterMatch(double, double) checking if match is best so far..." << endl;
+        break;
+      case 16:
+        cout << "SCorrelatorResponseMaker::ResetOutVariables() resetting output variables..." << endl;
+        break;
+      case 17:
+        cout << "SCorrelatorResponseMaker::ResetBookkeepers() resetting bookkeeping variables..." << endl;
         break;
       default:
         PrintError(code);

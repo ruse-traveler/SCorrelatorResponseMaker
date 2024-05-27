@@ -41,9 +41,6 @@ namespace SColdQcdCorrelatorAnalysis {
     uint64_t nRecoBytes = 0;
     for (uint64_t iTrueEvt = 0; iTrueEvt < nTrueEvts; iTrueEvt++) {
 
-      // clear input/output addresses
-      /* FIXME not needed? */
-
       // load true entry
       //   - FIXME event loop should go into the top-level analysis method
       const uint64_t trueEntry = Interfaces::LoadTree(m_inTrueTree, iTrueEvt, m_fTrueCurrent);
@@ -76,6 +73,9 @@ namespace SColdQcdCorrelatorAnalysis {
         m_recoLegacy.SetInput(m_recoInput);
         m_trueLegacy.SetInput(m_trueInput);
       }
+
+      // clear output addresses
+      ResetOutVariables();
 
       /* TODO grab event-level info here */
 
