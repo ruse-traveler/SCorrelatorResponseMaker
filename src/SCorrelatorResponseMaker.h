@@ -59,7 +59,7 @@ using namespace std;
 namespace SColdQcdCorrelatorAnalysis {
 
   // --------------------------------------------------------------------------
-  // Response tree maker
+  //! Response tree maker
   // --------------------------------------------------------------------------
   /*! A module to match truth-to-reco level jets/constituents
    *  to derive corrections for ENC spectra from.  Produces a
