@@ -1,5 +1,5 @@
 /// ---------------------------------------------------------------------------
-/*! \file   MakeCorrelatorResponseStandalone.cxx
+/*! \file   MakeCorrelatorResponseTree.cxx
  *  \author Derek Anderson
  *  \date   04.30.2023
  *
@@ -8,8 +8,8 @@
  */
 /// ---------------------------------------------------------------------------
 
-#ifndef MAKECORRELATORRESPONSESTANDALONE_CXX
-#define MAKECORRELATORRESPONSESTANDALONE_CXX
+#ifndef MAKECORRELATORRESPONSETREE_CXX
+#define MAKECORRELATORRESPONSETREE_CXX
 
 // standard c includes
 #include <string>
@@ -31,7 +31,7 @@ using namespace std;
 
 // macro body -----------------------------------------------------------------
 
-void MakeCorrelatorResponseStandalone(const bool doBatch = false, const int verbosity = 0) {
+void MakeCorrelatorResponseTree(const bool doBatch = false, const int verbosity = 0) {
 
   // get module configuration
   SCorrealtorResponseMakerConfig cfg = CorrelatorResponseMakerOptions::GetConfig(doBatch, verbosity);

@@ -18,10 +18,10 @@ copy_to   = "/sphenix/user/danderson/sphenix/analysis/AndersonAnalysisModules/Co
 # what files to copy
 to_copy = [
   "README.md",
-  "MakeCorrelatorResponseStandalone.cxx",
-  "MakeCorrelatorResponseStandalone.rb",
-  "MakeCorrelatorResponseStandaloneOnCondor.sh",
-  "MakeCorrelatorResponseStandaloneOnCondor.job",
+  "MakeCorrelatorResponseTree.cxx",
+  "MakeCorrelatorResponseTree.rb",
+  "MakeCorrelatorResponseTreeOnCondor.sh",
+  "MakeCorrelatorResponseTreeOnCondor.job",
   "CorrelatorResponseMakerOptions.h",
   "scripts/copy-to-analysis.rb",
   "scripts/wipe-source.sh",

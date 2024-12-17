@@ -48,7 +48,6 @@ namespace CorrelatorResponseMakerOptions {
 
   // misc options
   const int  verbosity = 0;
-  const bool isComplex = false;
   const bool doDebug   = false;
   const bool inBatch   = false;
 

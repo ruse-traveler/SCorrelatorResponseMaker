@@ -1,10 +1,10 @@
 #!/bin/bash
 # -----------------------------------------------------------------------------
-# @file   MakeCorrelatorResponseStandaloneOnCondor.sh
+# @file   MakeCorrelatorResponseTreeOnCondor.sh
 # @author Derek Anderson
 # @date   05.16.2024
 #
-# short script to run 'MakeCorrelatorResponseStandalone.cxx' macro via condor
+# short script to run 'MakeCorrelatorResponseTree.cxx' macro via condor
 # -----------------------------------------------------------------------------
 
 # set up environment
@@ -15,6 +15,6 @@ source /opt/sphenix/core/bin/sphenix_setup.sh
 printenv
 
 # run macro
-root -b -q "MakeCorrealtorResponseStandalone.cxx(true)"
+root -b -q "MakeCorrealtorResponseTree.cxx(true)"
 
 # end -------------------------------------------------------------------------

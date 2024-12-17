@@ -1,5 +1,5 @@
 # -----------------------------------------------------------------------------
-# @file   MakeCorrelatorResponseStandaloneOnCondor.job
+# @file   MakeCorrelatorResponseTreeOnCondor.job
 # @author Derek Anderson
 # @date   05.16.2024
 #
@@ -11,10 +11,10 @@ Universe     = vanilla
 notification = Never
 
 # executable parameters
-Executable           = MakeCorrelatorResponseStandaloneOnCondor.sh
+Executable           = MakeCorrelatorResponseTreeOnCondor.sh
 Initialdir           = ./
 request_memory       = 8GB
-transfer_input_files = MakeCorrelatorResponseStandalone.cxx,CorrelatorResponseMakerOptions.h
+transfer_input_files = MakeCorrelatorResponseTree.cxx,CorrelatorResponseMakerOptions.h
 
 # output parameters
 Output = /sphenix/user/danderson/eec/SCorrelatorResponseMaker/log/testCalc.out
