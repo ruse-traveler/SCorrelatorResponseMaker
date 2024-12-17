@@ -3,10 +3,10 @@
  *  \author Derek Anderson
  *  \date   04.30.2023
  *
- * A module to match truth to reconstructed
- * jets/particles to derive corrections for
- * an n-point energy correlation strength
- * function.
+ *  A module to match truth to reconstructed
+ *  jets/particles to derive corrections for
+ *  an n-point energy correlation strength
+ *  function.
  */
 /// ---------------------------------------------------------------------------
 
@@ -71,16 +71,10 @@ namespace SColdQcdCorrelatorAnalysis {
     public:
 
       // ctor/dtor
-      SCorrelatorResponseMaker(const string &name = "SCorrelatorResponseMaker", const bool debug = false, const bool standalone = true);
       SCorrelatorResponseMaker(SCorrelatorResponseMakerConfig& config);
       ~SCorrelatorResponseMaker() override;
 
-      // F4A methods
-      int Init(PHCompositeNode*)          override;
-      int process_event(PHCompositeNode*) override;
-      int End(PHCompositeNode*)           override;
-
-      // standalone-only methods
+      // public methods
       void Init();
       void Analyze();
       void End();
@@ -98,14 +92,13 @@ namespace SColdQcdCorrelatorAnalysis {
       bool IsBetterMatch(const double frac, const double best);
 
       // system methods (*.sys.h)
-      void GrabInputNodes();
       void OpenFile(const string& fileName, TFile*& file);
       void OpenInputFiles();
       void OpenOutputFile();
       void InitializeTrees();
-      void FillTree();
+      void FillTree();  // TODO remove when ready
       void SaveOutput();
-      void ResetOutVariables();
+      void ResetOutVariables();  // TODO remove when ready
       void ResetBookkeepers();
       void PrintMessage(const uint32_t code, const uint64_t iEvt = 0, const pair<uint64_t, uint64_t> nEvts = {0, 0});
       void PrintDebug(const uint32_t code);

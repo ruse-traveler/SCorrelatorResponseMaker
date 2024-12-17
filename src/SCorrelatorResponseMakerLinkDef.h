@@ -12,6 +12,7 @@
 
 #ifdef __CINT__
 
+#pragma link C++ class SColdQcdCorrelatorAnalysis::SCorrelatorResponseMakerOutput+;
 #pragma link C++ class SCorrelatorResponseMaker-!;
 
 #endif

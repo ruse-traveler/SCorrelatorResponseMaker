@@ -23,24 +23,21 @@ namespace SColdQcdCorrelatorAnalysis {
   struct SCorrelatorResponseMakerConfig {
 
     // system members
-    int    verbosity      = 0;
-    bool   inDebugMode    = false;
-    bool   inBatchMode    = false;
-    bool   isStandalone   = true;
-    bool   isLegacyIO     = true;
-    string moduleName     = "";
-    string inTrueFileName = "";
-    string inRecoFileName = "";
-    string inTrueNodeName = "";
-    string inRecoNodeName = "";
-    string inTrueTreeName = "";
-    string inRecoTreeName = "";
-    string outFileName    = "";
+    int    verbosity      {0};
+    bool   inDebugMode    {false};
+    bool   inBatchMode    {false};
+    bool   isLegacyIO     {true};  // TODO remove when ready
+    string moduleName     {"SCorrelatorResponseMaker"};
+    string inTrueFileName {""};
+    string inRecoFileName {""};
+    string inTrueTreeName {""};
+    string inRecoTreeName {""};
+    string outFileName    {""};
 
     // matching options
-    pair<float, float>   fracCstMatchRange = {0., 1.};
-    pair<double, double> jetMatchQtRange   = {0., 10.};
-    pair<double, double> jetMatchDrRange   = {0., 10.};
+    pair<float, float>   fracCstMatchRange {0., 1.};
+    pair<double, double> jetMatchQtRange   {0., 10.};
+    pair<double, double> jetMatchDrRange   {0., 10.};
 
   };
 

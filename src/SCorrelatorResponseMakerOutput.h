@@ -23,8 +23,8 @@ namespace SColdQcdCorrelatorAnalysis {
   struct SCorrelatorResponseMakerOutput {
 
     // event level info
-    Types::GenInfo  evtGen;
-    Types::RecoInfo evtRec;
+    Types::GEvtInfo evtGen;
+    Types::REvtInfo evtRec;
 
     // jet level info
     vector<Types::JetInfo> jetGen;

@@ -20,23 +20,6 @@ using namespace std;
 
 namespace SColdQcdCorrelatorAnalysis {
 
-  // -------------------------------------------------------------------------
-  //! Grab input nodes
-  // -------------------------------------------------------------------------
-  void SCorrelatorResponseMaker::GrabInputNodes() {
-
-    // print debug statement
-    if (m_config.inDebugMode && (m_config.verbosity > 1)) {
-      PrintDebug(5);
-    }
-
-    /* TODO method goes here */
-    return;
-
-  }  // end 'GrabInputNodes()'
-
-
-
   // --------------------------------------------------------------------------
   //! Open a specified file for reading
   // --------------------------------------------------------------------------
@@ -165,7 +148,7 @@ namespace SColdQcdCorrelatorAnalysis {
     }
 
     // announce tree setting
-    if (m_config.isStandalone) PrintMessage(5);
+    PrintMessage(5);
     return;
 
   }  // end 'InitializeTree()'
@@ -209,7 +192,7 @@ namespace SColdQcdCorrelatorAnalysis {
     m_matchTree -> Write();
 
     // announce saving
-    if (m_config.isStandalone) PrintMessage(4);
+    PrintMessage(4);
     return;
 
   }  // end 'SaveOutput()'
@@ -331,13 +314,13 @@ namespace SColdQcdCorrelatorAnalysis {
         cout << "SCorrelatorResponseMaker::~SCorrelatorResponseMaker() destructing response maker..." << endl;
         break;
       case 2:
-        cout << "SCorrelatorResponseMaker::Init() initializing in standalone mode..." << endl;
+        cout << "SCorrelatorResponseMaker::Init() initializing..." << endl;
         break;
       case 3:
-        cout << "SCorrelatorResponseMaker::Analyze() running analysis in standalone mode..." << endl;
+        cout << "SCorrelatorResponseMaker::Analyze() running analysis..." << endl;
         break;
       case 4:
-        cout << "SCorrelatorResponseMaker::End() ending in standalone mode..." << endl;
+        cout << "SCorrelatorResponseMaker::End() ending..." << endl;
         break;
       case 5:
         cout << "SCorrelatorResponseMaker::GrabInputNodes() grabbing input nodes..." << endl;
@@ -399,9 +382,6 @@ namespace SColdQcdCorrelatorAnalysis {
     }
 
     switch (code) {
-      case 0:
-        cerr << "PANIC: trying to call standalone method in complex mode! Aborting!\n" << endl;
-        break;
       case 1:
         cerr << "PANIC: couldn't open input file! Aborting!\n" << endl;
         break;

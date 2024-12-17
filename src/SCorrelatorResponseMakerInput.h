@@ -23,7 +23,7 @@ namespace SColdQcdCorrelatorAnalysis {
   struct SCorrelatorResponseMakerRecoInput {
 
     // event level info
-    Types::RecoInfo evt;
+    Types::REvtInfo evt;
 
     // jet and constituent info
     vector<Types::JetInfo>         jets;
@@ -57,7 +57,7 @@ namespace SColdQcdCorrelatorAnalysis {
   struct SCorrelatorResponseMakerTruthInput {
 
     // event level info
-    Types::GenInfo evt;
+    Types::GEvtInfo evt;
 
     // jet and constituent info
     vector<Types::JetInfo>         jets;
