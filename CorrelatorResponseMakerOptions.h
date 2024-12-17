@@ -18,7 +18,7 @@
 #include <scorrelatorutilities/Types.h>
 #include <scorrelatorutilities/Constants.h>
 // module configuration
-#include <scorrelatorresponsemaker/SCorrealtorResponseMakerConfig.h>
+#include <scorrelatorresponsemaker/SCorrelatorResponseMakerConfig.h>
 
 // make common namespaces implicit
 using namespace std;
@@ -28,13 +28,13 @@ using namespace SColdQcdCorrelatorAnalysis;
 
 namespace CorrelatorResponseMakerOptions {
 
-  // options ------------------------------------------------------------------
+  // options===================================================================
 
   // io options
   const string sOutFile("test.root");
   const vector<string> sInFiles = {
-    "../SCorrelatorJetTree/output/test/debug.testingTrkMatching.root",
-    "../SCorrelatorJetTree/output/test/debug.testingTrkMatching.root"
+    "/sphenix/tg/tg01/jets/danderson/eec/SCorrelatorJetTreeMakerOutput/test/testJob_outputData_CorrelatorJetTree_00000.root",
+    "/sphenix/tg/tg01/jets/danderson/eec/SCorrelatorJetTreeMakerOutput/test/testJob_outputData_CorrelatorJetTree_00000.root"
   };
   const vector<string> sInTrees = {
     "RecoJetTree"
@@ -49,21 +49,24 @@ namespace CorrelatorResponseMakerOptions {
   // misc options
   const int  verbosity = 0;
   const bool doDebug   = false;
-  const bool inBatch   = false;
 
 
 
-  // set up configurations ----------------------------------------------------
+  // set up configurations ====================================================
 
-  SCorrelatorResponseMakerConfig GetConfig() {
+  // --------------------------------------------------------------------------
+  //! Generate configuration for response maker
+  // --------------------------------------------------------------------------
+  SCorrelatorResponseMakerConfig GetConfig(
+    const bool doBatch = false,
+    const int verbose = verbosity
+  ) {
 
     // TODO simplify options!
-    SCorrelatorResponseMaker cfg {
-      .verbosity         = verbosity,
+    SCorrelatorResponseMakerConfig cfg {
+      .verbosity         = verbose,
       .inDebugMode       = doDebug,
-      .inBatchMode       = inBatch,
-      .inComplexMode     = inComplexMode,
-      .inStandaloneMode  = !inComplexMode,
+      .inBatchMode       = doBatch,
       .outFileName       = sOutFile,
       .inRecoFileName    = sInFiles[0],
       .inTrueFileName    = sInFiles[1],
@@ -77,6 +80,8 @@ namespace CorrelatorResponseMakerOptions {
 
   }  // end 'GetRecoConfig(vector<string>, string, int)'
 
-}
+}  // end CorrelatorResponseMakerOptions namespace
+
+#endif
 
 // end ------------------------------------------------------------------------

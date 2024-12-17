@@ -18,7 +18,7 @@
 // module definition
 #include <scorrelatorresponsemaker/SCorrelatorResponseMaker.h>
 // macro options
-#include "EnergyCorrelatorOptions.h"
+#include "CorrelatorResponseMakerOptions.h"
 
 // load libraries
 R__LOAD_LIBRARY(libscorrelatorutilities.so)
@@ -34,7 +34,7 @@ using namespace std;
 void MakeCorrelatorResponseTree(const bool doBatch = false, const int verbosity = 0) {
 
   // get module configuration
-  SCorrealtorResponseMakerConfig cfg = CorrelatorResponseMakerOptions::GetConfig(doBatch, verbosity);
+  SCorrelatorResponseMakerConfig cfg = CorrelatorResponseMakerOptions::GetConfig(doBatch, verbosity);
 
   // construct correlator response tree
   SCorrelatorResponseMaker* maker = new SCorrelatorResponseMaker(cfg);
