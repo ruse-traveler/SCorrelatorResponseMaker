@@ -56,7 +56,8 @@ namespace SColdQcdCorrelatorAnalysis {
       }
 
       // load reco entry
-      //   - FIXME should the reco event be located via an event ID first?
+      //   - n.b. since this is simulation,
+      //     events are assumed to be 1-to-1
       const uint64_t recoEntry = Interfaces::LoadTree(m_inRecoTree, iTrueEvt, m_fRecoCurrent);
       if (recoEntry < 0) break;
 
@@ -77,42 +78,77 @@ namespace SColdQcdCorrelatorAnalysis {
       // clear output addresses
       ResetOutVariables();
 
-      /* TODO grab event-level info here */
+      // grab evt-level info
+      m_output.evtRec = m_recoInput.evt;
+      m_output.evtGen = m_trueInput.evt;
 
       // loop over true jets
       for (size_t iTrueJet = 0; iTrueJet < m_trueInput.jets.size(); ++iTrueJet) {
 
-        /* TODO grab truth jet-level info here */
+        // check if good
+        const auto genJet       = m_trueInput.jets[iTrueJet]; 
+        const bool isGoodGenJet = IsGoodJet( genJet );
+        if (!isGoodGenJet) continue;
 
-        // get constituent values
+        // grab truth jet info
+        m_output.jetGen.push_back( genJet );
+        m_output.cstGen.push_back( {} );
+
+        // grab truth cst info
         const uint64_t nTrueCsts = m_trueInput.csts.at(iTrueJet).size();
         for (Types::CstInfo& genCst : m_trueInput.csts.at(iTrueJet)) {
-          m_output.cstGen.at(iTrueJet).push_back( genCst );
+
+          // check if good
+          const bool isGoodTrueCst = IsGoodCst( genCst );
+          if (!isGoodTrueCst) continue;
+
+          // add to output
+          m_output.cstGen.back().push_back( genCst );
+
         }  // end true cst loop
 
         // loop over reco jets
         //   - TODO need bookkeeping container to keep track of matched
         //     reco jets...
-        bool     jetWasMatched    = false;
+        bool     wasJetMatched    = false;
         double   bestFracCstMatch = 0.;
         uint64_t nMatchCst        = 0;
         for (size_t iRecoJet = 0; iRecoJet < m_recoInput.jets.size(); ++iRecoJet) {
 
-          /* TODO add an option to exclude jets if they're too far away in space/pt */
+          // check if good
+          const auto recJet       = m_recoInput.jets[iRecoJet]; 
+          const bool isGoodRecJet = IsGoodJet( recJet );
+          if (!isGoodRecJet) continue;
+
+          // get matching variables
+          const double drJet = GetDeltaR(recJet, genJet);
+          const double qtJet = recJet.GetPT() / genJet.GetPT();
+
 
           // loop over true constituents
           //   - TODO need bookkeeping container to keep track of matched
           //     reco constituents...
-          for (Types::CstInfo& genCst : m_trueInput.csts.at(iTrueJet)) {
+          for (size_t iTrueCst = 0; iTrueCst < m_output.cstGen.back().size(); ++iTrueCst) {
+
+            // grab true cst info
+            const auto genCst = m_output.cstGen.back()[iTrueCst];
 
             // loop over reco constituents
-            for (Types::CstInfo& recCst : m_recoInput.csts.at(iRecoJet)) {
+            bool wasCstMatched = false;
+            for (size_t iRecoCst = 0; iRecoCst < m_recoInput.csts[iRecoJet].size(); ++iRecoCst) {
+
+              // check if good
+              const auto recCst       = m_recoInput.csts[iRecoJet][iRecoCst];
+              const bool isGoodRecCst = IsGoodCst( recCst );
+              if (!isGoodRecCst) continue;
 
               // check ids
               const bool isMatchedCst = (genCst.GetCstID() == recCst.GetCstID());
               if (isMatchedCst) {
 
-                /* TODO will need to store map from true-to-reco cst.s */
+                // set map, increment counters
+                wasCstMatched      = true;
+                m_cstMap[iTrueCst] = iRecoCst;
                 ++nMatchCst;
                 break;
 
@@ -124,12 +160,12 @@ namespace SColdQcdCorrelatorAnalysis {
           const double fracCstMatch = nMatchCst / nTrueCsts;
           const bool   isBetterMatch = IsBetterMatch(fracCstMatch, bestFracCstMatch);
           if (isBetterMatch) {
-            jetWasMatched = true;
+            wasJetMatched = true;
           }
         }  // end reco jet loop
 
         // add matched reco jet values to vectors
-        if (jetWasMatched) {
+        if (wasJetMatched) {
           /* TODO set matched reco jet values here */
         } else {
           /* TODO set placeholder values if not matched */
@@ -161,6 +197,66 @@ namespace SColdQcdCorrelatorAnalysis {
     return (isMatch && isBetter);
 
   }  // end 'IsBetterMatch(double, double)'
+
+
+
+  // --------------------------------------------------------------------------
+  //! Check if jet satisfies cuts
+  // --------------------------------------------------------------------------
+  bool SCorrelatorResponseMaker::IsGoodJet(const Types::JetInfo& jet) {
+
+    // print debug statement
+    //   - FIXME give actual code
+    if (m_config.inDebugMode && (m_config.verbosity > 2)) {
+      PrintDebug(777);
+    }
+
+    return jet.IsInAcceptance(m_config.jetAccept);
+
+  }  // end 'IsGoodJet(Types::JetInfo&)'
+
+
+
+  // --------------------------------------------------------------------------
+  //! Check if cst satisfies cuts
+  // --------------------------------------------------------------------------
+  bool SCorrelatorResponseMaker::IsGoodCst(const Types::CstInfo& cst) {
+
+    // print debug statement
+    //   - FIXME give actual code
+    if (m_config.inDebugMode && (m_config.verbosity > 2)) {
+      PrintDebug(777);
+    }
+
+    return cst.IsInAcceptance(m_config.cstAccept);
+
+  }  // end 'IsGoodCst(Types::CstInfo&)'
+
+
+
+  // templated analysis methods ===============================================
+
+  // --------------------------------------------------------------------------
+  //! Calculate delta r
+  // --------------------------------------------------------------------------
+  template <typename T> double SCorrelatorResponseMaker::GetDeltaR(const T& lhs, const T& rhs) {
+
+    // print debug statement
+    //   - FIXME give actual code
+    if (m_config.inDebugMode && (m_config.verbosity > 2)) {
+      PrintDebug(777);
+    }
+
+    return std::hypot(
+      lhs.GetEta() - rhs.GetEta(),
+      std::remainder(lhs.GetPhi() - rhs.GetPhi(), 2. * M_PI)
+    );
+
+  }  // end 'GetDeltaR(T&, T&)'
+
+  // specific instantiations of 'GetDeltaR()'
+  template double SCorrelatorResponseMaker::GetDeltaR(const Types::JetInfo& lhs, const Types::JetInfo& rhs);
+  template double SCorrelatorResponseMaker::GetDeltaR(const Types::CstInfo& lhs, const Types::CstInfo& rhs);
 
 }  // end SColdQcdCorrelatorAnalysis namespace
 

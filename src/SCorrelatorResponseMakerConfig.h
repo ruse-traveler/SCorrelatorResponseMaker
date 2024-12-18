@@ -35,9 +35,23 @@ namespace SColdQcdCorrelatorAnalysis {
     string outFileName    {""};
 
     // matching options
-    pair<float, float>   fracCstMatchRange {0., 1.};
+    /* TODO probably need
+     *  - toggle cst analysis on/off
+     *  - toggle matching via cst ID vs. dr/qt
+     *  - toggle matching via jets dr/qt vs. cst
+     *    (ID or dr/qt)
+     */
+
+    // matching cuts
+    pair<double, double> fracCstMatchRange {0., 1.};
     pair<double, double> jetMatchQtRange   {0., 10.};
+    pair<double, double> cstMatchQtRange   {0., 10.};
     pair<double, double> jetMatchDrRange   {0., 10.};
+    pair<double, double> cstMatchDrRange   {0., 10.};
+
+    // jet/cst cuts
+    pair<Types::JetInfo, Types::JetInfo> jetAccept;
+    pair<Types::CstInfo, Types::CstInfo> cstAccept;
 
   };
 

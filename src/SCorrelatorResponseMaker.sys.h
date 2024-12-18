@@ -144,7 +144,7 @@ namespace SColdQcdCorrelatorAnalysis {
     if (m_config.isLegacyIO) {
       m_outLegacy.SetTreeAddresses(m_matchTree);
     } else {
-      m_output.SetTreeAddresses(m_matchTree);
+      m_matchTree -> Branch( "Response", &m_output );
     }
 
     // announce tree setting
@@ -227,7 +227,7 @@ namespace SColdQcdCorrelatorAnalysis {
       PrintDebug(17);
     }
 
-    m_mapTrueToRecoCst.clear();
+    m_cstMap.clear();
     return;
 
   }  // end 'ResetBookkeepers()'

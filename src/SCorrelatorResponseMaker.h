@@ -90,6 +90,11 @@ namespace SColdQcdCorrelatorAnalysis {
       // analysis methods (*.ana.h)
       void DoMatching();
       bool IsBetterMatch(const double frac, const double best);
+      bool IsGoodJet(const Types::JetInfo& jet);
+      bool IsGoodCst(const Types::CstInfo& cst);
+
+      // templated analysis methods (*.ana.h)
+      template <typename T> double GetDeltaR(const T& lhs, const T& rhs);
 
       // system methods (*.sys.h)
       void OpenFile(const string& fileName, TFile*& file);
@@ -117,7 +122,9 @@ namespace SColdQcdCorrelatorAnalysis {
       int m_fRecoCurrent = 0;
 
       // bookkeeping members
-      map<int, int> m_mapTrueToRecoCst;
+      // FIXME might need TWO indices for cst
+      map<int32_t, int32_t> m_jetMap;
+      map<int32_t, int32_t> m_cstMap;
 
       // configuration
       SCorrelatorResponseMakerConfig m_config; 
